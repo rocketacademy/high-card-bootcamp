@@ -28,14 +28,13 @@ class App extends React.Component {
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
       // Give each list element a unique key
       <div key={`${name}${suit}`}>
-        {name}
-        {suit}
+        {name} of {suit}
       </div>
     ));
 
     return (
       <div>
-        <h3>Cards</h3>
+        <h3>High Card 🚀</h3>
         {currCardElems}
         <br />
         <button onClick={this.dealCards}>Deal</button>
