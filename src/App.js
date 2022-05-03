@@ -16,12 +16,9 @@ class App extends React.Component {
       player1NumRoundsWon: 0,
       player2NumRoundsWon: 0,
     };
-    // This binding is necessary to make `this` work in the callback
-    this.resetGame = this.resetGame.bind(this);
-    this.dealCards = this.dealCards.bind(this);
   }
 
-  resetGame() {
+  resetGame = () => {
     this.setState({
       cardDeck: makeShuffledDeck(),
       currCards: [],
@@ -30,9 +27,9 @@ class App extends React.Component {
       player1NumRoundsWon: 0,
       player2NumRoundsWon: 0,
     });
-  }
+  };
 
-  dealCards() {
+  dealCards = () => {
     // this.state.cardDeck.pop() modifies this.state.cardDeck array
     const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()];
     let newRoundWinner = null;
@@ -56,7 +53,7 @@ class App extends React.Component {
           ? state.player2NumRoundsWon + 1
           : state.player2NumRoundsWon,
     }));
-  }
+  };
 
   render() {
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
@@ -91,21 +88,25 @@ class App extends React.Component {
     const dealButtonText = numRoundsLeft === 0 ? "Reset Game" : "Deal";
 
     return (
-      <div>
-        <h3>High Card 🚀</h3>
-        {currCardElems}
-        <br />
-        {/* Button changes functionality depending on game state */}
-        <button onClick={numRoundsLeft === 0 ? this.resetGame : this.dealCards}>
-          {dealButtonText}
-        </button>
-        <br />
-        <p>{this.state.hasGameStarted && roundWinnerMessage}</p>
-        <p>{this.state.hasGameStarted && player1RoundsWonMessage}</p>
-        <p>{this.state.hasGameStarted && player2RoundsWonMessage}</p>
-        <p>{this.state.hasGameStarted && numRoundsLeftMessage}</p>
-        {/* Render winner message if the game is over */}
-        <p>{numRoundsLeft === 0 && gameWinnerMessage}</p>
+      <div className="App">
+        <header className="App-header">
+          <h3>High Card 🚀</h3>
+          {currCardElems}
+          <br />
+          {/* Button changes functionality depending on game state */}
+          <button
+            onClick={numRoundsLeft === 0 ? this.resetGame : this.dealCards}
+          >
+            {dealButtonText}
+          </button>
+          <br />
+          <p>{this.state.hasGameStarted && roundWinnerMessage}</p>
+          <p>{this.state.hasGameStarted && player1RoundsWonMessage}</p>
+          <p>{this.state.hasGameStarted && player2RoundsWonMessage}</p>
+          <p>{this.state.hasGameStarted && numRoundsLeftMessage}</p>
+          {/* Render winner message if the game is over */}
+          <p>{numRoundsLeft === 0 && gameWinnerMessage}</p>
+        </header>
       </div>
     );
   }
