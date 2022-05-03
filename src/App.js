@@ -92,7 +92,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <h3>Cards</h3>
+        <h3>High Card 🚀</h3>
         {currCardElems}
         <br />
         {/* Button changes functionality depending on game state */}
