@@ -30,8 +30,8 @@ class App extends React.Component {
   };
 
   dealCards = () => {
-    // this.state.cardDeck.pop() modifies this.state.cardDeck array
-    const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()];
+    // Deal last 2 cards to currCards
+    const newCurrCards = this.state.cardDeck.slice(-2);
     let newRoundWinner = null;
     if (newCurrCards[0].rank > newCurrCards[1].rank) {
       newRoundWinner = 1;
@@ -40,6 +40,8 @@ class App extends React.Component {
     }
 
     this.setState((state) => ({
+      // Remove last 2 cards from cardDeck
+      cardDeck: state.cardDeck.slice(0, -2),
       currCards: newCurrCards,
       hasGameStarted: true,
       roundWinner: newRoundWinner,
