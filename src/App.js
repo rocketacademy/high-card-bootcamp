@@ -15,11 +15,12 @@ class App extends React.Component {
   }
 
   dealCards = () => {
-    // this.state.cardDeck.pop() modifies this.state.cardDeck array
-    const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()];
-    this.setState({
-      currCards: newCurrCards,
-    });
+    this.setState((state) => ({
+      // Remove last 2 cards from cardDeck
+      cardDeck: state.cardDeck.slice(0, -2),
+      // Deal last 2 cards to currCards
+      currCards: state.cardDeck.slice(-2),
+    }));
   };
 
   render() {
