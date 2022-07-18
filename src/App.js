@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import Cards from "./cards";
 
 class App extends React.Component {
   constructor(props) {
@@ -17,12 +18,10 @@ class App extends React.Component {
       player2Wins: 0,
       ties: 0,
       reset: false,
-      gamesPlayed: 0
+      gamesPlayed: 0,
+      player1GameWins: 0,
+      player2GameWins: 0
     };
-  }
-
-  countGamesPlayed = () => {
-    this.setState({ gamesPlayed: this.state.gamesPlayed + 1 })
   }
 
   reset = () => {
@@ -36,6 +35,7 @@ class App extends React.Component {
       player2Wins: 0,
       ties: 0,
       currentWinnerMessage: "",
+      gamesPlayed: this.state.gamesPlayed + 1,
       reset: true,
     }))
     console.log(this.state.player1Wins)
@@ -74,9 +74,6 @@ class App extends React.Component {
     if (this.state.reset) {
       console.log("resetting")
     }
-    else if (this.state.reset !== prevState.reset) {
-      this.countGamesPlayed();
-    }
     else if (this.state.currCards !== prevState.currCards) {
       this.determineRoundWinner();
     }
@@ -96,6 +93,7 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
+          <Cards currCard={this.state.currCards} />
           {currCardElems}
           <br />
           <button onClick={this.state.roundsLeft === 0 ? this.reset : this.dealCards}>{dealButtonText}</button>
