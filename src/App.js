@@ -35,31 +35,15 @@ class App extends React.Component {
     this.setState((state) => {
       let cards = state.currCards;
       let currentScore = this.state.score.slice(0);
-      console.log(cards);
-      if (cards[0].rank === cards[1].rank) {
-        currentScore[0]++;
-        currentScore[1]++;
-      } else if (cards[0].rank > cards[1].rank) {
-        currentScore[0]++;
-      } else {
-        currentScore[1]++;
-      }
-
-      let decision = "";
-      if (currentScore[0] > currentScore[1]) {
-        decision = "Player 1 won";
-      } else if (currentScore[0] < currentScore[1]) {
-        decision = "Player 2 won";
-      } else if (currentScore[0] === currentScore[1]) {
-        decision = "It's a tie";
-      }
+      let newScore = this.computeTurnWinner(cards, currentScore);
+      let decision = this.decideWinner(newScore);
 
       return {
         // Remove last 2 cards from cardDeck
         cardDeck: [],
         // Deal last 2 cards to currCards
         currCards: [],
-        score: currentScore,
+        score: newScore,
         winner: decision,
         gameEnded: true,
       };
@@ -67,89 +51,67 @@ class App extends React.Component {
   };
 
   dealCards = () => {
-    if (this.state.roundsLeft > 1) {
-      this.setState((state) => {
-        let cards = state.cardDeck.slice(-2);
-        let currentScore = this.state.score.slice(0);
-        console.log(cards);
-        if (cards[0].rank === cards[1].rank) {
-          currentScore[0]++;
-          currentScore[1]++;
-        } else if (cards[0].rank > cards[1].rank) {
-          currentScore[0]++;
-        } else {
-          currentScore[1]++;
-        }
+    this.setState((state) => {
+      let cards = state.cardDeck.slice(-2);
+      let currentScore = this.state.score.slice(0);
+      let newScore = this.computeTurnWinner(cards, currentScore);
 
-        return {
-          // Remove last 2 cards from cardDeck
-          cardDeck: state.cardDeck.slice(0, -2),
-          // Deal last 2 cards to currCards
-          currCards: state.cardDeck.slice(-2),
-          score: currentScore,
-          roundsLeft: state.roundsLeft - 1,
-        };
-      });
+      return {
+        // Remove last 2 cards from cardDeck
+        cardDeck: this.state.roundsLeft > 1 ? state.cardDeck.slice(0, -2) : [],
+        // Deal last 2 cards to currCards
+        currCards: state.cardDeck.slice(-2),
+        score: newScore,
+        roundsLeft: state.roundsLeft - 1,
+      };
+    });
 
-      console.log(`card deck length: ${this.state.cardDeck.length}`);
-      console.log(this.state.currCards[0]);
-    } else if (this.state.roundsLeft === 1) {
-      this.setState((state) => {
-        let cards = state.cardDeck.slice(-2);
-        let currentScore = this.state.score.slice(0);
-        console.log(cards);
-        if (cards[0].rank === cards[1].rank) {
-          currentScore[0]++;
-          currentScore[1]++;
-        } else if (cards[0].rank > cards[1].rank) {
-          currentScore[0]++;
-        } else {
-          currentScore[1]++;
-        }
-
-        return {
-          // Remove last 2 cards from cardDeck
-          cardDeck: [],
-          // Deal last 2 cards to currCards
-          currCards: state.cardDeck.slice(-2),
-          score: currentScore,
-          roundsLeft: state.roundsLeft - 1,
-        };
-      });
-    }
+    console.log(`card deck length: ${this.state.cardDeck.length}`);
+    console.log(this.state.currCards[0]);
   };
 
-  computeRoundWinner(currCards) {
-    let cards = currCards;
-    console.log(cards);
-    if (cards[0].rank === cards[1].rank) {
-      this.setState((state) => ({
-        score: [state.score[0] + 1, state.score[1] + 1],
-      }));
-    } else if (cards[0].rank > cards[1].rank) {
-      this.setState((state) => ({
-        score: [state.score[0] + 1, state.score[1]],
-      }));
-    } else {
-      this.setState((state) => ({
-        score: [state.score[0], state.score[1] + 1],
-      }));
+  decideWinner(currentScore) {
+    let decision = "";
+    if (currentScore[0] > currentScore[1]) {
+      decision = "Player 1 won";
+    } else if (currentScore[0] < currentScore[1]) {
+      decision = "Player 2 won";
+    } else if (currentScore[0] === currentScore[1]) {
+      decision = "It's a tie";
     }
+    return decision;
+  }
+
+  computeTurnWinner(cards, currentScore) {
+    if (cards[0].rank === cards[1].rank) {
+      currentScore[0]++;
+      currentScore[1]++;
+    } else if (cards[0].rank > cards[1].rank) {
+      currentScore[0]++;
+    } else {
+      currentScore[1]++;
+    }
+    return currentScore;
   }
 
   render() {
-    const currCardElems = this.state.currCards.map(({ name, suit }, index) => (
-      // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        Player {index + 1}: {name} of {suit}
-      </div>
-    ));
+    const currCardElems = this.state.currCards.map(
+      ({ name, suit, image }, index) => (
+        // Give each list element a unique key
+        <div key={`${name}${suit}`}>
+          Player {index + 1}: {name} of {suit}
+          <img src={image} alt={`${name}${suit}`} />
+        </div>
+      )
+    );
 
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
+
           {currCardElems}
+
           {this.state.gameEnded ? this.state.winner : ""}
           <br />
           <button
