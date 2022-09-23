@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 
+
 class App extends React.Component {
   constructor(props) {
     // Always call super with props in constructor to initialise parent class
@@ -24,10 +25,15 @@ class App extends React.Component {
   };
 
   render() {
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
+    const currCardElems = this.state.currCards.map(({ name, suit, image }) => (
       // Give each list element a unique key
       <div key={`${name}${suit}`}>
-        {name} of {suit}
+        <img
+          src={require("./assets/logo.png").default}
+          height={50}
+          width={50}
+          alt="card"
+        />
       </div>
     ));
 
