@@ -11,16 +11,38 @@ class App extends React.Component {
       cardDeck: makeShuffledDeck(),
       // currCards holds the cards from the current round
       currCards: [],
+      playerOneRoundsWon: 0,
+      playerTwoRoundsWon: 0,
+      roundWinner: "",
     };
   }
 
   dealCards = () => {
+    const cardsDealt = this.state.cardDeck.slice(-2);
+    let whoWon = "Draw";
+    if (cardsDealt[0].rank > cardsDealt[1].rank) {
+      whoWon = "Player One";
+    } else if (cardsDealt[0].rank < cardsDealt[1].rank) {
+      whoWon = "Player Two";
+    }
+
     this.setState((state) => ({
       // Remove last 2 cards from cardDeck
       cardDeck: state.cardDeck.slice(0, -2),
       // Deal last 2 cards to currCards
-      currCards: state.cardDeck.slice(-2),
+      currCards: cardsDealt,
+      roundWinner: whoWon,
     }));
+
+    if (whoWon === "Player One") {
+      this.setState((state) => ({
+        playerOneRoundsWon: state.playerOneRoundsWon + 1,
+      }));
+    } else if (whoWon === "Player Two") {
+      this.setState((state) => ({
+        playerTwoRoundsWon: state.playerTwoRoundsWon + 1,
+      }));
+    }
   };
 
   render() {
@@ -38,6 +60,9 @@ class App extends React.Component {
           {currCardElems}
           <br />
           <button onClick={this.dealCards}>Deal</button>
+          <p>Winner: {this.state.roundWinner}</p>
+          <p>Player One Rounds Won: {this.state.playerOneRoundsWon}</p>
+          <p>Player Two Rounds Won: {this.state.playerTwoRoundsWon}</p>
         </header>
       </div>
     );
