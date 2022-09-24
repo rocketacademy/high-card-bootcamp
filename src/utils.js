@@ -51,13 +51,10 @@ const makeDeck = () => {
         cardName = "King";
       }
 
-      let cardImage = `src/assets/${cardName}Of${currentSuit}.png`;
-
       // Create a new card with the current name, suit, and rank
       const card = {
         name: cardName,
         suit: currentSuit,
-        image: cardImage,
         rank: cardRank,
       };
 

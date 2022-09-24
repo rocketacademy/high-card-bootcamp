@@ -25,15 +25,11 @@ class App extends React.Component {
   };
 
   render() {
-    const currCardElems = this.state.currCards.map(({ name, suit, image }) => (
+    const currCardElems = this.state.currCards.map(({ name, suit }) => (
       // Give each list element a unique key
       <div key={`${name}${suit}`}>
-        <img
-          src={require("./assets/logo.png").default}
-          height={50}
-          width={50}
-          alt="card"
-        />
+        <p>{name} Of {suit}</p>
+        <img src={require(`../src/assets/${name}Of${suit}.png`)} alt="card"/>
       </div>
     ));
 
