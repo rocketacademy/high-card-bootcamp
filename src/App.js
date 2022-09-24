@@ -2,6 +2,9 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import Table from "react-bootstrap/Table";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 class App extends React.Component {
   constructor(props) {
@@ -98,10 +101,18 @@ class App extends React.Component {
     const currCardElems = this.state.currCards.map(
       ({ name, suit, image }, index) => (
         // Give each list element a unique key
-        <div key={`${name}${suit}`}>
-          Player {index + 1}: {name} of {suit}
-          <img src={image} alt={`${name}${suit}`} />
-        </div>
+
+        <Row key={`${name}${suit}`} xxl="auto">
+          <Col>Player {index + 1}:</Col>
+
+          <Col>
+            <img
+              className="cardImage"
+              src={process.env.PUBLIC_URL + image}
+              alt={`${name}${suit}`}
+            />
+          </Col>
+        </Row>
       )
     );
 
@@ -109,7 +120,7 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
-
+          <Container fluid className="mh-100"></Container>
           {currCardElems}
 
           {this.state.gameEnded ? this.state.winner : ""}

@@ -56,7 +56,7 @@ const makeDeck = () => {
         name: cardName,
         suit: currentSuit,
         rank: cardRank,
-        image: `./images/${cardName.toLowerCase()}_of_${currentSuit.toLowerCase()}.png`,
+        image: `/images/${cardName.toLowerCase()}_of_${currentSuit.toLowerCase()}.png`,
       };
 
       // Add the new card to the deck
