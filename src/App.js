@@ -2,10 +2,7 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import Table from "react-bootstrap/Table";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-
+import { PlayingCards } from "./PlayingCards";
 class App extends React.Component {
   constructor(props) {
     // Always call super with props in constructor to initialise parent class
@@ -122,31 +119,12 @@ class App extends React.Component {
   }
 
   render() {
-    const currCardElems = this.state.currCards.map(
-      ({ name, suit, image }, index) => (
-        // Give each list element a unique key
-
-        <Row key={`${name}${suit}`} xxl="auto">
-          <Col>Player {index + 1}:</Col>
-
-          <Col>
-            <img
-              className="cardImage"
-              src={process.env.PUBLIC_URL + image}
-              alt={`${name}${suit}`}
-            />
-          </Col>
-        </Row>
-      )
-    );
-
     return (
       <div className="App">
         <header className="App-header">
-          <h3>High Card 🚀</h3>
-          <Container fluid className="mh-100"></Container>
-          {currCardElems}
+          <h1>High Card 🚀</h1>
 
+          <PlayingCards currCards={this.state.currCards} />
           {this.state.gameEnded ? this.state.winner : ""}
           <br />
           <button
