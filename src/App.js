@@ -19,19 +19,25 @@ class App extends React.Component {
       roundsLeft: 26,
       winner: "undecided",
       gameEnded: false,
+      gamesWon: [0, 0],
     };
   }
 
   resetGame = () => {
-    this.setState((state) => ({
-      cardDeck: makeShuffledDeck(),
-      // currCards holds the cards from the current round
-      currCards: [],
-      score: [0, 0],
-      roundsLeft: 26,
-      winner: "undecided",
-      gameEnded: false,
-    }));
+    this.setState((state) => {
+      console.log("RESET function gamesWon variable:" + state.gamesWon);
+      let updatedGamesWon = state.gamesWon;
+      return {
+        cardDeck: makeShuffledDeck(),
+        // currCards holds the cards from the current round
+        currCards: [],
+        score: [0, 0],
+        roundsLeft: 26,
+        winner: "undecided",
+        gameEnded: false,
+        gamesWon: updatedGamesWon,
+      };
+    });
   };
 
   computeOutcome = () => {
@@ -40,6 +46,11 @@ class App extends React.Component {
       let currentScore = this.state.score.slice(0);
       let newScore = this.computeTurnWinner(cards, currentScore);
       let decision = this.decideWinner(newScore);
+      console.log("computeOutcome function:" + decision);
+      let updatedGamesWon = this.computeGamesWon(decision, state.gamesWon);
+      console.log(
+        "computeOutcome function gamesWon variable:" + updatedGamesWon
+      );
 
       return {
         // Remove last 2 cards from cardDeck
@@ -49,6 +60,7 @@ class App extends React.Component {
         score: newScore,
         winner: decision,
         gameEnded: true,
+        gamesWon: updatedGamesWon,
       };
     });
   };
@@ -58,6 +70,7 @@ class App extends React.Component {
       let cards = state.cardDeck.slice(-2);
       let currentScore = this.state.score.slice(0);
       let newScore = this.computeTurnWinner(cards, currentScore);
+      console.log(state.gamesWon);
 
       return {
         // Remove last 2 cards from cardDeck
@@ -95,6 +108,17 @@ class App extends React.Component {
       currentScore[1]++;
     }
     return currentScore;
+  }
+
+  computeGamesWon(winner, gamesWon) {
+    if (winner === "Player 1 won") {
+      gamesWon = [gamesWon[0]++, gamesWon[1]];
+    } else if (winner === "Player 2 won") {
+      gamesWon = [gamesWon[0], gamesWon[1]++];
+    } else {
+      return gamesWon;
+    }
+    return gamesWon;
   }
 
   render() {
@@ -172,6 +196,23 @@ class App extends React.Component {
               <td>Winner</td>
 
               <td>{this.state.winner}</td>
+            </tr>
+          </tbody>
+        </Table>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>-</th>
+              <th>Player 1</th>
+              <th>Player 2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Games Won</td>
+
+              <td>{this.state.gamesWon[0]}</td>
+              <td>{this.state.gamesWon[1]}</td>
             </tr>
           </tbody>
         </Table>
