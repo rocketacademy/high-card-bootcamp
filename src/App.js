@@ -3,6 +3,7 @@ import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import Table from "react-bootstrap/Table";
 import { PlayingCards } from "./PlayingCards";
+
 class App extends React.Component {
   constructor(props) {
     // Always call super with props in constructor to initialise parent class
@@ -22,8 +23,6 @@ class App extends React.Component {
 
   resetGame = () => {
     this.setState((state) => {
-      console.log("RESET function gamesWon variable:" + state.gamesWon);
-      let updatedGamesWon = state.gamesWon;
       return {
         cardDeck: makeShuffledDeck(),
         // currCards holds the cards from the current round
@@ -32,7 +31,6 @@ class App extends React.Component {
         roundsLeft: 26,
         winner: "undecided",
         gameEnded: false,
-        gamesWon: updatedGamesWon,
       };
     });
   };
@@ -44,10 +42,9 @@ class App extends React.Component {
       let newScore = this.computeTurnWinner(cards, currentScore);
       let decision = this.decideWinner(newScore);
       console.log("computeOutcome function:" + decision);
-      let updatedGamesWon = this.computeGamesWon(decision, state.gamesWon);
-      console.log(
-        "computeOutcome function gamesWon variable:" + updatedGamesWon
-      );
+      let currentGamesWon = this.state.gamesWon.slice(0);
+      let updatedGamesWon = this.computeGamesWon(decision, currentGamesWon);
+      console.log("computeOutcome() gamesWon variable:" + updatedGamesWon);
 
       return {
         // Remove last 2 cards from cardDeck
@@ -67,7 +64,7 @@ class App extends React.Component {
       let cards = state.cardDeck.slice(-2);
       let currentScore = this.state.score.slice(0);
       let newScore = this.computeTurnWinner(cards, currentScore);
-      console.log(state.gamesWon);
+      console.log(`dealCards() state variable gamesWon: ${state.gamesWon}`);
 
       return {
         // Remove last 2 cards from cardDeck
@@ -80,7 +77,6 @@ class App extends React.Component {
     });
 
     console.log(`card deck length: ${this.state.cardDeck.length}`);
-    console.log(this.state.currCards[0]);
   };
 
   decideWinner(currentScore) {
@@ -109,11 +105,9 @@ class App extends React.Component {
 
   computeGamesWon(winner, gamesWon) {
     if (winner === "Player 1 won") {
-      gamesWon = [gamesWon[0]++, gamesWon[1]];
+      gamesWon[0]++;
     } else if (winner === "Player 2 won") {
-      gamesWon = [gamesWon[0], gamesWon[1]++];
-    } else {
-      return gamesWon;
+      gamesWon[1]++;
     }
     return gamesWon;
   }
