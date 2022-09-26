@@ -4,6 +4,7 @@ import { makeShuffledDeck } from "./utils.js";
 
 export default function App(props) {
   const [cards, setCards] = React.useState({
+    cardDeck: makeShuffledDeck(),
     player1WinCount: 0,
     player2WinCount: 0,
     playerDrawCount: 0,
@@ -13,8 +14,7 @@ export default function App(props) {
   });
 
   function handleDeal() {
-    const cardDeck = makeShuffledDeck();
-    const drewCards = cardDeck.slice(-2);
+    let drewCards = cards.cardDeck.slice(-2);
     let player1Win = 0;
     let player2Win = 0;
     let playerDraw = 0;
@@ -26,8 +26,9 @@ export default function App(props) {
     } else {
       player2Win = player2Win + 1;
     }
-
+    console.log(drewCards);
     setCards((prevCards) => ({
+      cardDeck: prevCards.cardDeck.slice(0, -2),
       player1WinCount: prevCards.player1WinCount + player1Win,
       player2WinCount: prevCards.player2WinCount + player2Win,
       playerDrawCount: prevCards.playerDrawCount + playerDraw,
@@ -39,9 +40,11 @@ export default function App(props) {
 
   function handleReset() {
     setCards((prevCards) => ({
+      cardDeck: makeShuffledDeck(),
+      player1WinCount: 0,
+      player2WinCount: 0,
+      playerDrawCount: 0,
       currCards: [],
-      player1Wins: 0,
-      player2Wins: 0,
       gameCount: 0,
       totalCards: 52,
     }));
@@ -73,7 +76,9 @@ export default function App(props) {
         {cards.totalCards > 0 && <button onClick={handleDeal}>Deal</button>}
         {cards.totalCards === 0 && (
           <p>
-            {cards.player1WinCount > cards.player2WinCount
+            {cards.player1WinCount === cards.player2WinCount
+              ? "Winner: None"
+              : cards.player1WinCount > cards.player2WinCount
               ? "Winner: Player 1"
               : "Winner: Player 2"}
           </p>
