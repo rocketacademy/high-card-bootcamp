@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import StartMenu from "./startMenu";
+import Game from "./game"
 
 
 class App extends React.Component {
@@ -11,22 +12,22 @@ class App extends React.Component {
       // currCards holds the cards from the current round
       currCards: [],
       gameMode: "start",  //
-      winner: null,
-      currentgame: 0,
-      numberOfPlayers: 0,
-      numberOfGames: 0,
-      playerScore: [0, 0, 0, 0, 0, 0],  
+      numberOfGames: 0,  
     };
   }
 
   receiveDataFromSMtoApp = (childData) => {
     this.setState({ 
       gameMode: childData.game,
-      numberOfPlayers: childData.players,
       numberOfGames: childData.games,
     });
   }
 
+  receiveMode = (gameData) => {
+    this.setState({
+      gameMode: gameData,
+    })
+  }
 
   render() {
     return (
@@ -35,7 +36,7 @@ class App extends React.Component {
           <h3>High Card 🚀</h3>
           <br />
           {this.state.gameMode === 'start' && <StartMenu receiveData={this.receiveDataFromSMtoApp}/>}
-          {this.state.gameMode === 'Game' && <p>THE TEST IS SUCCESSFUL</p>}
+          {this.state.gameMode === 'Game' && <Game games={this.state.numberOfGames} getGameMode = {this.receiveMode}/>}
         </header>
       </div>
     );
