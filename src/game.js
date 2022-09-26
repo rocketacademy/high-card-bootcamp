@@ -16,8 +16,7 @@ class Game extends React.Component {
       player2CurrScore: 0,
       player1TotalScore: 0,
       player2TotalScore: 0,
-      player1GamesWon: 0,
-      player2GamesWon: 0,
+      
     };
   }
 
@@ -93,9 +92,9 @@ class Game extends React.Component {
       buttontext = `${this.state.currentRound >= 25 ? "Next Game" : "Deal"}`;
     }
     //Player 1's Score
-    const player1Score = `Player 1 current round score: ${this.state.player1CurrScore}, Total Rounds Won: ${this.state.player1TotalScore}. Games won: ${this.state.player1GamesWon}`
+    const player1Score = `Player 1 current round score: ${this.state.player1CurrScore}, Total Rounds Won: ${this.state.player1TotalScore}. `
     //Player 2's Score
-    const player2Score = `Player 2 current round score: ${this.state.player2CurrScore}, Total Rounds Won: ${this.state.player2TotalScore}. Games won: ${this.state.player2GamesWon}`;
+    const player2Score = `Player 2 current round score: ${this.state.player2CurrScore}, Total Rounds Won: ${this.state.player2TotalScore}. `;
     return (
       <div className="App">
         <h2>Game {this.state.currentGame}</h2>
