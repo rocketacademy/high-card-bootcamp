@@ -2,46 +2,89 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 
-class App extends React.Component {
-  constructor(props) {
-    // Always call super with props in constructor to initialise parent class
-    super(props);
-    this.state = {
-      // Set default value of card deck to new shuffled deck
-      cardDeck: makeShuffledDeck(),
-      // currCards holds the cards from the current round
-      currCards: [],
-    };
-  }
+export default function App(props) {
+  const [cards, setCards] = React.useState({
+    cardDeck: makeShuffledDeck(),
+    player1WinCount: 0,
+    player2WinCount: 0,
+    playerDrawCount: 0,
+    currCards: [],
+    gameCount: 0,
+    totalCards: 52,
+  });
 
-  dealCards = () => {
-    this.setState((state) => ({
-      // Remove last 2 cards from cardDeck
-      cardDeck: state.cardDeck.slice(0, -2),
-      // Deal last 2 cards to currCards
-      currCards: state.cardDeck.slice(-2),
+  function handleDeal() {
+    let drewCards = cards.cardDeck.slice(-2);
+    let player1Win = 0;
+    let player2Win = 0;
+    let playerDraw = 0;
+
+    if (drewCards[0].rank === drewCards[1].rank) {
+      playerDraw = playerDraw + 1;
+    } else if (drewCards[0].rank > drewCards[1].rank) {
+      player1Win = player1Win + 1;
+    } else {
+      player2Win = player2Win + 1;
+    }
+    console.log(drewCards);
+    setCards((prevCards) => ({
+      cardDeck: prevCards.cardDeck.slice(0, -2),
+      player1WinCount: prevCards.player1WinCount + player1Win,
+      player2WinCount: prevCards.player2WinCount + player2Win,
+      playerDrawCount: prevCards.playerDrawCount + playerDraw,
+      currCards: drewCards,
+      gameCount: prevCards.gameCount + 1,
+      totalCards: prevCards.totalCards - 2,
     }));
-  };
-
-  render() {
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
-      // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
-      </div>
-    ));
-
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h3>High Card 🚀</h3>
-          {currCardElems}
-          <br />
-          <button onClick={this.dealCards}>Deal</button>
-        </header>
-      </div>
-    );
   }
-}
 
-export default App;
+  function handleReset() {
+    setCards((prevCards) => ({
+      cardDeck: makeShuffledDeck(),
+      player1WinCount: 0,
+      player2WinCount: 0,
+      playerDrawCount: 0,
+      currCards: [],
+      gameCount: 0,
+      totalCards: 52,
+    }));
+  }
+
+  let count = 1;
+  const currCardElems = cards.currCards.map(({ name, suit }) => (
+    // Give each list element a unique key
+    <div key={`${name}${suit}`}>
+      <h3>{`player ${count++}`}</h3>
+      <p>
+        {name} of {suit}
+      </p>
+    </div>
+  ));
+
+  //console.log(cards.gameCount);
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h3>High Card 🚀</h3>
+        {currCardElems}
+        <br />
+        <p>Player 1 Wins: {cards.player1WinCount}</p>
+        <p>Player 2 Wins: {cards.player2WinCount}</p>
+        <p>Player Draws: {cards.playerDrawCount}</p>
+        <p>Game Count: {cards.gameCount}</p>
+        {cards.totalCards > 0 && <button onClick={handleDeal}>Deal</button>}
+        {cards.totalCards === 0 && (
+          <p>
+            {cards.player1WinCount === cards.player2WinCount
+              ? "Winner: None"
+              : cards.player1WinCount > cards.player2WinCount
+              ? "Winner: Player 1"
+              : "Winner: Player 2"}
+          </p>
+        )}
+        {cards.totalCards === 0 && <button onClick={handleReset}>Reset</button>}
+      </header>
+    </div>
+  );
+}
