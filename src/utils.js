@@ -50,12 +50,15 @@ const makeDeck = () => {
       } else if (cardName === "13") {
         cardName = "King";
       }
+      //let cardImageName = `${cardName}_of_${currentSuit}`.toLowerCase(); 
+      //let cardImage = `src/images/${cardImageName}.png`;
 
       // Create a new card with the current name, suit, and rank
       const card = {
         name: cardName,
         suit: currentSuit,
         rank: cardRank,
+        //image: cardImage, <---Tried to use this in the rendering of the images but failed. 
       };
 
       // Add the new card to the deck
