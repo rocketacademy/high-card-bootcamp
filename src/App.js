@@ -11,33 +11,111 @@ class App extends React.Component {
       cardDeck: makeShuffledDeck(),
       // currCards holds the cards from the current round
       currCards: [],
+      // game start
+      gameStart: false,
+      // round winner
+      roundWinner: null,
+      // player 1 score
+      player1Score: 0,
+      // player 2 score
+      player2Score: 0,
     };
   }
 
+  resetGame = () => {
+    this.setState({
+      cardDeck: makeShuffledDeck(),
+      currCards: [],
+      gameStart: false,
+      roundWinner: null,
+      player1Score: 0,
+      player2Score: 0,
+    });
+  };
+
   dealCards = () => {
+    const newCurrCards = this.state.cardDeck.slice(-2);
+    let newRoundWinner = null;
+    if (newCurrCards[0].rank > newCurrCards[1].rank) {
+      newRoundWinner = 1;
+    }
+    if (newCurrCards[0].rank < newCurrCards[1].rank) {
+      newRoundWinner = 2;
+    }
+
     this.setState((state) => ({
       // Remove last 2 cards from cardDeck
       cardDeck: state.cardDeck.slice(0, -2),
-      // Deal last 2 cards to currCards
-      currCards: state.cardDeck.slice(-2),
+      currCards: newCurrCards,
+      roundWinner: newRoundWinner,
+      gameStart: true,
+      player1Score:
+        newRoundWinner === 1 ? state.player1Score + 1 : state.player1Score,
+      player2Score:
+        newRoundWinner === 2 ? state.player2Score + 1 : state.player2Score,
     }));
   };
 
   render() {
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
+    // Dealt Cards
+    const currCardElems = this.state.currCards.map(({ name, suit }, index) => (
       // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
+      <div className="play-table" key={`${name}${suit}`}>
+        <p>Player {index + 1}'s cards:</p>
+        <p>
+          {name} of {suit}
+        </p>
+        <img
+          className="card-image"
+          src={require(`../src/images/${name}_of_${suit}.png`)}
+          alt="cardimage"
+        />
       </div>
     ));
+
+    // Game Win Count Tracking Messages
+    const roundWinnerMessage = this.state.roundWinner
+      ? `Player ${this.state.roundWinner} won this round!`
+      : `This round is a tie! Continue the game!`;
+    const player1WinCountMessage = `Player 1 has won ${this.state.player1Score} rounds in this game!`;
+    const player2WinCountMessage = `Player 2 has won ${this.state.player2Score} rounds in this game!`;
+    const gameRoundsLeft = this.state.cardDeck.length / 2;
+    const roundsLeftMessage = `There are ${gameRoundsLeft} rounds left to this game!`;
+
+    // Determine Game Winner
+    let gameWinner = null;
+    if (this.state.player1Score > this.state.player2Score) {
+      gameWinner = 1;
+    }
+    if (this.state.player2Score > this.state.player1Score) {
+      gameWinner = 2;
+    }
+
+    // Game Winner Message
+    const gameWinnerMessage = gameWinner
+      ? `Player ${gameWinner} has won the game!`
+      : `This game is a tie!`;
+
+    //Button change
+    const dealButton = gameRoundsLeft === 0 ? `Reset Game` : `Deal Cards`;
 
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
-          {currCardElems}
+          <button
+            onClick={gameRoundsLeft === 0 ? this.resetGame : this.dealCards}
+          >
+            {dealButton}
+          </button>
           <br />
-          <button onClick={this.dealCards}>Deal</button>
+          <div className="base-container">{currCardElems}</div>
+          <br />
+          <p>{this.state.gameStart && roundWinnerMessage}</p>
+          <p>{this.state.gameStart && player1WinCountMessage}</p>
+          <p>{this.state.gameStart && player2WinCountMessage}</p>
+          <p>{this.state.gameStart && roundsLeftMessage}</p>
+          <p>{gameRoundsLeft === 0 && gameWinnerMessage}</p>
         </header>
       </div>
     );
