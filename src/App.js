@@ -19,18 +19,33 @@ class App extends React.Component {
       player1Score: 0,
       // player 2 score
       player2Score: 0,
+      // game round number
+      gameRoundNumber: 0,
+      // plyaer 1 score
+      player1WinGameScore: 0,
+      // player 2 score
+      player2WinGameScore: 0,
     };
   }
 
   resetGame = () => {
-    this.setState({
+    this.setState((prevState) => ({
       cardDeck: makeShuffledDeck(),
       currCards: [],
       gameStart: false,
       roundWinner: null,
       player1Score: 0,
       player2Score: 0,
-    });
+      gameRoundNumber: prevState.gameRoundNumber + 1,
+      player1WinGameScore:
+        prevState.player1Score > prevState.player2Score
+          ? prevState.player1WinGameScore + 1
+          : prevState.player1WinGameScore,
+      player2WinGameScore:
+        prevState.player2Score > prevState.player1Score
+          ? prevState.player2WinGameScore + 1
+          : prevState.player2WinGameScore,
+    }));
   };
 
   dealCards = () => {
@@ -81,6 +96,9 @@ class App extends React.Component {
     const player2WinCountMessage = `Player 2 has won ${this.state.player2Score} rounds in this game!`;
     const gameRoundsLeft = this.state.cardDeck.length / 2;
     const roundsLeftMessage = `There are ${gameRoundsLeft} rounds left to this game!`;
+    const gameRoundsPlayedMessage = `There are ${this.state.gameRoundNumber} games played.`;
+    const player1WinGameCountMessage = `Player 1 has won ${this.state.player1WinGameScore} games.`;
+    const player2WinGameCountMessage = `Player 2 has won ${this.state.player2WinGameScore} games.`;
 
     // Determine Game Winner
     let gameWinner = null;
@@ -116,6 +134,9 @@ class App extends React.Component {
           <p>{this.state.gameStart && player2WinCountMessage}</p>
           <p>{this.state.gameStart && roundsLeftMessage}</p>
           <p>{gameRoundsLeft === 0 && gameWinnerMessage}</p>
+          <p>{this.state.gameStart ? null : gameRoundsPlayedMessage}</p>
+          <p>{this.state.gameStart ? null : player1WinGameCountMessage}</p>
+          <p>{this.state.gameStart ? null : player2WinGameCountMessage}</p>
         </header>
       </div>
     );
