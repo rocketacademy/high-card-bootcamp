@@ -2,6 +2,16 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 
+function RoundWinner(props) {
+  if (props.p1RoundsWon > props.p2RoundsWon) {
+    return "Player One wins overall, click on button to reset game.";
+  } else if (props.p1RoundsWon < props.p2RoundsWon) {
+    return "Player Two wins overall, click on button to reset game.";
+  } else if (props.p1RoundsWon === props.p2RoundsWon) {
+    return "This round ended with a draw, click on button to reset game.";
+  }
+}
+
 class App extends React.Component {
   constructor(props) {
     // Always call super with props in constructor to initialise parent class
@@ -14,8 +24,22 @@ class App extends React.Component {
       playerOneRoundsWon: 0,
       playerTwoRoundsWon: 0,
       roundWinner: "",
+      roundStarted: false,
+      endOfRound: false,
+      roundsPlayed: 0,
     };
   }
+
+  resetRound = () => {
+    this.setState(() => ({
+      cardDeck: makeShuffledDeck(),
+      currCards: [],
+      playerOneRoundsWon: 0,
+      playerTwoRoundsWon: 0,
+      roundsPlayed: 0,
+      endOfRound: false,
+    }));
+  };
 
   dealCards = () => {
     const cardsDealt = this.state.cardDeck.slice(-2);
@@ -53,16 +77,36 @@ class App extends React.Component {
       </div>
     ));
 
+    let button;
+    let endRound = this.state.endOfRound;
+    if (endRound) {
+      button = <button onClick={this.resetRound}>Reset Game</button>;
+    } else {
+      button = <button onClick={this.dealCards}>Deal Cards</button>;
+    }
+
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
           {currCardElems}
           <br />
-          <button onClick={this.dealCards}>Deal</button>
-          <p>Winner: {this.state.roundWinner}</p>
-          <p>Player One Rounds Won: {this.state.playerOneRoundsWon}</p>
-          <p>Player Two Rounds Won: {this.state.playerTwoRoundsWon}</p>
+          {button}
+          {this.state.roundStarted && (
+            <>
+              <p>Winner: {this.state.roundWinner}</p>
+              <p>Player One Rounds Won: {this.state.playerOneRoundsWon}</p>
+              <p>Player Two Rounds Won: {this.state.playerTwoRoundsWon}</p>
+            </>
+          )}
+          {this.state.endOfRound && (
+            <p>
+              <RoundWinner
+                p1RoundsWon={this.state.playerOneRoundsWon}
+                p2RoundsWon={this.state.playerTwoRoundsWon}
+              />
+            </p>
+          )}
         </header>
       </div>
     );
