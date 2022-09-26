@@ -4,15 +4,17 @@
   "private": true,
   "homepage": "https://rocketacademy.github.io/high-card-bootcamp",
   "dependencies": {
+    "bootstrap": "^5.2.1",
     "gh-pages": "^3.2.3",
     "react": "^18.1.0",
+    "react-bootstrap": "^2.5.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1"
   },
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "cross-env WATCHPACK_POLLING=true react-scripts start",
     "build": "react-scripts build"
   },
   "eslintConfig": {
@@ -31,5 +33,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
