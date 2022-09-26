@@ -46,8 +46,14 @@ class App extends React.Component {
     let whoWon = "Draw";
     if (cardsDealt[0].rank > cardsDealt[1].rank) {
       whoWon = "Player One";
+      this.setState((state) => ({
+        playerOneRoundsWon: state.playerOneRoundsWon + 1,
+      }));
     } else if (cardsDealt[0].rank < cardsDealt[1].rank) {
       whoWon = "Player Two";
+      this.setState((state) => ({
+        playerTwoRoundsWon: state.playerTwoRoundsWon + 1,
+      }));
     }
 
     this.setState((state) => ({
@@ -56,17 +62,10 @@ class App extends React.Component {
       // Deal last 2 cards to currCards
       currCards: cardsDealt,
       roundWinner: whoWon,
+      roundStarted: true,
+      endOfRound: state.roundsPlayed === 25 ? true : false,
+      roundsPlayed: state.roundsPlayed + 1,
     }));
-
-    if (whoWon === "Player One") {
-      this.setState((state) => ({
-        playerOneRoundsWon: state.playerOneRoundsWon + 1,
-      }));
-    } else if (whoWon === "Player Two") {
-      this.setState((state) => ({
-        playerTwoRoundsWon: state.playerTwoRoundsWon + 1,
-      }));
-    }
   };
 
   render() {
@@ -89,6 +88,8 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
+        </header>
+        <main className="App-main">
           {currCardElems}
           <br />
           {button}
@@ -107,7 +108,7 @@ class App extends React.Component {
               />
             </p>
           )}
-        </header>
+        </main>
       </div>
     );
   }
