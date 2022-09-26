@@ -12,23 +12,21 @@ function TallyScores({ player1Score, player2Score, roundsLeft }) {
     </p>
   );
 
-  var para_bottom = "";
-  if (roundsLeft === 0) {
-    if (player1Score > player2Score) {
-      para_bottom = <p> Player 1 wins this game!</p>;
-    } else if (player1Score < player2Score) {
-      para_bottom = <p>Player 2 wins this game!</p>;
-    } else {
-      para_bottom = <p>It's a tie!</p>;
-    }
-  } else {
-    para_bottom = <p>There are {roundsLeft} rounds left.</p>;
+  if (!roundsLeft) {
+    return (
+      <>
+        {para_top}
+        {player1Score > player2Score && <p> Player 1 wins this game!</p>}
+        {player1Score < player2Score && <p>Player 2 wins this game!</p>}
+        {player1Score === player2Score && <p>It's a tie!</p>}
+      </>
+    );
   }
 
   return (
     <>
       {para_top}
-      {para_bottom}
+      <p>There are {roundsLeft} rounds left.</p>
     </>
   );
 }
@@ -63,15 +61,19 @@ class App extends React.Component {
       winner = "Nobody";
     }
 
-    this.setState((state) => ({
+    this.setState((previousState) => ({
       currCards: newCurrCards,
       gameStarted: true,
       winner: winner,
       player1Score:
-        winner === "Player 1" ? state.player1Score + 1 : state.player1Score,
+        winner === "Player 1"
+          ? previousState.player1Score + 1
+          : previousState.player1Score,
       player2Score:
-        winner === "Player 2" ? state.player2Score + 1 : state.player2Score,
-      roundsLeft: state.roundsLeft - 1,
+        winner === "Player 2"
+          ? previousState.player2Score + 1
+          : previousState.player2Score,
+      roundsLeft: previousState.roundsLeft - 1,
     }));
   };
 
@@ -107,7 +109,7 @@ class App extends React.Component {
           <br />
           <button
             onClick={() => {
-              this.state.roundsLeft > 0 ? this.dealCards() : this.resetGame();
+              this.state.roundsLeft ? this.dealCards() : this.resetGame();
             }}
           >
             {buttonCaption}
