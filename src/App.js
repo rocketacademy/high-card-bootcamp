@@ -16,6 +16,7 @@ class App extends React.Component {
       // game round
       gameRound: 0,
       // winner round
+      // set as null to make sure the class is empty, 0 is a value
       roundWinner: null,
       // players' current scores
       player1CurrentScore: 0,
