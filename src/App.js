@@ -62,10 +62,10 @@ class App extends React.Component {
 
   // reset game
   resetGame = () => {
-    this.setState({
+    this.defaultState({
       cardDeck: makeShuffledDeck(),
       currCards: [],
-      hasGameStarted: false,
+      gameStart: false,
       roundWinner: null,
       player1Total: 0,
       player2Total: 0,
@@ -89,7 +89,7 @@ class App extends React.Component {
         </div>
       ),
     );
-    // round winner's messages (2 expectations)
+    // round winner's messages (2 outcomes)
     const roundWinnerMessage = this.state.roundWinner
       ? `Player ${this.state.roundWinner} won this round.`
       : `No winner this round. The game continues!`;
@@ -132,7 +132,7 @@ class App extends React.Component {
           <p>{this.state.gameStart && player2TotalScore}</p>
 
           {/* Render winner message if the game is over */}
-          <p>{numRoundsLeft === 0 && winnerMessage}</p>
+          <p>{!this.state.cardDeck.length && winnerMessage}</p>
         </header>
       </div>
     );
