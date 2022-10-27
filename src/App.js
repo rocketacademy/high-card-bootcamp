@@ -1,43 +1,42 @@
 import React from "react";
 import "./App.css";
-import { makeShuffledDeck } from "./utils.js";
+import StartMenu from "./startMenu";
+import Game from "./game"
+
 
 class App extends React.Component {
   constructor(props) {
     // Always call super with props in constructor to initialise parent class
     super(props);
     this.state = {
-      // Set default value of card deck to new shuffled deck
-      cardDeck: makeShuffledDeck(),
       // currCards holds the cards from the current round
       currCards: [],
+      gameMode: "start",  //
+      numberOfGames: 0,  
     };
   }
 
-  dealCards = () => {
-    this.setState((state) => ({
-      // Remove last 2 cards from cardDeck
-      cardDeck: state.cardDeck.slice(0, -2),
-      // Deal last 2 cards to currCards
-      currCards: state.cardDeck.slice(-2),
-    }));
-  };
+  receiveDataFromSMtoApp = (childData) => {
+    this.setState({ 
+      gameMode: childData.game,
+      numberOfGames: childData.games,
+    });
+  }
+
+  receiveMode = (gameData) => {
+    this.setState({
+      gameMode: gameData,
+    })
+  }
 
   render() {
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
-      // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
-      </div>
-    ));
-
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
-          {currCardElems}
           <br />
-          <button onClick={this.dealCards}>Deal</button>
+          {this.state.gameMode === 'start' && <StartMenu receiveData={this.receiveDataFromSMtoApp}/>}
+          {this.state.gameMode === 'Game' && <Game games={this.state.numberOfGames} getGameMode = {this.receiveMode}/>}
         </header>
       </div>
     );
