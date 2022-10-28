@@ -24,18 +24,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       // Set default value of card deck to new shuffled deck
-      // cardDeck: makeShuffledDeck(),
+      cardDeck: makeShuffledDeck(),
       // // currCards holds the cards from the current round
       currCards: [],
-      gameMode: "game",
     };
   }
-
-  receiveGameMode = (game) => {
-    this.setState({
-      gameMode: game,
-    });
-  };
 
   render() {
     return (
