@@ -7,6 +7,16 @@ const compareCards = (card1, card2) => {
   return getScore;
 };
 
+const thisRoundWinner = (card1, card2) => {
+  let getWinner = "This round ended in a draw.";
+  if (card1.rank > card2.rank) {
+    getWinner = "Player One wins this round";
+  } else if (card1.rank < card2.rank) {
+    getWinner = "Player Two wins this round";
+  }
+  return getWinner;
+};
+
 class App extends React.Component {
   constructor(props) {
     // Always call super with props in constructor to initialise parent class
@@ -54,39 +64,12 @@ class App extends React.Component {
       </div>
     ));
 
-    let winner = "Game ended in a Draw";
+    let grandWinner = "Game ended in a Draw";
 
     if (this.state.playerOneScore > this.state.playerTwoScore) {
-      winner = "Player One won the game";
+      grandWinner = "Player One won the game!";
     } else if (this.state.playerOneScore < this.state.playerTwoScore) {
-      winner = "Player Two won the game";
-    }
-
-    // const thisRoundWinner = (card1, card2) => {
-    //   let getWinner = "This round ended in a draw.";
-    //   if (card1.rank > card2.rank) {
-    //     getWinner = "Player One wins this round";
-    //   } else if (card1.rank < card2.rank) {
-    //     getWinner = "Player Two wins this round";
-    //   }
-    //   return getWinner;
-    // };
-
-    let roundwinner = "";
-    if (this.state.currCards.length === 2) {
-      if (
-        compareCards(this.state.currCards.at(0), this.state.currCards.at(1)) ===
-        1
-      ) {
-        roundwinner = "Player One won the round";
-      } else if (
-        compareCards(this.state.currCards.at(1), this.state.currCards.at(0)) ===
-        1
-      ) {
-        roundwinner = "Player Two won the round";
-      } else {
-        roundwinner = "Round ended in draw";
-      }
+      grandWinner = "Player Two won the game!";
     }
 
     return (
@@ -100,10 +83,16 @@ class App extends React.Component {
           ) : (
             <div>
               <button onClick={this.restartGame}>Restart</button>
-              <p>{winner}</p>
+              <p>{grandWinner}</p>
             </div>
           )}
-          <p>{roundwinner}</p>
+          <p>
+            {this.state.currCards.length === 2 &&
+              thisRoundWinner(
+                this.state.currCards.at(0),
+                this.state.currCards.at(1)
+              )}
+          </p>
           <p>Player One Score: {this.state.playerOneScore}</p>
           <p>Player Two Score: {this.state.playerTwoScore}</p>
           <p>Cards remaining: {this.state.cardDeck.length}</p>
