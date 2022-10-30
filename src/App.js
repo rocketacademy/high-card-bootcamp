@@ -29,6 +29,7 @@ class App extends React.Component {
       playerOneScore: 0,
       playerTwoScore: 0,
     };
+    this.dealCards = this.dealCards.bind(this);
   }
 
   dealCards = () => {
@@ -83,19 +84,23 @@ class App extends React.Component {
           ) : (
             <div>
               <button onClick={this.restartGame}>Restart</button>
-              <p>{grandWinner}</p>
+              <h2>{grandWinner}</h2>
             </div>
           )}
-          <p>
+          <h4>
             {this.state.currCards.length === 2 &&
               thisRoundWinner(
                 this.state.currCards.at(0),
                 this.state.currCards.at(1)
               )}
-          </p>
-          <p>Player One Score: {this.state.playerOneScore}</p>
-          <p>Player Two Score: {this.state.playerTwoScore}</p>
-          <p>Cards remaining: {this.state.cardDeck.length}</p>
+          </h4>
+          {this.state.cardDeck.length !== 52 && (
+            <div>
+              <p>Player One Score: {this.state.playerOneScore}</p>
+              <p>Player Two Score: {this.state.playerTwoScore}</p>
+              <p>Cards remaining: {this.state.cardDeck.length}</p>
+            </div>
+          )}
         </header>
       </div>
     );
