@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import Game from "./Components/Game";
+import Startmenu from "./Components/Startmenu";
 
 {
   /*
@@ -27,7 +28,24 @@ class App extends React.Component {
       cardDeck: makeShuffledDeck(),
       // // currCards holds the cards from the current round
       currCards: [],
+      name: "",
+      gameMode: "start",
     };
+  }
+
+  // Upon receiving data, gameMode will be changed to "Game"
+
+  changeGameMode = (newGameMode) => {
+    this.setState({
+      gameMode: newGameMode.game
+    });
+  }
+
+  changeName= (newName) => {
+    this.setState({
+      name: newName
+    });
+    console.log(this.state.name)
   }
 
   render() {
@@ -36,7 +54,15 @@ class App extends React.Component {
         <header className="App-header">
           <h3>High Card 🚀</h3>
           <br />
-          <Game />
+          {this.state.gameMode === "start" && (
+            <Startmenu
+              onClick={this.changeGameMode}
+              onChange={this.changeName}
+            />
+          )}
+          {this.state.gameMode === "Game" && (
+            <Game getGameMode={this.state.gameMode} name={this.state.name} />
+          )}
         </header>
       </div>
     );
