@@ -1,5 +1,4 @@
 import React from "react";
-import App from "../App";
 import { makeShuffledDeck } from "../utils.js";
 
 export default class Game extends React.Component {
@@ -82,12 +81,12 @@ export default class Game extends React.Component {
   };
 
   render() {
-
+    const username = this.props.name;
     const currCardElems = this.state.currentCards.map(({ name, suit }, i) => (
       <div key={`${name}${suit}`}>
         <img src={require(`../assets/${name}Of${suit}.png`)} alt="card" />
         <p>
-          Player {i + 1} : {name} of {suit}
+          Player {i+1} : {name} of {suit}
         </p>
       </div>
     ));
@@ -117,7 +116,7 @@ export default class Game extends React.Component {
         {this.state.currentRound ? (
           currCardElems
         ) : (
-          <p>Press Deal To Start The Game</p>
+          <p>Hi {username}, Please Press Deal To Start The Game</p>
         )}
         <button style={{fontSize:25}}
           onClick={
