@@ -19,3 +19,19 @@
   color: black;
   
 }
+
+.Button {
+  border: none;
+  padding: 15px 32px;
+  font-size: x-large;
+  border-radius: 25px;
+  background-color: #282c34;
+  color: aliceblue;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.Button:hover{
+  cursor: pointer;
+  background-color: #494f59;
+}
