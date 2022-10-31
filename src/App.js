@@ -58,9 +58,11 @@ class App extends React.Component {
     if(this.state.player1score > this.state.player2score){ //p1 wins
       this.setState({
         total1score : this.state.total1score + 1
-      })}
+      })
+    }
     
-    else { //p2 wins
+    
+    if (this.state.player2score > this.state.player1score) { //p2 wins
       this.setState({
         total2score : this.state.total2score + 1
       })
@@ -73,6 +75,7 @@ class App extends React.Component {
       }))
     }
   }
+
   //or gameEnd func could go in here
       //when game end show a button? change a state here which another button uses conditional rendering on to appear
       // this.setState((state)=>(
@@ -132,27 +135,28 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", minWidth:"50vh", marginTop:"50px"}}>
-            <p>Player1 Wins: {this.state.total1score}</p>
-            <p>Player2 Wins: {this.state.total2score}</p>
-          </div>
-          <h3>High Card 🚀</h3>
-          {currCardElems}
-          <br />
-          <div>{this.state.isGameEndShown?<button onClick={() => {this.restartButtonClicky()}}>Restart</button> : <button onClick={() => {this.dealButtonClicky()}}>Deal</button>}</div>
+          <div style={{border:"solid red", padding:"50px", minWidth:"50vw", backgroundColor:"aliceblue "}}>
+            <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", minWidth:"50vh", marginTop:"50px"}}>
+              <p>Player1 Wins: {this.state.total1score}</p>
+              <p>Player2 Wins: {this.state.total2score}</p>
+            </div>
+            <h3 style={{backgroundColor:"#282c34", color:"white", paddingBlock:"15px", borderRadius:"15px"}}>High Card 🚀</h3>
+            {/* {currCardElems} */}
+            <br />
+            <div>{this.state.isGameEndShown?<button onClick={() => {this.restartButtonClicky()}}>Restart</button> : <button onClick={() => {this.dealButtonClicky()}}>Deal</button>}</div>
 
-          <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", minWidth:"50vh", marginTop:"50px"}}>
-            <div style={{border:"solid white", padding:"15px"}}>
-              <p>Player1</p>
-              <p>card:{currCardElems[0]}</p>
-              <p>score:{this.state.player1score}</p>
+            <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", minWidth:"50vh", marginTop:"50px"}}>
+              <div style={{border:"solid black", padding:"15px", minWidth:"30%"}}>
+                <p>Player1</p>
+                <p>card:{currCardElems[0]}</p>
+                <p>score:{this.state.player1score}</p>
+              </div>
+              <div style={{border:"solid black", padding:"15px", minWidth:"30%"}}>
+                <p>Player2</p>
+                <p>card:{currCardElems[1]}</p>
+                <p>Score:{this.state.player2score}</p>
+              </div>
             </div>
-            <div style={{border:"solid white", padding:"15px"}}>
-              <p>Player2</p>
-              <p>card:{currCardElems[1]}</p>
-              <p>Score:{this.state.player2score}</p>
-            </div>
-            
             
           </div>
         </header>
