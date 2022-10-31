@@ -82,28 +82,48 @@ export default class Game extends React.Component {
 
   render() {
     const username = this.props.name;
-    const currCardElems = this.state.currentCards.map(({ name, suit }, i) => (
-      <div key={`${name}${suit}`}>
-        <img src={require(`../assets/${name}Of${suit}.png`)} alt="card" />
-        <p>
-          Player {i+1} : {name} of {suit}
-        </p>
-      </div>
-    ));
+
+    // const currCardElems = this.state.currentCards.map(({ name, suit }, i) => (
+    //   <div key={`${name}${suit}`}>
+    //     <img src={require(`../assets/${name}Of${suit}.png`)} alt="card" />
+    //     <p>
+
+    //     </p>
+    //   </div>
+    // ));
+
+     const currCardElems = this.state.currentCards.map(({ name, suit }, i) =>
+       i === 0 ? (
+         <div key={`${name}${suit}`}>
+           <img src={require(`../assets/${name}Of${suit}.png`)} alt="card" />{" "}
+           <p>
+             {username}: {name} of {suit}
+           </p>
+         </div>
+       ) : (
+         <div key={`${name}${suit}`}>
+           <img src={require(`../assets/${name}Of${suit}.png`)} alt="card" />{" "}
+           <p>
+             Computer: {name} of {suit}
+           </p>
+         </div>
+       )
+     );
+
 
     console.log(currCardElems);
 
     // Winner Message for Current Round
     const winMessage = `${
       this.state.roundWinner
-        ? `Player ${this.state.roundWinner} Wins`
-        : `No Player Wins`
+        ? `${this.state.roundWinner === 1 ? username : 'Computer'} Wins`
+        : `Nobody Wins`
     }`;
 
     // Player 1 Score Message
-    const player1Score = `Player 1 Current Score: ${this.state.score.player1CurrScore}, Total Score: ${this.state.score.player1TotalRoundsWon}`;
+    const player1Score = `${username}'s Current Score: ${this.state.score.player1CurrScore}, Total Score: ${this.state.score.player1TotalRoundsWon}`;
     // Player 2 Score Message
-    const player2Score = `Player 2 Current Score: ${this.state.score.player2CurrScore}, Total Score: ${this.state.score.player2TotalRoundsWon}`;
+    const player2Score = `Computer's Current Score: ${this.state.score.player2CurrScore}, Total Score: ${this.state.score.player2TotalRoundsWon}`;
 
     // Button Deal or Reset Game
     let buttontext = "";
