@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -15,5 +16,22 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
+  
+}
+
+.Button {
+  border: none;
+  padding: 15px 32px;
+  font-size: x-large;
+  border-radius: 25px;
+  background-color: #282c34;
+  color: aliceblue;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.Button:hover{
+  cursor: pointer;
+  background-color: #494f59;
 }
