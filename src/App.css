@@ -17,3 +17,23 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+img {
+  width: 150px;
+  height: 200px;
+  border-radius: 0px;
+}
+
+#containertext-center {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  background-color: lightgrey;
+  padding-top: 30px;
+  width: 100%;
+}
+#col {
+  max-width: 30%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 40px;
+}
