@@ -58,12 +58,17 @@ class App extends React.Component {
   };
 
   render() {
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
-      // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
-      </div>
-    ));
+    const currCardElems = this.state.currCards.map(
+      ({ name, suit, image }, index) => (
+        // Give each list element a unique key (Why?)
+        <div key={`${name}${suit}`}>
+          Player {index + 1}: {name} of {suit}
+          <p>
+            <img src={`${process.env.PUBLIC_URL}/cards/${image}`} alt="pic" />
+          </p>
+        </div>
+      )
+    );
 
     let grandWinner = "Game ended in a Draw";
 
@@ -78,7 +83,6 @@ class App extends React.Component {
         <header className="App-header">
           <h3>High Card 🚀</h3>
           {currCardElems}
-          <br />
           {this.state.cardDeck.length ? (
             <button onClick={this.dealCards}>Deal</button>
           ) : (
