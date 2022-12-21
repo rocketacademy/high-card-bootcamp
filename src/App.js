@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import Card from "./components/Card";
-// import Score from "./components/Score";
+import Score from "./components/Score";
 
 class App extends React.Component {
   constructor(props) {
@@ -37,6 +37,15 @@ class App extends React.Component {
     }
   };
 
+  restartGame = () => {
+    this.setState({
+      cardDeck: makeShuffledDeck(),
+      currCards: [],
+      player1Score: 0,
+      player2Score: 0
+    })
+  }
+
 
   render() {
     const currCardElems = this.state.currCards.map(({ name, suit }, index) => (
@@ -62,17 +71,18 @@ class App extends React.Component {
           <h3>High Card 🚀</h3>
           {currCardElems}
           <br />
-          <button onClick={this.dealCards}>Deal</button>
+          {this.state.cardDeck.length !== 0 
+          ? <button onClick={this.dealCards}>Deal</button> 
+          : <button onClick={this.restartGame}>Restart</button>}
+          {/* <button onClick={this.dealCards}>Deal</button> */}
           <br />
-          <h2>{winner}</h2>
+          {/* <h2>{winner}</h2>
           <h3>
             {this.state.player1Score} : {this.state.player2Score}
-          </h3>
-          {/* {(this.state.currCards.length !== 0) 
-          ? <Score player1Rank={this.state.currCards[0].rank} player2Rank={this.state.currCards[1].rank} /> 
-          : '' } */}
-
-
+          </h3> */}
+          {(this.state.currCards.length !== 0) 
+          ? <Score winner={winner} p1Score={this.state.player1Score} p2Score={this.state.player2Score} /> 
+          : '' }
         </header>
       </div>
     );
