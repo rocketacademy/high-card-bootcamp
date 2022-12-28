@@ -1,4 +1,5 @@
 import React from "react";
+import { Typography, Grid, Container } from "@mui/material";
 
 class Player extends React.Component {
   constructor(props) {
@@ -14,17 +15,20 @@ class Player extends React.Component {
     // ));
 
     return (
-      <div>
-        {this.props.cards.map(({ name, suit }) => (
-          // Give each list element a unique key
-          <div key={`${name}${suit}`}>
-            {this.props.name}: {name} of {suit}
-          </div>
-        ))}
-      </div>
+      <Grid item xs={2}>
+        <Typography
+          variant="body1"
+          key={`${this.props.name}${this.props.cards.suit}`}
+        >
+          {this.props.name}:{" "}
+        </Typography>
+        <img
+          src={require(`../assets/${this.props.cards.rank}-${this.props.cards.suit}.png`)}
+          alt={`${this.props.name}${this.props.cards.suit}`}
+          height={"200px"}
+        />
+      </Grid>
     );
-
-    // <div>{currCardElems}</div>;
   }
 }
 

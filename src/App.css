@@ -1,14 +1,6 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
+  background-color: #00695f;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,3 +9,24 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.flex-gap {
+  display: flex;
+  gap: 10px;
+}
+
+/* .App-header {
+  background-color: #2f6673;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+} */
