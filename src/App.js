@@ -16,7 +16,9 @@ class App extends React.Component {
       // currCards holds the cards from the current round
       currCards: [],
       player1Score: 0,
-      player2Score: 0
+      player2Score: 0,
+      player1GameScore: 0,
+      player2GameScore: 0
     };
   }
 
@@ -36,6 +38,17 @@ class App extends React.Component {
       this.setState({
         player2Score: this.state.player2Score + 1
       })
+    }
+    if (this.state.cardDeck.length === 2) {
+      if (this.state.player1Score > this.state.player2Score) {
+        this.setState({
+          player1GameScore: this.state.player1GameScore + 1
+        })
+      } else if (this.state.player1Score < this.state.player2Score) {
+        this.setState({
+          player2GameScore: this.state.player2GameScore + 1
+        })
+      }
     }
   };
 
@@ -89,23 +102,43 @@ class App extends React.Component {
     }
 
     if (this.state.cardDeck.length === 0) {
-      winner = "Player 1 wins the game!"
+      if (this.state.player1Score > this.state.player2Score) {
+        winner = "Player 1 wins the game!"
+      } else if (this.state.player1Score < this.state.player2Score) {
+        winner = "Player 2 wins the game!"
+      } else {
+        winner = "Both player draw!"
+      }
     }
 
     return (
       <div className="App">
         <header className="App-header">
-          <h3>High Card 🚀</h3>
-          {currCardElems}
-          <br />
-          {(this.state.currCards.length !== 0) 
-          ? <Score winner={winner} p1Score={this.state.player1Score} p2Score={this.state.player2Score} /> 
-          : '' }
-          {this.state.cardDeck.length !== 0 
-          ? <Button onClick={this.dealCards} variant="outline-primary" >Deal</Button>
-          // <button onClick={this.dealCards}>Deal</button> 
-          : <button onClick={this.restartGame}>Restart</button> }
-          <br />
+        {
+          (this.state.cardDeck.length !== 0)
+          ? <div>
+                <h3>High Card 🚀</h3>
+                {currCardElems}
+                <br />
+                {
+                  (this.state.currCards.length !== 0) 
+                  ? <Score winner={winner} p1Score={this.state.player1Score} p2Score={this.state.player2Score} /> 
+                  : "" 
+                }
+                {
+                  this.state.cardDeck.length !== 0 
+                  ? <Button onClick={this.dealCards} variant="outline-primary" >Deal</Button>
+                  : ""
+                }
+                <br />
+            </div>
+          : <div>
+              <Score winner={winner} p1Score={this.state.player1Score} p2Score={this.state.player2Score} />
+              <br />
+              <Score winner="Current game score is" p1Score={this.state.player1GameScore} p2Score={this.state.player2GameScore} />
+              <Button onClick={this.restartGame} variant="outline-primary">Restart</Button>
+            </div>
+        }
         </header>
       </div>
     );
