@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import PlayersInput from "./Components/PlayersInput";
 import Player from "./Components/Player";
 import Instructions from "./Components/Instructions";
 import ButtonCustom from "./Components/Button";
@@ -24,128 +25,173 @@ class App extends React.Component {
       // Set default value of card deck to new shuffled deck
       cardDeck: makeShuffledDeck(),
       // currCards holds the cards from the current round
-      players: [
-        { name: "Player 1", cards: [], score: [], prevScore: [] },
-        { name: "Player 2", cards: [], score: [], prevScore: [] },
-      ],
-      gameState: "Intro",
-      winner: null,
+      players: [],
+      gameState: "Input",
+      // winner: null,
       numOfGames: 1,
       showGameRule: false,
+      numOfPlayers: 2,
     };
   }
+
+  updatePlayers = (num) => {
+    num = Number(num);
+
+    const newPlayers = this.generatePlayers(num);
+
+    this.setState((state) => ({
+      players: [...state.players, ...newPlayers],
+      gameState: "Intro",
+      numOfPlayers: num,
+    }));
+  };
+
+  generatePlayers = (num) => {
+    const newPlayers = [];
+
+    for (let i = 1; i <= num; i += 1) {
+      newPlayers.push({
+        name: `Player ${i}`,
+        cards: [],
+        score: [],
+        prevScore: [],
+      });
+    }
+
+    return newPlayers;
+  };
 
   dealCards = () => {
     if (this.state.cardDeck.length === 0) {
       return;
     }
 
-    const newCardOne = this.state.cardDeck.slice(-1);
-    const newCardTwo = this.state.cardDeck.slice(-2, -1);
+    const newCards = [];
+    const newCardsRank = [];
+
+    for (let i = 0; i < this.state.numOfPlayers; i += 1) {
+      if (i === 0) {
+        newCards.push(this.state.cardDeck.slice(-1));
+        newCardsRank.push(this.state.cardDeck.slice(-1)[0].rank);
+      } else {
+        newCards.push(this.state.cardDeck.slice(-(i + 1), -i));
+        newCardsRank.push(this.state.cardDeck.slice(-(i + 1), -i)[0].rank);
+      }
+    }
 
     this.setState((state) => ({
       // Remove last 2 cards from cardDeck
-      cardDeck: state.cardDeck.slice(0, -2),
+      cardDeck: state.cardDeck.slice(0, -state.numOfPlayers),
       // Deal 1 card to each player from cardDeck
-      players: [
-        {
-          name: state.players[0].name,
-          cards: newCardOne,
-          score: state.players[0].score,
-          prevScore: state.players[0].prevScore,
-        },
-        {
-          name: state.players[1].name,
-          cards: newCardTwo,
-          score: state.players[1].score,
-          prevScore: state.players[1].prevScore,
-        },
-      ],
+      players: state.players.map((player, index) => {
+        return {
+          name: player.name,
+          cards: newCards[index],
+          score: player.score,
+          prevScore: player.prevScore,
+        };
+      }),
       gameState: "Playing",
     }));
-    this.addScore(this.calWinner(...newCardOne, ...newCardTwo));
+
+    this.addScore(this.checkWinner(newCardsRank));
   };
 
-  calWinner = (cardOne, cardTwo) => {
-    let result = false;
+  checkWinner = (scoresArr) => {
+    let maxScore = 0;
+    const playersWithMaxScore = [];
 
-    if (cardOne.rank > cardTwo.rank) {
-      result = this.state.players[0].name;
-    } else if (cardOne.rank < cardTwo.rank) {
-      result = this.state.players[1].name;
+    //Loop through final score array to get the max score
+    scoresArr.forEach((score) => {
+      if (score > maxScore) {
+        maxScore = score;
+      }
+    });
+
+    //Check if there is more than 1 max score
+    scoresArr.forEach((score, index) => {
+      if (score === maxScore) {
+        playersWithMaxScore.push(index + 1);
+      }
+    });
+
+    //Check if there are only 2 players and both players scored max score, it is a draw.
+    if (this.state.players.length === playersWithMaxScore.length) {
+      return [];
     }
 
-    return result;
+    return playersWithMaxScore;
   };
 
-  addScore = (winnerName) => {
-    this.setState((state) => ({
-      players: state.players.map((player) => {
-        if (winnerName === player.name) {
-          return {
-            name: player.name,
-            cards: player.cards,
-            score: [...player.score, 1],
-            prevScore: player.prevScore,
-          };
-        } else {
+  addScore = (winnersArray) => {
+    if (winnersArray.length === 0) {
+      this.setState((state) => ({
+        players: state.players.map((player, playerIndex) => {
           return {
             name: player.name,
             cards: player.cards,
             score: [...player.score, 0],
             prevScore: player.prevScore,
           };
-        }
-      }),
-      winner: winnerName ? winnerName : null,
-      gameState: state.cardDeck.length <= 0 ? "End" : state.gameState,
-    }));
+        }),
+        gameState:
+          state.cardDeck.length < state.players.length
+            ? "End"
+            : state.gameState,
+      }));
+    } else {
+      const winnersIndex = winnersArray.map((winner) => winner - 1);
+
+      this.setState((state) => ({
+        players: state.players.map((player, playerIndex) => {
+          if (winnersIndex.includes(playerIndex)) {
+            return {
+              name: player.name,
+              cards: player.cards,
+              score: [...player.score, 1],
+              prevScore: player.prevScore,
+            };
+          } else {
+            return {
+              name: player.name,
+              cards: player.cards,
+              score: [...player.score, 0],
+              prevScore: player.prevScore,
+            };
+          }
+        }),
+        gameState:
+          state.cardDeck.length < state.players.length
+            ? "End"
+            : state.gameState,
+      }));
+    }
   };
 
   newGame = () => {
     this.setState((state) => ({
       cardDeck: makeShuffledDeck(),
-      players: [
-        {
-          name: state.players[0].name,
+      players: state.players.map((player) => {
+        return {
+          name: player.name,
           cards: [],
           score: [],
-          prevScore: [...state.players[0].prevScore, state.players[0].score],
-        },
-        {
-          name: state.players[1].name,
-          cards: [],
-          score: [],
-          prevScore: [...state.players[1].prevScore, state.players[1].score],
-        },
-      ],
+          prevScore: [...player.prevScore, player.score],
+        };
+      }),
       gameState: "Intro",
-      winner: null,
       numOfGames: (state.numOfGames += 1),
     }));
   };
 
   resetGame = () => {
-    this.setState((state) => ({
+    this.setState({
       cardDeck: makeShuffledDeck(),
-      players: [
-        {
-          name: state.players[0].name,
-          cards: [],
-          score: [],
-          prevScore: [],
-        },
-        {
-          name: state.players[1].name,
-          cards: [],
-          score: [],
-          prevScore: [],
-        },
-      ],
-      gameState: "Intro",
-      winner: null,
+      players: [],
+      gameState: "Input",
       numOfGames: 1,
-    }));
+      numOfPlayers: 2,
+    });
   };
 
   showRules = () => {
@@ -173,8 +219,6 @@ class App extends React.Component {
     return (
       <div className="App">
         <CssBaseline />
-
-        {/* <header className="App-header"> */}
         <AppBar
           position="fixed"
           style={{
@@ -202,26 +246,35 @@ class App extends React.Component {
         </AppBar>
         <Container maxWidth="lg">
           <Rules open={this.state.showGameRule} onClick={this.showRules} />
-          {this.state.gameState === "Intro" ? (
+          {this.state.gameState === "Input" && (
+            <PlayersInput onClick={this.updatePlayers} />
+          )}
+          {this.state.gameState === "Intro" && (
             <div>
-              <h3>👋 Please click Deal to start playing!</h3>
+              <Typography variant="h6" mb={1.5}>
+                You have entered {this.state.numOfPlayers} players. <br />
+                Please click Deal to start playing!
+              </Typography>
               {button}
             </div>
-          ) : (
+          )}
+          {this.state.gameState === "Playing" ||
+          this.state.gameState === "End" ? (
             <Container maxWidth="lg">
-              <Grid container justifyContent="center">
-                <Grid item xs={3}>
+              <Grid container justifyContent="center" mt={9} mb={4}>
+                <Grid item xs={11} sm={5} md={3} lg={3}>
                   <GameInfo
                     numOfGames={this.state.numOfGames}
                     cardDeck={this.state.cardDeck}
+                    numOfPlayers={this.state.numOfPlayers}
                   />
                 </Grid>
-                <Grid container mt={5} mb={10} justifyContent="center">
+                <Grid container mt={5} mb={5} justifyContent="center">
                   {players}
                 </Grid>
                 <Grid item xs={12} mb={5}>
                   <Instructions
-                    winner={this.state.winner}
+                    checkWinner={this.checkWinner}
                     players={this.state.players}
                     cardDeck={this.state.cardDeck}
                   />
@@ -230,7 +283,7 @@ class App extends React.Component {
                   {button}
                 </Grid>
                 <Grid container justifyContent="center">
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={this.state.numOfPlayers + 2}>
                     <ResultsTable
                       players={this.state.players}
                       numOfGames={this.state.numOfGames}
@@ -239,8 +292,7 @@ class App extends React.Component {
                 </Grid>
               </Grid>
             </Container>
-          )}
-          {/* </header> */}
+          ) : null}
         </Container>
       </div>
     );

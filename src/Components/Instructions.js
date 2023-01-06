@@ -2,22 +2,35 @@ import React from "react";
 import { Typography } from "@mui/material";
 
 class Instructions extends React.Component {
-  displayRoundWinner = (winner) => {
-    if (winner !== null) {
-      return `${winner} won this round!`;
-    } else {
-      return "It's a draw!";
-    }
+  displayRoundWinner = (players) => {
+    const playersCardRank = [];
+
+    players.forEach((player) => {
+      playersCardRank.push(player.cards[0].rank);
+    });
+
+    let winningStatement = this.generateWinnerStatement(
+      this.props.checkWinner(playersCardRank)
+    );
+
+    winningStatement += "this round!";
+
+    return winningStatement;
   };
 
-  displayNextStep = (cardDeck) => {
+  displayNextStep = (cardDeck, players) => {
     // const winner = this.displayFinalWinner(this.props.players);
-    if (cardDeck.length <= 0) {
+    const balanceCards = cardDeck.length;
+    const numOfPlayers = players.length;
+
+    if (balanceCards < numOfPlayers) {
       return (
         <Typography variant="body1">
-          There are not more cards left for this game.
+          <br />
+          There are no more cards left for this game.
           <br />
           {this.displayFinalWinner(this.props.players)}
+          <br />
           <br />
           Click on New Game to start a new game!
         </Typography>
@@ -31,11 +44,29 @@ class Instructions extends React.Component {
     }
   };
 
+  generateWinnerStatement = (playersWithMaxScore) => {
+    let winner = "";
+    //If all players score the same final results
+    if (
+      this.props.players.length === playersWithMaxScore.length ||
+      playersWithMaxScore.length === 0
+    ) {
+      winner = "It's a Draw, no winners for ";
+    } else {
+      // If there is at least 1 winner
+      for (let i = 0; i < playersWithMaxScore.length; i += 1) {
+        if (i === playersWithMaxScore.length - 1) {
+          winner += `Player ${playersWithMaxScore[i]} won this `;
+        } else {
+          winner += `Player ${playersWithMaxScore[i]} and `;
+        }
+      }
+    }
+    return winner;
+  };
+
   displayFinalWinner = (players) => {
     const finalScores = [];
-    const playersWithMaxScore = [];
-    let maxScore = 0;
-    let winner = "Winner of this game is ";
 
     //Calculate the scores for each player for the game
     players.map((player) => {
@@ -44,47 +75,22 @@ class Instructions extends React.Component {
       );
     });
 
-    //Loop through final score array to get the max score
-    finalScores.forEach((score) => {
-      if (score > maxScore) {
-        maxScore = score;
-      }
-    });
+    let winningStatement = this.generateWinnerStatement(
+      this.props.checkWinner(finalScores)
+    );
 
-    //Check if there is more than 1 max score
-    finalScores.forEach((score, index) => {
-      if (score === maxScore) {
-        playersWithMaxScore.push(index + 1);
-      }
-    });
+    winningStatement += "this game!";
 
-    //Update return statement based on number of winners for the game
-
-    //If there is only 2 players and both players score the same final results
-    if (this.props.players.length === 2 && playersWithMaxScore.length === 2) {
-      winner = "It's a Draw, there are no winners for this game!";
-    } else {
-      // If there are 2 or more players
-      for (let i = 0; i < playersWithMaxScore.length; i += 1) {
-        if (i === playersWithMaxScore.length - 1) {
-          winner += `Player ${playersWithMaxScore[i]}`;
-        } else {
-          winner += `Player ${playersWithMaxScore[i]} and `;
-        }
-      }
-    }
-
-    return winner;
+    return winningStatement;
   };
 
   render() {
     return (
       <div>
         <Typography variant="body1">
-          {this.displayRoundWinner(this.props.winner)}
+          {this.displayRoundWinner(this.props.players)}
         </Typography>
-
-        {this.displayNextStep(this.props.cardDeck)}
+        {this.displayNextStep(this.props.cardDeck, this.props.players)}
       </div>
     );
   }

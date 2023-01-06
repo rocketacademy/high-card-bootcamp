@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 class ButtonCustom extends React.Component {
   handleClick = () => {
@@ -14,7 +14,7 @@ class ButtonCustom extends React.Component {
         size="large"
         onClick={this.handleClick}
       >
-        {this.props.text}
+        <Typography variant="button">{this.props.text}</Typography>
       </Button>
     );
   }

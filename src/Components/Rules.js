@@ -26,7 +26,7 @@ class Rules extends React.Component {
           </DialogTitle>
           <DialogContent>
             <ul>
-              <li>High Card is a turn-based game between 2 players.</li>
+              <li>High Card is a turn-based game between 2 to 10 players.</li>
               <li>
                 Each player will draw a card and the player with the highest
                 rank card will win the game.

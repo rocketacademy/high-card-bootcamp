@@ -1,21 +1,10 @@
 import React from "react";
-import { Typography, Grid, Container } from "@mui/material";
+import { Typography, Grid } from "@mui/material";
 
 class Player extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    // const currCardElems = this.props.cards.map(({ name, suit }) => (
-    //   // Give each list element a unique key
-    //   <div key={`${name}${suit}`}>
-    //     {this.props.name} drew {name} of {suit}
-    //   </div>
-    // ));
-
     return (
-      <Grid item xs={2}>
+      <Grid item xs={7} sm={4} md={3} lg={2}>
         <Typography
           variant="body1"
           key={`${this.props.name}${this.props.cards.suit}`}
