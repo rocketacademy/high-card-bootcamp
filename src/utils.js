@@ -23,7 +23,7 @@ const makeDeck = () => {
   // Initialise an empty deck array
   const newDeck = [];
   // Initialise an array of the 4 suits in our deck. We will loop over this array.
-  const suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
+  const suits = ["hearts", "diamonds", "clubs", "spades"];
 
   // Loop over the suits array
   for (let suitIndex = 0; suitIndex < suits.length; suitIndex += 1) {
@@ -37,18 +37,23 @@ const makeDeck = () => {
       // By default, card name and card rank are the same as rankCounter
       let cardName = `${rankCounter}`;
       let cardRank = rankCounter;
+      let cardImg = `${rankCounter}_of_${currentSuit}.svg`;
 
       // If rank is 1, 11, 12, or 13, set cardName to the ace or face card's name
       if (cardName === "1") {
         cardName = "Ace";
         // Ace has higher rank than all other cards
         cardRank = 14;
+        cardImg = `ace_of_${currentSuit}.svg`;
       } else if (cardName === "11") {
         cardName = "Jack";
+        cardImg = `jack_of_${currentSuit}.svg`;
       } else if (cardName === "12") {
         cardName = "Queen";
+        cardImg = `queen_of_${currentSuit}.svg`;
       } else if (cardName === "13") {
         cardName = "King";
+        cardImg = `king_of_${currentSuit}.svg`;
       }
 
       // Create a new card with the current name, suit, and rank
@@ -56,6 +61,7 @@ const makeDeck = () => {
         name: cardName,
         suit: currentSuit,
         rank: cardRank,
+        image: cardImg
       };
 
       // Add the new card to the deck
