@@ -19,21 +19,22 @@ class Instructions extends React.Component {
   };
 
   displayNextStep = (cardDeck, players) => {
-    // const winner = this.displayFinalWinner(this.props.players);
     const balanceCards = cardDeck.length;
     const numOfPlayers = players.length;
 
     if (balanceCards < numOfPlayers) {
       return (
-        <Typography variant="body1">
-          <br />
-          There are no more cards left for this game.
-          <br />
-          {this.displayFinalWinner(this.props.players)}
-          <br />
-          <br />
-          Click on New Game to start a new game!
-        </Typography>
+        <div>
+          <Typography variant="body1" style={{ fontWeight: "bold" }}>
+            {this.displayFinalWinner(this.props.players)}
+          </Typography>
+          <Typography variant="body1">
+            <br />
+            There are no more cards left for this game.
+            <br />
+            Click on New Game to start next game!
+          </Typography>
+        </div>
       );
     } else {
       return (
