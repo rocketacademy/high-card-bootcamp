@@ -2,7 +2,7 @@
   "name": "high-card-bootcamp",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://rocketacademy.github.io/high-card-bootcamp",
+  "homepage": "https://hweitian.github.io/high-card-bootcamp/",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -14,7 +14,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -b master -d build",
     "start": "react-scripts start",
     "build": "react-scripts build"
   },

@@ -69,7 +69,7 @@ class PlayersInput extends React.Component {
             alt="stacked poker cards"
           />
           <Typography variant="h6">
-            👋 Welcome to High Card!!
+            👋 👋 Welcome to High Card!!!
             <br />
             Enter number of players to start playing
           </Typography>
