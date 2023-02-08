@@ -47,15 +47,15 @@ class App extends React.Component {
       this.setState({ currWinner: "Player 1" });
       this.setState({
         roundScores: {
+          ...this.state.roundScores,
           "Player 1": this.state.roundScores["Player 1"] + 1,
-          "Player 2": this.state.roundScores["Player 2"],
         },
       });
     } else if (secondCard.rank > firstCard.rank) {
       this.setState({ currWinner: "Player 2" });
       this.setState({
         roundScores: {
-          "Player 1": this.state.roundScores["Player 1"],
+          ...this.state.roundScores,
           "Player 2": this.state.roundScores["Player 2"] + 1,
         },
       });
@@ -66,9 +66,13 @@ class App extends React.Component {
 
   getGameWinner = () => {
     const scores = this.state.roundScores;
-    return Object.keys(scores).reduce((a, b) =>
-      scores[a] > scores[b] ? a : b
-    );
+    if (scores["Player 1"] === scores["Player 2"]) {
+      return "Nobody";
+    } else {
+      return Object.keys(scores).reduce((a, b) =>
+        scores[a] > scores[b] ? a : b
+      );
+    }
   };
 
   render() {
