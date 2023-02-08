@@ -9,10 +9,12 @@ import Col from "react-bootstrap/Col";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // Set default value of card deck to new shuffled deck
+    this.state = this.freshState();
+  }
+
+  freshState = () => {
+    return {
       cardDeck: makeShuffledDeck(),
-      // currCards holds the cards from the current round
       currCards: [],
       currWinner: "",
       roundsLeft: 26,
@@ -21,7 +23,11 @@ class App extends React.Component {
         "Player 2": 0,
       },
     };
-  }
+  };
+
+  restart = () => {
+    this.setState(this.freshState());
+  };
 
   playRound = () => {
     if (this.state.roundsLeft > 0) {
@@ -92,7 +98,9 @@ class App extends React.Component {
           <br />
           <button onClick={this.playRound}>Deal</button>
           <br />
-          <h1>{this.state.currWinner} won this round!</h1>
+          {this.state.roundsLeft < 26 && (
+            <h1>{this.state.currWinner} won this round!</h1>
+          )}
           <br />
           <Container>
             <Player id="1" score={this.state.roundScores["Player 1"]} />
@@ -103,7 +111,12 @@ class App extends React.Component {
             </Row>
           </Container>
           <div>
-            {this.state.roundsLeft === 0 && <h2>{gameWinner} won the game</h2>}
+            {this.state.roundsLeft === 0 && (
+              <div>
+                <h2>{gameWinner} won the game</h2>
+                <button onClick={this.restart}>Another game</button>
+              </div>
+            )}
           </div>
         </header>
       </div>
