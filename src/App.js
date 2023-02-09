@@ -2,8 +2,11 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import { Player } from "./Components/Player";
-import Container from "react-bootstrap/Container";
 import PlayingCard from "./Components/PlayingCard";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 
 class App extends React.Component {
   constructor(props) {
@@ -111,40 +114,50 @@ class App extends React.Component {
   render() {
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
       // Give each list element a unique key
-      <PlayingCard name={name} suit={suit} />
+      <Col>
+        <PlayingCard name={name} suit={suit} />
+      </Col>
     ));
 
     return (
       <div className="App">
         <header className="App-header">
           <h3 id="app-name">🐈‍⬛ Kitty High Card 🐈</h3>
-          <div id="card-container">{currCardElems}</div>
           <br />
-          {!this.isGameOver && <button onClick={this.playRound}>Deal</button>}
+          {!this.isGameOver && (
+            <Button variant="light" onClick={this.playRound}>
+              Deal
+            </Button>
+          )}
+          <br />
+          <Container>
+            <Row>{currCardElems}</Row>
+            <Row>
+              <Player
+                id="1"
+                roundScore={this.state.roundScores["Player 1"]}
+                gameScore={this.state.gameScores["Player 1"]}
+              />
+              <Player
+                id="2"
+                roundScore={this.state.roundScores["Player 2"]}
+                gameScore={this.state.gameScores["Player 2"]}
+              />
+            </Row>
+          </Container>
           <br />
           {this.isGameStarted && (
             <h4>{this.state.currWinner} won this round!</h4>
           )}
           <p>{this.state.roundsLeft} rounds left</p>
           <br />
-          <Container>
-            <Player
-              id="1"
-              roundScore={this.state.roundScores["Player 1"]}
-              gameScore={this.state.gameScores["Player 1"]}
-            />
-            <Player
-              id="2"
-              roundScore={this.state.roundScores["Player 2"]}
-              gameScore={this.state.gameScores["Player 2"]}
-            />
-          </Container>
-          <br />
           <div>
             {this.isGameOver && (
-              <div>
+              <div id="game-over">
                 <h4>{this.gameWinner} won the game!</h4>
-                <button onClick={this.restart}>Another game</button>
+                <Button variant="dark" onClick={this.restart}>
+                  Another game
+                </Button>
               </div>
             )}
           </div>

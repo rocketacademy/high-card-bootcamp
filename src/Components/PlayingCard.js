@@ -15,7 +15,7 @@ export default class PlayingCard extends React.Component {
   render() {
     return (
       <div className={`playingCard ${this.props.suit}`}>
-        <Card style={{ width: "18rem" }}>
+        <Card>
           <Card.Body>
             <div className="suite-rank">
               <Card.Title>{this.props.suit}</Card.Title>

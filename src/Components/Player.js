@@ -1,5 +1,4 @@
 import React from "react";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 export class Player extends React.Component {
@@ -13,11 +12,12 @@ export class Player extends React.Component {
 
   render() {
     return (
-      <Row>
-        <Col>Player {this.props.id} 😾</Col>
-        <Col>Current score: {this.props.roundScore}</Col>
-        <Col>Game score: {this.props.gameScore}</Col>
-      </Row>
+      <Col>
+        Player {this.props.id} 😾 <br />
+        Current score: {this.props.roundScore}
+        <br />
+        Game score: {this.props.gameScore}
+      </Col>
     );
   }
 }
