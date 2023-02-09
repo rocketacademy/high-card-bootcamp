@@ -14,9 +14,9 @@ export class Player extends React.Component {
   render() {
     return (
       <Row>
-        <Col>Hi! I'm player {this.props.id}</Col>
-        <Col>My current score: {this.props.roundScore}</Col>
-        <Col>My game score: {this.props.gameScore}</Col>
+        <Col>Player {this.props.id} 😾</Col>
+        <Col>Current score: {this.props.roundScore}</Col>
+        <Col>Game score: {this.props.gameScore}</Col>
       </Row>
     );
   }

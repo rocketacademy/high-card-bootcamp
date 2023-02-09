@@ -3,6 +3,7 @@ import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import { Player } from "./Components/Player";
 import Container from "react-bootstrap/Container";
+import PlayingCard from "./Components/PlayingCard";
 
 class App extends React.Component {
   constructor(props) {
@@ -110,21 +111,19 @@ class App extends React.Component {
   render() {
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
       // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
-      </div>
+      <PlayingCard name={name} suit={suit} />
     ));
 
     return (
       <div className="App">
         <header className="App-header">
-          <h3>High Card 🚀</h3>
-          {currCardElems}
+          <h3 id="app-name">🐈‍⬛ Kitty High Card 🐈</h3>
+          <div id="card-container">{currCardElems}</div>
           <br />
           {!this.isGameOver && <button onClick={this.playRound}>Deal</button>}
           <br />
           {this.isGameStarted && (
-            <h1>{this.state.currWinner} won this round!</h1>
+            <h4>{this.state.currWinner} won this round!</h4>
           )}
           <p>{this.state.roundsLeft} rounds left</p>
           <br />
@@ -144,7 +143,7 @@ class App extends React.Component {
           <div>
             {this.isGameOver && (
               <div>
-                <h2>{this.gameWinner} won the game</h2>
+                <h4>{this.gameWinner} won the game!</h4>
                 <button onClick={this.restart}>Another game</button>
               </div>
             )}
