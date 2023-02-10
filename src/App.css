@@ -8,12 +8,111 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background: radial-gradient(
+    780px at 37.8% 100.3%,
+    rgb(19, 55, 115) 2.2%,
+    rgb(32, 7, 80) 20.2%,
+    rgb(27, 88, 111) 58.6%,
+    rgb(115, 88, 44) 75%,
+    rgb(99, 19, 90) 89.6%,
+    rgb(12, 51, 76) 96.1%
+  );
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: calc(10px + 1vmin);
+  color: #f1f1f1;
+  font-family: "Roboto", sans-serif;
+}
+
+#app-name {
+  color: #f5e1da;
+  font-family: "Satisfy", cursive;
+  font-weight: 900;
+  font-size: calc(10px + 3vmin);
+}
+
+.playingCard {
+  display: grid;
+}
+
+.card {
+  width: 13rem;
+  height: 16rem;
+  color: #000000;
+  text-align: left;
+  margin: 2px 4px;
+  justify-self: center;
+}
+
+.card-body {
+  width: 100%;
+  height: 100%;
+  display: grid;
+}
+
+.suite-rank {
+  margin-bottom: 10px;
+}
+
+.card-title,
+.card-text {
+  margin: 2px 0;
+  height: 2rem;
+}
+
+.card-title {
+  font-size: xx-large;
+}
+
+.card-text {
+  margin-left: 10px;
+  font-family: "Roboto Slab", serif;
+}
+
+.♥️ .card-text,
+.♦️ .card-text {
+  color: rgb(184, 21, 21);
+}
+
+.card-img {
+  height: 8rem;
+  width: auto;
+  max-width: 11rem;
+  justify-self: center;
+}
+
+#game-over {
+  background-color: #f1f1f1;
+  padding: 20px 40px;
+  border-radius: 4px;
+  color: #000000;
+}
+
+@media only screen and (max-height: 1024px) {
+  .card {
+    width: 10rem;
+    height: 14rem;
+  }
+
+  .card-img {
+    height: 6rem;
+    width: auto;
+    max-width: 9rem;
+  }
+}
+
+@media only screen and (max-height: 740px) {
+  .card {
+    width: 9rem;
+    height: 13rem;
+  }
+
+  .card-img {
+    height: 5rem;
+    width: auto;
+    max-width: 8rem;
+  }
 }
