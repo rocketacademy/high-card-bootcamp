@@ -76,13 +76,8 @@ class App extends React.Component {
         }
     };
 
-    // getMatchWinner = () => {
-    //   if ()
-    // }
-
     handleClick = () => {
         this.dealCards();
-        // this.getRoundWinner();
     };
 
     restartGame = () => {
@@ -100,37 +95,25 @@ class App extends React.Component {
 
     render() {
         console.log(this.state.cardDeck);
-        const currCardElems = this.state.currCards.map(({ name, suit }) => (
-            // Give each list element a unique key
-            <div key={`${name}${suit}`}>
-                {name} of {suit}
-            </div>
-        ));
+        const currCardElems = this.state.currCards.map(
+            ({ name, suit, img }) => (
+                // Give each list element a unique key
+                <div key={`${name}${suit}`}>{`${name} ${suit}`}</div>
+            )
+        );
 
         let elemsOnScreen;
         if (this.state.cardDeck.length > 0) {
             elemsOnScreen = (
                 <>
-                    {this.state.noOfRounds !== 0 && (
-                        <RoundHeader rounds={this.state.noOfRounds} />
-                    )}
-                    {currCardElems}
-                    <br />
                     <button onClick={this.handleClick}>Deal</button>
 
                     <h1>{this.state.announcement}</h1>
-                    <h2>Player 1: {this.state.player1Score}</h2>
-                    <h2>Player 2: {this.state.player2Score}</h2>
                 </>
             );
         } else {
             elemsOnScreen = (
                 <>
-                    {this.state.noOfRounds !== 0 && (
-                        <RoundHeader rounds={this.state.noOfRounds} />
-                    )}
-                    {currCardElems}
-                    <br />
                     {this.state.player1Score > this.state.player2Score ? (
                         <h1>PLAYER 1 WON THE MATCH</h1>
                     ) : this.state.player2Score > this.state.player1Score ? (
@@ -138,21 +121,8 @@ class App extends React.Component {
                     ) : (
                         <h1>ITS A DRAW!!</h1>
                     )}
-                    <h1>Final Score:</h1>
-                    <h2>Player 1: {this.state.player1Score}</h2>
-                    <h2>Player 2: {this.state.player2Score}</h2>
-
                     <button onClick={this.restartGame}>Play Again</button>
-
-                    {/* {this.state.player1Score > this.state.player2Score && (
-                        <h1>PLAYER 1 WON THE MATCH</h1>
-                    )}
-                    {this.state.player1Score < this.state.player2Score && (
-                        <h1>PLAYER 2 WON THE MATCH</h1>
-                    )}
-                    {this.state.player1Score === this.state.player2Score && (
-                        <h1>DRAW</h1>
-                    )} */}
+                    <h1>Final Score:</h1>
                 </>
             );
         }
@@ -161,17 +131,14 @@ class App extends React.Component {
             <div className="App">
                 <header className="App-header">
                     <h3>High Card 🚀</h3>
-                    {elemsOnScreen}
-                    {/* {this.state.noOfRounds !== 0 && (
+                    {this.state.noOfRounds !== 0 && (
                         <RoundHeader rounds={this.state.noOfRounds} />
                     )}
                     {currCardElems}
                     <br />
-                    <button onClick={this.handleClick}>Deal</button>
-
-                    <h1>{this.state.announcement}</h1>
+                    {elemsOnScreen}
                     <h2>Player 1: {this.state.player1Score}</h2>
-                    <h2>Player 2: {this.state.player2Score}</h2> */}
+                    <h2>Player 2: {this.state.player2Score}</h2>
                 </header>
             </div>
         );
