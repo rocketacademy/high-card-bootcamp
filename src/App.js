@@ -13,7 +13,7 @@ class App extends React.Component {
       currCards: [],
       playerOneScore: 0,
       playerTwoScore: 0,
-      cardsLeft: 0,
+      cardsLeft: 52,
       isGameOver: false,
     };
   }
@@ -51,6 +51,19 @@ class App extends React.Component {
     }
   };
 
+  restart = () => {
+    this.setState(() => ({
+      // Set default value of card deck to new shuffled deck
+      cardDeck: makeShuffledDeck(),
+      // currCards holds the cards from the current round
+      currCards: [],
+      playerOneScore: 0,
+      playerTwoScore: 0,
+      cardsLeft: 52,
+      isGameOver: false,
+    }));
+  };
+
   dealAuto = () => {
     for (let i = 0; i < 25; i++) {
       this.dealCards();
@@ -69,10 +82,10 @@ class App extends React.Component {
 
     let dealButton;
     // replace true with !this.state.isGameOver for conditional rendering of the button
-    if (true) {
+    if (!this.state.isGameOver) {
       dealButton = <button onClick={this.dealCards}>Deal</button>;
     } else {
-      dealButton = "-";
+      dealButton = <button onClick={this.restart}>Restart</button>;
     }
     return (
       <div className="App">
