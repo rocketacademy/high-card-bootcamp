@@ -22,37 +22,32 @@ class App extends React.Component {
     this.setState({ cardsLeft: this.state.cardDeck.length });
   };
 
-  // dealCards -> updateCardsLeft -> checkGameOver
-  //                ↪ !this.state.isGameOver -> this.compareCards
-
   dealCards = () => {
-    const newCurrCards = this.state.cardDeck.slice(-2);
-    // compare cards
-    const playerOneRank = newCurrCards[0].rank;
-    const playerTwoRank = newCurrCards[1].rank;
-    let playerOneRoundWon = 0;
-    let playerTwoRoundWon = 0;
-    if (playerOneRank > playerTwoRank) {
-      playerOneRoundWon += 1;
-    } else if (playerOneRank < playerTwoRank) {
-      playerTwoRoundWon += 1;
-    }
-    this.setState((prevState) => ({
-      // Remove last 2 cards from cardDeck
-      cardDeck: prevState.cardDeck.slice(0, -2),
-      // Deal last 2 cards to currCards
-      currCards: newCurrCards,
-      playerOneScore: prevState.playerOneScore + playerOneRoundWon,
-      playerTwoScore: prevState.playerTwoScore + playerTwoRoundWon,
-      cardsLeft: prevState.cardsLeft - 2,
-    }));
-  };
-
-  checkGameOver = () => {
-    if (this.state.cardsLeft <= 0) {
-      this.setState((state) => ({
-        isGameOver: true,
+    console.log(`Start of dealCards() isGameOver: ${this.state.isGameOver}`);
+    if (!this.state.isGameOver) {
+      const newCurrCards = this.state.cardDeck.slice(-2);
+      // compare cards
+      const playerOneRank = newCurrCards[0].rank;
+      const playerTwoRank = newCurrCards[1].rank;
+      let playerOneRoundWon = 0;
+      let playerTwoRoundWon = 0;
+      if (playerOneRank > playerTwoRank) {
+        playerOneRoundWon += 1;
+      } else if (playerOneRank < playerTwoRank) {
+        playerTwoRoundWon += 1;
+      }
+      this.setState((prevState) => ({
+        // Remove last 2 cards from cardDeck
+        cardDeck: prevState.cardDeck.slice(0, -2),
+        // Deal last 2 cards to currCards
+        currCards: newCurrCards,
+        playerOneScore: prevState.playerOneScore + playerOneRoundWon,
+        playerTwoScore: prevState.playerTwoScore + playerTwoRoundWon,
+        cardsLeft: prevState.cardsLeft - 2,
+        isGameOver: prevState.cardsLeft - 2 <= 0,
       }));
+    } else {
+      console.log("Game is Over");
     }
   };
 
@@ -73,7 +68,8 @@ class App extends React.Component {
     const dealAuto = <button onClick={this.dealAuto}>Deal 25 times</button>;
 
     let dealButton;
-    if (!this.state.isGameOver) {
+    // replace true with !this.state.isGameOver for conditional rendering of the button
+    if (true) {
       dealButton = <button onClick={this.dealCards}>Deal</button>;
     } else {
       dealButton = "-";
