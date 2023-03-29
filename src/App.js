@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import Card from "./Components/Card";
 
 class App extends React.Component {
   constructor(props) {
@@ -76,28 +77,34 @@ class App extends React.Component {
   };
 
   render() {
-    const currCardElems = this.state.currCards.map(({ name, suit }, index) => (
-      // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        Player {index + 1}: {name} of {suit}
-      </div>
-    ));
+    const currCardElems = this.state.currCards.map(
+      ({ name, suit, displayName }, index) => (
+        // Give each list element a unique key
+        <div key={`${name}${suit}`}>
+          <p>Player {index + 1}:</p>
+          <Card displayName={displayName} suit={suit} />
+        </div>
+      )
+    );
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h3>High Card 🚀</h3>
-          {currCardElems}
+      <div>
+        <div className="playing-area">
+          <div className="buttons">
+            <button onClick={this.playRound} disabled={this.state.gameOver}>
+              Deal
+            </button>
+            <button onClick={this.restartGame} disabled={!this.state.gameOver}>
+              Restart
+            </button>
+          </div>
+          <div className="cards">{currCardElems}</div>
           <br />
-          <button onClick={this.playRound} disabled={this.state.gameOver}>
-            Deal
-          </button>
-          <button onClick={this.restartGame} disabled={!this.state.gameOver}>
-            Restart
-          </button>
 
           <h2>{this.getScoreTally()}</h2>
-        </header>
+        </div>
+        <h1 id="high">High</h1>
+        <h1 id="card">Card</h1>
       </div>
     );
   }
