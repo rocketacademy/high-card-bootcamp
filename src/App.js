@@ -18,6 +18,9 @@ class App extends React.Component {
     };
   }
 
+  // dealCards -> updateCardsLeft -> checkGameOver
+  //                ↪ !this.state.isGameOver -> this.compareCards
+
   dealCards = () => {
     if (!this.state.isGameOver) {
       this.setState(
@@ -83,7 +86,7 @@ class App extends React.Component {
     ));
 
     /*
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 25; i++) {
       this.dealCards();
     }*/
 
