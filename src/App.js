@@ -15,6 +15,17 @@ class App extends React.Component {
     };
   }
 
+  restartGame = () => {
+    this.setState({
+      cardDeck: makeShuffledDeck(),
+      currCards: [],
+      player1Score: 0,
+      player2Score: 0,
+      gameOver: false,
+      outcome: "",
+    });
+  };
+
   dealCards = () => {
     let cards = this.state.cardDeck;
     this.setState({
@@ -80,6 +91,9 @@ class App extends React.Component {
           <br />
           <button onClick={this.playRound} disabled={this.state.gameOver}>
             Deal
+          </button>
+          <button onClick={this.restartGame} disabled={!this.state.gameOver}>
+            Restart
           </button>
 
           <h2>{this.getScoreTally()}</h2>
