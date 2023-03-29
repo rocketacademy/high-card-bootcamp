@@ -39,6 +39,8 @@ class App extends React.Component {
       } else if (playerOneRank < playerTwoRank) {
         playerTwoRoundWon += 1;
         roundWinner = 2;
+      } else {
+        roundWinner = 0;
       }
       this.setState((prevState) => ({
         // Remove last 2 cards from cardDeck
@@ -100,8 +102,8 @@ class App extends React.Component {
       displayRoundWinner = <p>Player 1 has won this round!</p>;
     } else if (this.state.roundWinner === 2) {
       displayRoundWinner = <p>Player 2 has won this round!</p>;
-    } else {
-      displayRoundWinner = <p>No one has won yet.</p>;
+    } else if (this.state.roundWinner === 0) {
+      displayRoundWinner = <p>It is a draw!</p>;
     }
 
     return (
