@@ -15,6 +15,7 @@ class App extends React.Component {
       playerTwoScore: 0,
       cardsLeft: 52,
       isGameOver: false,
+      roundWinner: null,
     };
   }
 
@@ -31,10 +32,13 @@ class App extends React.Component {
       const playerTwoRank = newCurrCards[1].rank;
       let playerOneRoundWon = 0;
       let playerTwoRoundWon = 0;
+      let roundWinner = null;
       if (playerOneRank > playerTwoRank) {
         playerOneRoundWon += 1;
+        roundWinner = 1;
       } else if (playerOneRank < playerTwoRank) {
         playerTwoRoundWon += 1;
+        roundWinner = 2;
       }
       this.setState((prevState) => ({
         // Remove last 2 cards from cardDeck
@@ -43,8 +47,10 @@ class App extends React.Component {
         currCards: newCurrCards,
         playerOneScore: prevState.playerOneScore + playerOneRoundWon,
         playerTwoScore: prevState.playerTwoScore + playerTwoRoundWon,
+        // this part of -2 feels like an ugly workaround
         cardsLeft: prevState.cardsLeft - 2,
         isGameOver: prevState.cardsLeft - 2 <= 0,
+        roundWinner: roundWinner,
       }));
     } else {
       console.log("Game is Over");
@@ -61,6 +67,7 @@ class App extends React.Component {
       playerTwoScore: 0,
       cardsLeft: 52,
       isGameOver: false,
+      roundWinner: null,
     }));
   };
 
@@ -87,6 +94,16 @@ class App extends React.Component {
     } else {
       dealButton = <button onClick={this.restart}>Restart</button>;
     }
+
+    let displayRoundWinner;
+    if (this.state.roundWinner === 1) {
+      displayRoundWinner = <p>Player 1 has won this round!</p>;
+    } else if (this.state.roundWinner === 2) {
+      displayRoundWinner = <p>Player 2 has won this round!</p>;
+    } else {
+      displayRoundWinner = <p>No one has won yet.</p>;
+    }
+
     return (
       <div className="App">
         <header className="App-header">
@@ -99,6 +116,7 @@ class App extends React.Component {
             <p>Player 1: {this.state.playerOneScore} </p>
             <p>Player 2: {this.state.playerTwoScore} </p>
             <p>Cards Left: {this.state.cardsLeft}</p>
+            {displayRoundWinner}
           </div>
         </header>
       </div>
