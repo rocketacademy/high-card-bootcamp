@@ -13,10 +13,14 @@ class App extends React.Component {
       currCards: [],
       playerOneScore: 0,
       playerTwoScore: 0,
-      cardsLeft: 52,
+      cardsLeft: 0,
       isGameOver: false,
     };
   }
+
+  componentDidMount = () => {
+    this.setState({ cardsLeft: this.state.cardDeck.length });
+  };
 
   // dealCards -> updateCardsLeft -> checkGameOver
   //                ↪ !this.state.isGameOver -> this.compareCards
@@ -80,8 +84,6 @@ class App extends React.Component {
       this.dealCards();
     }
   };
-
-  componentDidUpdate = () => {};
 
   render() {
     const currCardElems = this.state.currCards.map(({ name, suit }, index) => (
