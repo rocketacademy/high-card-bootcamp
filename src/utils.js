@@ -48,7 +48,7 @@ const makeDeck = () => {
         name: cardName,
         suit: currentSuit,
         rank: cardRank,
-        displayName: cardName + currentSuitEmoji,
+        emoji: currentSuitEmoji,
       };
 
       newDeck.push(card);

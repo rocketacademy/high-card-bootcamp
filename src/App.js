@@ -12,6 +12,7 @@ class App extends React.Component {
       player1Score: 0,
       player2Score: 0,
       gameOver: false,
+      handWinner: "",
       outcome: "",
     };
   }
@@ -23,6 +24,7 @@ class App extends React.Component {
       player1Score: 0,
       player2Score: 0,
       gameOver: false,
+      handWinner: "",
       outcome: "",
     });
   };
@@ -41,23 +43,34 @@ class App extends React.Component {
     let p2Card = cards[this.state.cardDeck.length - 1];
     let p1Score = this.state.player1Score + this.addScore(p1Card, p2Card);
     let p2Score = this.state.player2Score + this.addScore(p2Card, p1Card);
+    let result = "";
+    let finalResult = "";
+
+    if (this.addScore(p1Card, p2Card) === this.addScore(p2Card, p1Card)) {
+      result = "You draw this hand!";
+    } else if (this.addScore(p1Card, p2Card) === 1) {
+      result = "Player 1 wins this hand!";
+    } else {
+      result = "Player 2 wins this hand!";
+    }
+
     if (cards.length === 2) {
-      let result = "";
       if (p1Score === p2Score) {
-        result = "It's a draw!";
+        finalResult = "It's a draw!";
       } else if (p1Score > p2Score) {
-        result = "Player 1 wins!";
+        finalResult = "Player 1 wins!";
       } else {
-        result = "Player 2 wins!";
+        finalResult = "Player 2 wins!";
       }
       this.setState({
         gameOver: true,
-        outcome: result,
+        outcome: finalResult,
       });
     }
     this.setState({
       player1Score: p1Score,
       player2Score: p2Score,
+      handWinner: result,
     });
   };
 
@@ -70,19 +83,31 @@ class App extends React.Component {
     return card1.rank > card2.rank ? 1 : 0;
   };
 
+  currentWinner = () => {
+    let output = "";
+    if (!this.state.gameOver) {
+      if (this.state.handWinner === "") {
+        output = "Click deal to begin!";
+      } else {
+        output = this.state.handWinner;
+      }
+    }
+    return output;
+  };
+
   getScoreTally = () => {
     return this.state.gameOver
       ? `Game Over! ${this.state.outcome}`
-      : `Player 1: ${this.state.player1Score}, Player 2: ${this.state.player2Score}`;
+      : `Player 1: ${this.state.player1Score} • Player 2: ${this.state.player2Score}`;
   };
 
   render() {
     const currCardElems = this.state.currCards.map(
-      ({ name, suit, displayName }, index) => (
+      ({ name, suit, emoji }, index) => (
         // Give each list element a unique key
         <div key={`${name}${suit}`}>
           <p>Player {index + 1}:</p>
-          <Card displayName={displayName} suit={suit} />
+          <Card name={name} emoji={emoji} suit={suit} />
         </div>
       )
     );
@@ -100,8 +125,10 @@ class App extends React.Component {
           </div>
           <div className="cards">{currCardElems}</div>
           <br />
-
-          <h2>{this.getScoreTally()}</h2>
+          <div className="scores">
+            <h4>{this.currentWinner()}</h4>
+            <h4>{this.getScoreTally()}</h4>
+          </div>
         </div>
         <h1 id="high">High</h1>
         <h1 id="card">Card</h1>

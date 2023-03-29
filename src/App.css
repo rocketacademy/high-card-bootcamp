@@ -38,7 +38,7 @@ button {
 h1 {
   text-transform: uppercase;
   font-weight: 200;
-  color: rgb(50, 50, 50);
+  color: rgb(38, 38, 38);
   letter-spacing: -4vw;
   font-size: 40vw;
 }
@@ -55,24 +55,49 @@ h1 {
 
 .cards {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  width: 380px;
+  background-color: rgb(50, 50, 50);
+  padding: 0 20px;
+  border-radius: 20px;
 }
 
-.card {
+.black-card,
+.red-card {
   background-color: white;
   font-size: 40px;
-  width: 150px;
-  height: 200px;
+  width: 120px;
+  height: 180px;
+  padding: 5px 10px;
   border-radius: 10px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   margin: 20px;
 }
 
-.black-card {
+.card-top,
+.card-bottom {
+  width: 100%;
+  text-align: left;
+}
+
+.card-bottom {
+  transform: rotate(180deg);
+}
+
+.black-card p {
   color: black;
 }
 
-.red-card {
+.red-card p {
   color: red;
+}
+
+.scores h4 {
+  font-weight: 300;
+  margin: 10px;
 }
