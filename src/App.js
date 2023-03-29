@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 
+import RoundHeader from "./components/RoundHeader";
+
 class App extends React.Component {
     constructor(props) {
         // Always call super with props in constructor to initialise parent class
@@ -15,6 +17,7 @@ class App extends React.Component {
             player1Score: 0,
             player2Score: 0,
             announcement: "",
+            noOfRounds: 0,
         };
     }
 
@@ -26,11 +29,11 @@ class App extends React.Component {
                 // Deal last 2 cards to currCards
                 currCards: state.cardDeck.slice(-2),
             }),
-            () => this.getWinner()
+            () => this.getRoundWinner()
         );
     };
 
-    getWinner = () => {
+    getRoundWinner = () => {
         if (this.state.currCards.length > 0) {
             let player1Card = this.state.currCards[0];
             let player2Card = this.state.currCards[1];
@@ -46,6 +49,7 @@ class App extends React.Component {
                         ...prevState,
                         player1Score: prevState.player1Score + 1,
                         announcement: "Player 1 Won!",
+                        noOfRounds: prevState.noOfRounds + 1,
                     };
                 });
             } else if (player2Card.rank > player1Card.rank) {
@@ -55,6 +59,7 @@ class App extends React.Component {
                         ...prevState,
                         player2Score: prevState.player2Score + 1,
                         announcement: "Player 2 Won!",
+                        noOfRounds: prevState.noOfRounds + 1,
                     };
                 });
                 return "Player 2 Won!";
@@ -64,18 +69,24 @@ class App extends React.Component {
                     return {
                         ...prevState,
                         announcement: "DRAW!!!",
+                        noOfRounds: prevState.noOfRounds + 1,
                     };
                 });
             }
         }
     };
 
+    // getMatchWinner = () => {
+    //   if ()
+    // }
+
     handleClick = () => {
         this.dealCards();
-        // this.getWinner();
+        // this.getRoundWinner();
     };
 
     render() {
+        console.log(this.state.cardDeck);
         const currCardElems = this.state.currCards.map(({ name, suit }) => (
             // Give each list element a unique key
             <div key={`${name}${suit}`}>
@@ -87,9 +98,14 @@ class App extends React.Component {
             <div className="App">
                 <header className="App-header">
                     <h3>High Card 🚀</h3>
+                    {this.state.noOfRounds !== 0 && (
+                        <RoundHeader rounds={this.state.noOfRounds} />
+                    )}
                     {currCardElems}
                     <br />
                     <button onClick={this.handleClick}>Deal</button>
+
+                    {}
                     <h1>{this.state.announcement}</h1>
                     <h2>Player 1: {this.state.player1Score}</h2>
                     <h2>Player 2: {this.state.player2Score}</h2>
