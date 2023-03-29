@@ -26,49 +26,26 @@ class App extends React.Component {
   //                ↪ !this.state.isGameOver -> this.compareCards
 
   dealCards = () => {
-    if (!this.state.isGameOver) {
-      this.setState(
-        (state) => ({
-          // Remove last 2 cards from cardDeck
-          cardDeck: state.cardDeck.slice(0, -2),
-          // Deal last 2 cards to currCards
-          currCards: state.cardDeck.slice(-2),
-        }),
-        () => {
-          this.updateCardsLeft();
-          if (!this.state.isGameOver) {
-            this.compareCards();
-          }
-        }
-      );
-    }
-  };
-
-  compareCards = () => {
-    const playerOneRank = this.state.currCards[0].rank;
-    const playerTwoRank = this.state.currCards[1].rank;
-    let playerOneScore = this.state.playerOneScore;
-    let playerTwoScore = this.state.playerTwoScore;
+    const newCurrCards = this.state.cardDeck.slice(-2);
+    // compare cards
+    const playerOneRank = newCurrCards[0].rank;
+    const playerTwoRank = newCurrCards[1].rank;
+    let playerOneRoundWon = 0;
+    let playerTwoRoundWon = 0;
     if (playerOneRank > playerTwoRank) {
-      playerOneScore += 1;
+      playerOneRoundWon += 1;
     } else if (playerOneRank < playerTwoRank) {
-      playerTwoScore += 1;
+      playerTwoRoundWon += 1;
     }
-    this.setState((state) => ({
-      playerOneScore: playerOneScore,
-      playerTwoScore: playerTwoScore,
+    this.setState((prevState) => ({
+      // Remove last 2 cards from cardDeck
+      cardDeck: prevState.cardDeck.slice(0, -2),
+      // Deal last 2 cards to currCards
+      currCards: newCurrCards,
+      playerOneScore: prevState.playerOneScore + playerOneRoundWon,
+      playerTwoScore: prevState.playerTwoScore + playerTwoRoundWon,
+      cardsLeft: prevState.cardsLeft - 2,
     }));
-  };
-
-  updateCardsLeft = () => {
-    this.setState(
-      (state) => ({
-        cardsLeft: this.state.cardDeck.length,
-      }),
-      () => {
-        this.checkGameOver();
-      }
-    );
   };
 
   checkGameOver = () => {
