@@ -29,8 +29,7 @@ class App extends React.Component {
         }),
         () => {
           this.updateCardsLeft();
-          this.checkGameOver();
-          if (!this.isGameOver) {
+          if (!this.state.isGameOver) {
             this.compareCards();
           }
         }
@@ -55,9 +54,14 @@ class App extends React.Component {
   };
 
   updateCardsLeft = () => {
-    this.setState((state) => ({
-      cardsLeft: this.state.cardDeck.length,
-    }));
+    this.setState(
+      (state) => ({
+        cardsLeft: this.state.cardDeck.length,
+      }),
+      () => {
+        this.checkGameOver();
+      }
+    );
   };
 
   checkGameOver = () => {
@@ -87,7 +91,7 @@ class App extends React.Component {
     if (!this.state.isGameOver) {
       dealButton = <button onClick={this.dealCards}>Deal</button>;
     } else {
-      dealButton = "Disabled";
+      dealButton = "-";
     }
     return (
       <div className="App">
