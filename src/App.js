@@ -75,6 +75,12 @@ class App extends React.Component {
     }
   };
 
+  dealAuto = () => {
+    for (let i = 0; i < 25; i++) {
+      this.dealCards();
+    }
+  };
+
   componentDidUpdate = () => {};
 
   render() {
@@ -85,10 +91,7 @@ class App extends React.Component {
       </div>
     ));
 
-    /*
-    for (let i = 0; i < 25; i++) {
-      this.dealCards();
-    }*/
+    const dealAuto = <button onClick={this.dealAuto}>Deal 25 times</button>;
 
     let dealButton;
     if (!this.state.isGameOver) {
@@ -103,6 +106,7 @@ class App extends React.Component {
           {currCardElems}
           <br />
           {dealButton}
+          {dealAuto}
           <div>
             <p>Player 1: {this.state.playerOneScore} </p>
             <p>Player 2: {this.state.playerTwoScore} </p>
