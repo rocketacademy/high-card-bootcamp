@@ -84,6 +84,24 @@ h2 {
   margin: 20px;
 }
 
+@media (max-width: 460px) {
+  .cards {
+    height: 250px;
+    width: 300px;
+    padding: 0 10px;
+    border-radius: 20px;
+  }
+
+  .black-card,
+  .red-card {
+    font-size: 35px;
+    width: 100px;
+    height: 150px;
+    border-radius: 10px;
+    margin: 15px 10px;
+  }
+}
+
 .card-top,
 .card-bottom {
   width: 100%;
