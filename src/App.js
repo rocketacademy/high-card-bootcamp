@@ -3,15 +3,17 @@ import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 
 import RoundHeader from "./components/RoundHeader";
+import { Container } from "@mui/system";
+import PlayingCard from "./components/PlayingCard";
+import { Box, Paper } from "@mui/material";
+import Scoreboard from "./components/Scoreboard";
+import BasicButton from "./components/Button";
 
 class App extends React.Component {
     constructor(props) {
-        // Always call super with props in constructor to initialise parent class
         super(props);
         this.state = {
-            // Set default value of card deck to new shuffled deck
             cardDeck: makeShuffledDeck(),
-            // currCards holds the cards from the current round
             currCards: [],
 
             player1Score: 0,
@@ -24,9 +26,7 @@ class App extends React.Component {
     dealCards = () => {
         this.setState(
             (state) => ({
-                // Remove last 2 cards from cardDeck
                 cardDeck: state.cardDeck.slice(0, -2),
-                // Deal last 2 cards to currCards
                 currCards: state.cardDeck.slice(-2),
             }),
             () => this.getRoundWinner()
@@ -43,32 +43,28 @@ class App extends React.Component {
             );
 
             if (player1Card.rank > player2Card.rank) {
-                console.log("I'm called");
                 this.setState((prevState) => {
                     return {
                         ...prevState,
                         player1Score: prevState.player1Score + 1,
-                        announcement: "Player 1 Won!",
+                        announcement: "Player 1 has won this round.",
                         noOfRounds: prevState.noOfRounds + 1,
                     };
                 });
             } else if (player2Card.rank > player1Card.rank) {
-                console.log("I'm called");
                 this.setState((prevState) => {
                     return {
                         ...prevState,
                         player2Score: prevState.player2Score + 1,
-                        announcement: "Player 2 Won!",
+                        announcement: "Player 2 has won this round.",
                         noOfRounds: prevState.noOfRounds + 1,
                     };
                 });
-                return "Player 2 Won!";
             } else {
-                console.log("I'm called");
                 this.setState((prevState) => {
                     return {
                         ...prevState,
-                        announcement: "DRAW!!!",
+                        announcement: "This round is a draw.",
                         noOfRounds: prevState.noOfRounds + 1,
                     };
                 });
@@ -83,31 +79,29 @@ class App extends React.Component {
     restartGame = () => {
         this.setState({
             cardDeck: makeShuffledDeck(),
-            // currCards holds the cards from the current round
             currCards: [],
 
             player1Score: 0,
             player2Score: 0,
-            announcement: "",
+            announcement: null,
             noOfRounds: 0,
         });
     };
 
     render() {
         console.log(this.state.cardDeck);
-        const currCardElems = this.state.currCards.map(
-            ({ name, suit, img }) => (
-                // Give each list element a unique key
-                <div key={`${name}${suit}`}>{`${name} ${suit}`}</div>
-            )
-        );
+        const currCardElems = this.state.currCards.map(({ name, suit }) => (
+            <PlayingCard key={`${name}${suit}`} name={name} suit={suit} />
+        ));
 
         let elemsOnScreen;
         if (this.state.cardDeck.length > 0) {
             elemsOnScreen = (
                 <>
-                    <button onClick={this.handleClick}>Deal</button>
-
+                    <BasicButton
+                        onClickHandler={this.handleClick}
+                        title="Deal"
+                    />
                     <h1>{this.state.announcement}</h1>
                 </>
             );
@@ -115,13 +109,22 @@ class App extends React.Component {
             elemsOnScreen = (
                 <>
                     {this.state.player1Score > this.state.player2Score ? (
-                        <h1>PLAYER 1 WON THE MATCH</h1>
+                        <h1>
+                            <span className="playername">Player 1</span> has won
+                            the game.
+                        </h1>
                     ) : this.state.player2Score > this.state.player1Score ? (
-                        <h1>PLAYER 2 WON THE MATCH</h1>
+                        <h1>
+                            <span className="playername">Player 2</span> has won
+                            the game.
+                        </h1>
                     ) : (
-                        <h1>ITS A DRAW!!</h1>
+                        <h1>The game ended in a draw.</h1>
                     )}
-                    <button onClick={this.restartGame}>Play Again</button>
+                    <BasicButton
+                        onClickHandler={this.restartGame}
+                        title="Play Again"
+                    />
                     <h1>Final Score:</h1>
                 </>
             );
@@ -129,17 +132,63 @@ class App extends React.Component {
 
         return (
             <div className="App">
-                <header className="App-header">
-                    <h3>High Card 🚀</h3>
-                    {this.state.noOfRounds !== 0 && (
-                        <RoundHeader rounds={this.state.noOfRounds} />
-                    )}
-                    {currCardElems}
-                    <br />
-                    {elemsOnScreen}
-                    <h2>Player 1: {this.state.player1Score}</h2>
-                    <h2>Player 2: {this.state.player2Score}</h2>
-                </header>
+                <Container>
+                    <header className="App-header">
+                        {this.state.noOfRounds !== 0 && (
+                            <RoundHeader rounds={this.state.noOfRounds} />
+                        )}
+                        <Paper
+                            elevation={10}
+                            sx={{
+                                padding: "2rem",
+                                backgroundColor: "#8E6E27",
+                                marginBottom: "1rem",
+                            }}
+                        >
+                            <Paper
+                                elevation={10}
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    gap: "2rem",
+                                    width: "500px",
+                                    height: "300px",
+                                    padding: "1rem",
+                                    backgroundColor: "#5C4512",
+                                }}
+                            >
+                                {this.state.cardDeck.length === 52 && (
+                                    <h1 className="highcard">High Card 🃏</h1>
+                                )}
+                                {currCardElems}
+                            </Paper>
+                        </Paper>
+
+                        {elemsOnScreen}
+                        {this.state.cardDeck.length === 52 && (
+                            <h1>Press 'Deal' to begin.</h1>
+                        )}
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: "2rem",
+                                marginTop: "1rem",
+                            }}
+                        >
+                            <Scoreboard
+                                player="Player 1"
+                                score={this.state.player1Score}
+                            />
+                            <Scoreboard
+                                player="Player 2"
+                                score={this.state.player2Score}
+                            />
+                        </Box>
+                    </header>
+                </Container>
             </div>
         );
     }
