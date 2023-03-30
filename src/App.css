@@ -43,6 +43,11 @@ h1 {
   font-size: 40vw;
 }
 
+h2 {
+  font-size: 80px;
+  line-height: 1;
+}
+
 #high {
   position: fixed;
   top: -5vw;

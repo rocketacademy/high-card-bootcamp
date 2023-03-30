@@ -3,6 +3,19 @@ import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import Card from "./Components/Card";
 
+const isArrSame = (arr1, arr2) => {
+  if (arr1.length === arr2.length) {
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+  } else {
+    return false;
+  }
+  return true;
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -37,46 +50,51 @@ class App extends React.Component {
     });
   };
 
-  updateScore = () => {
-    let cards = this.state.cardDeck;
-    let p1Card = cards[this.state.cardDeck.length - 2];
-    let p2Card = cards[this.state.cardDeck.length - 1];
-    let p1Score = this.state.player1Score + this.addScore(p1Card, p2Card);
-    let p2Score = this.state.player2Score + this.addScore(p2Card, p1Card);
-    let result = "";
-    let finalResult = "";
-
-    if (this.addScore(p1Card, p2Card) === this.addScore(p2Card, p1Card)) {
-      result = "You draw this hand!";
-    } else if (this.addScore(p1Card, p2Card) === 1) {
-      result = "Player 1 wins this hand!";
-    } else {
-      result = "Player 2 wins this hand!";
+  componentDidUpdate = (prevProps, prevState) => {
+    if (
+      !isArrSame(prevState.currCards, this.state.currCards) &&
+      this.state.gameOver !== true
+    ) {
+      this.updateScore();
     }
-
-    if (cards.length === 2) {
-      if (p1Score === p2Score) {
-        finalResult = "It's a draw!";
-      } else if (p1Score > p2Score) {
-        finalResult = "Player 1 wins!";
-      } else {
-        finalResult = "Player 2 wins!";
-      }
-      this.setState({
-        gameOver: true,
-        outcome: finalResult,
-      });
-    }
-    this.setState({
-      player1Score: p1Score,
-      player2Score: p2Score,
-      handWinner: result,
-    });
   };
+  updateScore = () => {
+    if (this.state.currCards.length !== 0) {
+      let p1Card = this.state.currCards[0];
+      let p2Card = this.state.currCards[1];
+      let result = "";
+      let finalResult = "";
 
-  playRound = () => {
-    this.dealCards();
-    this.updateScore();
+      if (p1Card.rank === p2Card.rank) {
+        result = "You draw this hand!";
+      } else if (p1Card.rank > p2Card.rank) {
+        result = "Player 1 wins this hand!";
+        this.setState({
+          player1Score: this.state.player1Score + 1,
+          handWinner: result,
+        });
+      } else {
+        result = "Player 2 wins this hand!";
+        this.setState({
+          player2Score: this.state.player2Score + 1,
+          handWinner: result,
+        });
+      }
+
+      if (this.state.cardDeck.length === 0) {
+        if (this.state.player1Score === this.state.player2Score) {
+          finalResult = "It's a draw!";
+        } else if (this.state.player1Score > this.state.player2Score) {
+          finalResult = "Player 1 wins!";
+        } else {
+          finalResult = "Player 2 wins!";
+        }
+        this.setState({
+          gameOver: true,
+          outcome: finalResult,
+        });
+      }
+    }
   };
 
   addScore = (card1, card2) => {
@@ -102,21 +120,25 @@ class App extends React.Component {
   };
 
   render() {
-    const currCardElems = this.state.currCards.map(
-      ({ name, suit, emoji }, index) => (
-        // Give each list element a unique key
-        <div key={`${name}${suit}`}>
-          <p>Player {index + 1}:</p>
-          <Card name={name} emoji={emoji} suit={suit} />
-        </div>
-      )
-    );
+    let currCardElems;
+    if (this.state.currCards.length !== 0) {
+      currCardElems = this.state.currCards.map(
+        ({ name, suit, emoji }, index) => (
+          <div key={`${name}${suit}`}>
+            <p>Player {index + 1}:</p>
+            <Card name={name} emoji={emoji} suit={suit} />
+          </div>
+        )
+      );
+    } else {
+      currCardElems = <h2>HIGH CARD</h2>;
+    }
 
     return (
       <div>
         <div className="playing-area">
           <div className="buttons">
-            <button onClick={this.playRound} disabled={this.state.gameOver}>
+            <button onClick={this.dealCards} disabled={this.state.gameOver}>
               Deal
             </button>
             <button onClick={this.restartGame} disabled={!this.state.gameOver}>
