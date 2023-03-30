@@ -37,7 +37,7 @@ button {
 
 h1 {
   text-transform: uppercase;
-  font-weight: 200;
+  font-weight: 600;
   color: rgb(38, 38, 38);
   letter-spacing: -4vw;
   font-size: 40vw;
@@ -50,12 +50,12 @@ h2 {
 
 #high {
   position: fixed;
-  top: -5vw;
+  top: -6vw;
 }
 
 #card {
   position: fixed;
-  bottom: -3vw;
+  bottom: -5vw;
 }
 
 .cards {

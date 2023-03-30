@@ -51,10 +51,7 @@ class App extends React.Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (
-      !isArrSame(prevState.currCards, this.state.currCards) &&
-      this.state.gameOver !== true
-    ) {
+    if (!isArrSame(prevState.currCards, this.state.currCards)) {
       this.updateScore();
     }
   };
@@ -71,15 +68,15 @@ class App extends React.Component {
         result = "Player 1 wins this hand!";
         this.setState({
           player1Score: this.state.player1Score + 1,
-          handWinner: result,
         });
       } else {
         result = "Player 2 wins this hand!";
         this.setState({
           player2Score: this.state.player2Score + 1,
-          handWinner: result,
         });
       }
+
+      this.setState({ handWinner: result });
 
       if (this.state.cardDeck.length === 0) {
         if (this.state.player1Score === this.state.player2Score) {
