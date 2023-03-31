@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import PlayingCard from "./PlayingCard.js";
 import { makeShuffledDeck } from "./utils.js";
 import Button from "@mui/material/Button";
 
@@ -123,6 +124,7 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h3>♠️♦️ High Card ♣️♥️</h3>
+          <PlayingCard name="test" />
           {currCardElems}
           <br />
           {dealButton}
