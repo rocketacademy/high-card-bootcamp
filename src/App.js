@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import Button from "@mui/material/Button";
 
 class App extends React.Component {
   constructor(props) {
@@ -87,14 +88,26 @@ class App extends React.Component {
       </div>
     ));
 
-    const dealAuto = <button onClick={this.dealAuto}>Deal 25 times</button>;
+    const dealAuto = (
+      <Button variant="outlined" color="error" onClick={this.dealAuto}>
+        Deal 25 times
+      </Button>
+    );
 
     let dealButton;
     // replace true with !this.state.isGameOver for conditional rendering of the button
     if (!this.state.isGameOver) {
-      dealButton = <button onClick={this.dealCards}>Deal</button>;
+      dealButton = (
+        <Button variant="contained" onClick={this.dealCards}>
+          Deal
+        </Button>
+      );
     } else {
-      dealButton = <button onClick={this.restart}>Restart</button>;
+      dealButton = (
+        <Button variant="contained" onClick={this.restart}>
+          Restart
+        </Button>
+      );
     }
 
     let displayRoundWinner;
@@ -113,6 +126,7 @@ class App extends React.Component {
           {currCardElems}
           <br />
           {dealButton}
+          <br />
           {dealAuto}
           <div>
             <p>Player 1: {this.state.playerOneScore} </p>
