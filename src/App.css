@@ -8,7 +8,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #162447;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -16,4 +16,48 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  font-family: Roboto;
+}
+
+.card {
+  display: flex;
+  border: 5px solid;
+  padding: 0.5em;
+  width: 5em;
+  height: 7em;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top-suit {
+  text-align: left;
+}
+
+.bottom-suit {
+  text-align: right;
+}
+
+.rank {
+  text-align: center;
+}
+
+.card-holder {
+  display: flex;
+  gap: 1em;
+}
+
+.Spades {
+  color: #d8d8d8;
+}
+
+.Hearts {
+  color: #e43f5a;
+}
+
+.Diamonds {
+  color: #4f3fe4;
+}
+
+.Clubs {
+  color: #3fe491;
 }

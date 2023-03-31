@@ -4,6 +4,10 @@
   "private": true,
   "homepage": "https://rocketacademy.github.io/high-card-bootcamp",
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/material": "^5.11.15",
     "gh-pages": "^3.2.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -31,5 +35,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://hengmhs.github.io/high-card-bootcamp"
 }
