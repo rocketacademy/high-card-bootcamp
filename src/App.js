@@ -104,7 +104,7 @@ class App extends React.Component {
       );
     } else {
       dealButton = (
-        <Button variant="contained" onClick={this.restart}>
+        <Button variant="contained" color="success" onClick={this.restart}>
           Restart
         </Button>
       );
