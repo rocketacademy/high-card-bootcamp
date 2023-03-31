@@ -18,3 +18,49 @@
   color: white;
   font-family: Roboto;
 }
+
+.card {
+  display: flex;
+  border: 1px white solid;
+  padding: 0.5em;
+  width: 5em;
+  height: 7em;
+  position: relative;
+  flex-flow: row wrap;
+}
+
+.top-suit {
+  text-align: left;
+  flex: 100%;
+}
+
+.bottom-suit {
+  text-align: right;
+  flex: 100%;
+}
+
+.rank {
+  text-align: center;
+  flex: 100%;
+}
+
+.card-holder {
+  display: flex;
+  gap: 1em;
+}
+
+.Spades {
+  color: black;
+}
+
+.Hearts {
+  color: red;
+}
+
+.Diamonds {
+  color: blue;
+}
+
+.Clubs {
+  color: green;
+}

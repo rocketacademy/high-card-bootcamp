@@ -75,9 +75,10 @@ class App extends React.Component {
     }));
   };
 
-  dealAuto = () => {
+  // freeze the code execution until this.dealCards() completes
+  dealAuto = async () => {
     for (let i = 0; i < 25; i++) {
-      this.dealCards();
+      await this.dealCards();
     }
   };
 
@@ -85,7 +86,8 @@ class App extends React.Component {
     const currCardElems = this.state.currCards.map(({ name, suit }, index) => (
       // Give each list element a unique key
       <div key={`${name}${suit}`}>
-        Player {index + 1}: {name} of {suit}
+        <div>Player {index + 1}</div>
+        <PlayingCard rank={name} suit={suit} />
       </div>
     ));
 
@@ -124,8 +126,8 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h3>♠️♦️ High Card ♣️♥️</h3>
-          <PlayingCard name="test" />
-          {currCardElems}
+          <div className="card-holder">{currCardElems}</div>
+
           <br />
           {dealButton}
           <br />
