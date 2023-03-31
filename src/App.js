@@ -45,7 +45,6 @@ class App extends React.Component {
 
   currentScore = () => {
     if (this.state.currCards.length !== 0) {
-      // } else {
       //this means player1 has won the round:
       let Player1Card = this.state.currCards[0];
       let Player2Card = this.state.currCards[1];
@@ -98,7 +97,7 @@ class App extends React.Component {
   handleClick = () => {
     this.dealCards();
 
-    this.currentScore();
+    // this.currentScore();
     this.declareGameWinner();
   };
 
