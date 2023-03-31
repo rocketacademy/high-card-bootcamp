@@ -8,7 +8,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #162447;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -21,27 +21,24 @@
 
 .card {
   display: flex;
-  border: 1px white solid;
+  border: 5px solid;
   padding: 0.5em;
   width: 5em;
   height: 7em;
-  position: relative;
-  flex-flow: row wrap;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .top-suit {
   text-align: left;
-  flex: 100%;
 }
 
 .bottom-suit {
   text-align: right;
-  flex: 100%;
 }
 
 .rank {
   text-align: center;
-  flex: 100%;
 }
 
 .card-holder {
@@ -50,17 +47,17 @@
 }
 
 .Spades {
-  color: black;
+  color: #d8d8d8;
 }
 
 .Hearts {
-  color: red;
+  color: #e43f5a;
 }
 
 .Diamonds {
-  color: blue;
+  color: #4f3fe4;
 }
 
 .Clubs {
-  color: green;
+  color: #3fe491;
 }

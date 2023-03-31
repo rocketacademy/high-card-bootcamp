@@ -87,6 +87,7 @@ class App extends React.Component {
       // Give each list element a unique key
       <div key={`${name}${suit}`}>
         <div>Player {index + 1}</div>
+        <br />
         <PlayingCard rank={name} suit={suit} />
       </div>
     ));

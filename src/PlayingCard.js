@@ -29,10 +29,12 @@ class PlayingCard extends React.Component {
     };
 
     return (
-      <div className={`card ${this.props.suit}`}>
-        <div className="top-suit">{suits[this.props.suit]}</div>
-        <div className="rank">{this.styledRanks(this.props.rank)}</div>
-        <div className="bottom-suit">{suits[this.props.suit]}</div>
+      <div className={this.props.suit}>
+        <div className={"card"}>
+          <div className="top-suit">{suits[this.props.suit]}</div>
+          <div className="rank">{this.styledRanks(this.props.rank)}</div>
+          <div className="bottom-suit">{suits[this.props.suit]}</div>
+        </div>
       </div>
     );
   }
