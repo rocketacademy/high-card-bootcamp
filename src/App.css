@@ -17,3 +17,43 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.card {
+  background-color: white;
+  font-size: 40px;
+  width: 150px;
+  height: 200px;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.cards {
+  display: flex;
+}
+
+.black-card {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.red-card {
+  color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playertags {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 100px;
+}
