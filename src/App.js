@@ -1,6 +1,9 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import Card from "./card.js";
+
+import Button from "@mui/material/Button";
 
 const isArrSame = (arr1, arr2) => {
   if (arr1.length === arr2.length) {
@@ -133,21 +136,34 @@ class App extends React.Component {
   }
 
   render() {
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
-      // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
-      </div>
-    ));
+    const currCardElems = this.state.currCards.map(
+      ({ name, suit, displayName }) => (
+        // Give each list element a unique key
+        <div key={`${name}${suit}`}>
+          <br></br>
+          <Card displayName={displayName} suit={suit} />
+        </div>
+      )
+    );
 
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
-          {currCardElems}
-          <br />
-          <button onClick={this.handleClick}>Deal</button>
-          <button onClick={this.handleRestart}>Restart</button>
+          <div className="cards">{currCardElems}</div>
+          <div className="playertags">
+            <h4>Player 1</h4>
+            <h4>Player 2</h4>
+          </div>
+
+          <br></br>
+          <Button variant="contained" onClick={this.handleClick}>
+            Deal
+          </Button>
+          <br></br>
+          <Button variant="contained" onClick={this.handleRestart}>
+            Restart
+          </Button>
           <h1>{this.state.gameWinner}</h1>
           <h1>{this.state.announcement}</h1>
           <h1>Player 1's current score is {this.state.currentScorePlayer1}</h1>
