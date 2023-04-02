@@ -33,9 +33,6 @@ class App extends React.Component {
     }
   }
 
-
-  
-
   dealCards = () => {
     this.setState((state) => ({
       // Remove last 2 cards from cardDeck
@@ -45,8 +42,8 @@ class App extends React.Component {
     }));
   };
 
-  /* getPlayerScores = () =>{
-    return `Player 1: ${this.state.player1Score}, Player 2: ${this.state.player2Score}`;
+  /* getPlayerCards = () =>{
+    return `Player 1: ${this.player1Card}, Player 2: ${this.player2Card}`;
   } */
 
   getWinner = () =>{
@@ -57,8 +54,7 @@ class App extends React.Component {
       console.log(
         `Player1rank: ${player1Card.rank}, player2rank: ${player2Card.rank}`        
       );
-    
-
+  
       if(player1Card.rank>player2Card.rank){
         console.log("I'm called");
         this.setState((prevState)=>{
@@ -72,7 +68,7 @@ class App extends React.Component {
         console.log("I'm called");
         this.setState((prevState) =>{
           return{
-            ...prevState,
+            ...prevState, 
             player2Score: prevState.player2Score+1,
             announcement: "Player 2 Wins!"
           };
@@ -103,10 +99,10 @@ class App extends React.Component {
   }
   render() {
     console.log(this.state.cardDeck)
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
+    const currCardElems = this.state.currCards.map(({ name, suit }, index) => (
       // Give each list element a unique key
       <div key={`${name}${suit}`}>
-        {name} of {suit}
+        Player {index}: {name} of {suit}         
       </div>
     ));
 
