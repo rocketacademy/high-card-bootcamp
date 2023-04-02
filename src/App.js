@@ -102,7 +102,7 @@ class App extends React.Component {
     const currCardElems = this.state.currCards.map(({ name, suit }, index) => (
       // Give each list element a unique key
       <div key={`${name}${suit}`}>
-        Player {index}: {name} of {suit}         
+        Player {index +1}: {name} of {suit}         
       </div>
     ));
 
