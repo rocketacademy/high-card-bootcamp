@@ -1,19 +1,171 @@
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
+}
+
 .App {
-  text-align: center;
+  height: 100vh;
+  background: linear-gradient(
+    135deg,
+    rgba(252, 185, 0, 1) 0%,
+    rgba(255, 105, 0, 1) 100%
+  );
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.main-ctn {
+  width: 45%;
+  min-width: 600px;
+  background-color: white;
+  padding: 40px 30px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 10px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.scoreboard-ctn {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+}
+
+.player-scoreboard {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
+
+.p1-scoreboard {
+  padding: 5px;
+  text-align: left;
+}
+
+.p2-scoreboard {
+  padding: 5px;
+  text-align: right;
+}
+
+.center-scoreboard {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 50px;
+  padding: 5px;
+}
+
+.scoreboard-ctn p {
+  font-size: 20px;
+}
+
+.accent {
+  font-weight: bold;
+}
+
+.card-ctn {
+  height: 30%;
+  width: 100%;
+  display: flex;
+  padding: 10px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.black-card,
+.red-card {
+  background-color: white;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+  width: 120px;
+  height: 180px;
+  padding: 5px;
+  border-radius: 10px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+  font-size: 30px;
+}
+
+.card-top,
+.card-bottom {
+  width: 100%;
+  text-align: left;
+}
+
+.card-bottom {
+  text-align: right;
+}
+
+.black-card p {
+  color: black;
+}
+
+.red-card p {
+  color: red;
+}
+
+.player-titles {
+  width: 100%;
+  font-size: 20px;
+  padding: 10px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+
+.bottom-ctn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottom-ctn > p {
+  padding: 10px;
+  font-size: 20px;
+}
+
+.deal-btn {
+  padding: 10px 50px;
+  margin: 5px auto;
+  font-weight: bold;
+  font-size: 30px;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(
+    135deg,
+    rgba(252, 185, 0, 1) 0%,
+    rgba(255, 105, 0, 1) 100%
+  );
   color: white;
+  border: solid 2px white;
+  border-radius: 10px;
+  box-shadow: 0 9px #999;
+}
+
+.deal-btn:hover {
+  cursor: pointer;
+  color: black;
+  background: white;
+  border: solid 2px white;
+  border: solid 2px black;
+  transition: 0.3s;
+}
+
+.deal-btn:active {
+  color: white;
+  background: black;
+  box-shadow: 0 5px #666;
+  transition: 0.3s;
 }
