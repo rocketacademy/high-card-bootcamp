@@ -17,3 +17,24 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+#scoreTable {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#scoreTable td, #scoreTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#scoreTable tr:nth-child(even){background-color: #f2f2f2;color: rgb(0, 0, 0)}
+
+#scoreTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #aa0404;
+  color: white;
+}
