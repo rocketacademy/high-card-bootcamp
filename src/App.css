@@ -17,3 +17,18 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.imgContainer {
+  display: inline-block;
+  padding: 10px;
+}
+
+.MuiGrid-container {
+  margin: 25px;
+}
+
+.MuiPaper-root {
+  padding: 25px;
+}
+
+
