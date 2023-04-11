@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import PlayingCard from "./PlayingCard";
 
 class App extends React.Component {
   constructor(props) {
@@ -78,13 +79,22 @@ class App extends React.Component {
   };
 
   render() {
-    const { currScore, cardDeck, currCards, remainingRounds } = this.state;
+    const { currScore, remainingRounds } = this.state;
 
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
-      // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
-      </div>
+    // const currCardElems = this.state.currCards.map(({ name, suit }) => (
+    //   // Give each list element a unique key
+    //   <div key={`${name}${suit}`}>
+    //     {name} of {suit}
+    //   </div>
+    // ));
+
+    const currCardElems = this.state.currCards.map(({ name, suit }, index) => (
+      <PlayingCard
+        key={`${name}${suit}`}
+        name={name}
+        suit={suit}
+        index={index}
+      />
     ));
 
     const playerScores = currScore.map((score, index) => (
@@ -104,18 +114,22 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
-          {currCardElems}
+          <div style={{ display: "flex" }}>{currCardElems}</div>
           <br />
           {remainingRounds === 0 ? (
             <div>
               {gameWinner}
               <br />
               <br />
-              <button onClick={this.handleRestart}>Restart</button>
+              <button className="Button" onClick={this.handleRestart}>
+                Restart
+              </button>
             </div>
           ) : (
             <div>
-              <button onClick={this.dealCards}>Deal</button>
+              <button className="Button" onClick={this.dealCards}>
+                Deal
+              </button>
               <br />
               <br />
               {this.state.currWinner}
