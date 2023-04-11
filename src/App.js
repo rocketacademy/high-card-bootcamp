@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import 'bootstrap/dist/css/bootstrap.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -85,12 +87,13 @@ class App extends React.Component {
       buttonName: buttonName,
       overallWinner: overallWinner,
     }));
-    console.log(`Within DealCards but After setState: ${JSON.stringify(this.state.currCards)}`);
+    //console.log(`Within DealCards but After setState: ${JSON.stringify(this.state.currCards)}`);
   };
 
   //When something updates, this will activate (go read)
   componentDidUpdate() { 
-    console.log(`componentDidUpdate: ${JSON.stringify(this.state.currCards)}`)
+    //console.log(`componentDidUpdate: ${JSON.stringify(this.state.currCards)}`)
+    console.log(`componentDidUpdate: ${this.state.cardDeck.length}`)
   }
 
   render() {
@@ -127,12 +130,20 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
+          
           <h3>High Card 🚀</h3>
           {currCardElems}
           <br />
           {winnerStatement}
           {overallWinStatement}
           <br />
+          <h3>Cards Remaining</h3>
+          <div className = "progress">
+          {<ProgressBar now={this.state.cardDeck.length} max = {52}/>}
+          </div>
+        
+          <br />
+
           <table id="scoreTable">
           <tr>
             <th>Player 1</th>
