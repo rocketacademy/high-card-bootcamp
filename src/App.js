@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
-import PlayingCard from "./playingcard";
+import PlayingCards from "./playingcard";
 
 class App extends React.Component {
   constructor(props) {
@@ -110,7 +110,8 @@ class App extends React.Component {
       // Give each list element a unique key //{name} of {suit}
 
       <div key={`${name}${suit}`}>
-        Player {index + 1} have: {PlayingCard(currCards[index])}
+        Player {index + 1} have: 
+        {<PlayingCards name={currCards[index].name} suit= {currCards[index].suit} /> }
       </div>
     ));
 
