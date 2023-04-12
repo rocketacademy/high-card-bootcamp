@@ -18,10 +18,10 @@
   color: white;
 }
 
- .deal{
+ .Button {
   font-size: larger;
+  
+  background-color: red;
+  
 }  
 
-.reset{
-  font-size: large;
-}

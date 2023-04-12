@@ -153,16 +153,23 @@ class App extends React.Component {
           {cardDeck.length === 0 ? (
             <div>
               {gameWinner}
+              <br />
               <p>Press Restart to restart the game</p>
+              <Button id='reset' variant="contained" color="error" onClick={this.restartGame}>Restart</Button>
             </div>
-          ) : (
-            <Button color='error' class='deal' onClick={this.dealCards}>Deal</Button>
+          ) : (<div>
+            <Button id='deal' variant="contained" color="primary" onClick={this.dealCards}>Deal</Button>
+            <br />
+            <p>Reset the game:</p>
+            <Button id='reset' variant="outlined" color="error" onClick={this.restartGame}>Restart</Button>
+            </div>
           )}
-          <br />
-          <br />
-          {cardDeck.length === 0 ? <br /> : <p>Reset the game:</p>}
+          
+          
+          
+          
 
-          <Button class='reset' onClick={this.restartGame}>Restart</Button>
+          
         </header>
       </div>
     );

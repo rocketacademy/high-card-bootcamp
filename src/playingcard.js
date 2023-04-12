@@ -1,6 +1,8 @@
 import React from "react";
-//import { Card, CardMedia } from "@material-ui/core";
-//import useStyles from "./styles";
+//import { Card, CardMedia, Typography } from "@material-ui/core";
+//import { makeStyles } from "@material-ui/core/styles";
+
+
 
 //PlayingCard is just a function component since there is no need to manage any state
 class PlayingCards extends React.Component {
@@ -11,6 +13,7 @@ class PlayingCards extends React.Component {
       
     };
   }
+ 
   render() {
     const { name, suit } = this.props;
     
@@ -29,3 +32,4 @@ class PlayingCards extends React.Component {
   }
 }
 export default PlayingCards;
+
