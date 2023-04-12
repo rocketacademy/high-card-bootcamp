@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import PlayingCard from "./playingcard";
 
 class App extends React.Component {
   constructor(props) {
@@ -39,6 +40,8 @@ class App extends React.Component {
     } else if (currWinner === "Player 2") {
       this.updateScore(2);
     }
+
+    
   };
 
   detSuiteRank = (card) => {
@@ -82,36 +85,42 @@ class App extends React.Component {
           this.determineWinner();
         }
       );
-    }else{
-      return (<p>The deck is out of cards. Please click 'restart to restart the game.</p>)
+    } else {
+      return (
+        <p>
+          The deck is out of cards. Please click 'restart to restart the game.
+        </p>
+      );
     }
   };
-  restartGame=()=>{
+
+  restartGame = () => {
     this.setState({
       cardDeck: makeShuffledDeck(),
-      currCards:[],
-      currWinner:null,
-      scoreboard:[0,0],
-    }
-    );
-  }
+      currCards: [],
+      currWinner: null,
+      scoreboard: [0, 0],
+    });
+  };
   render() {
     //Code to check the winner: if cardRank not same, return higher cardRank, if same, check for suite and return higher suite
 
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
-      // Give each list element a unique key
+    const { cardDeck, currCards, currWinner, scoreboard } = this.state;
+    const currCardElems = currCards.map(({ name, suit }, index) => (
+      // Give each list element a unique key //{name} of {suit}
+
       <div key={`${name}${suit}`}>
-        {name} of {suit}
+        Player {index + 1} have: {PlayingCard(currCards[index])}
       </div>
     ));
 
     const hideOutput = () => {
-      if (this.state.currWinner) {
+      if (currWinner) {
         return (
           <div>
-            <h3>{this.state.currWinner} has won</h3>
-            <p>Player 1 has {this.state.scoreboard[0]} points.</p>
-            <p>Player 2 has {this.state.scoreboard[1]} points.</p>
+            <h5>{currWinner} has won this round</h5>
+            <p>Player 1 has {scoreboard[0]} points.</p>
+            <p>Player 2 has {scoreboard[1]} points.</p>
           </div>
         );
       } else {
@@ -123,19 +132,36 @@ class App extends React.Component {
       }
     };
 
+    const gameWinner =
+      scoreboard[0] > scoreboard[1] ? (
+        <h3>Player 1 has won this game</h3>
+      ) : scoreboard[0] < scoreboard[1] ? (
+        <h3>Player 2 has won this game</h3>
+      ) : (
+        <h3>Both players are tied</h3>
+      );
+
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
           {currCardElems}
-
-          <br />
-          <button onClick={this.dealCards}>Deal</button>
           {hideOutput()}
-          <br/>
+          <br />
+          {cardDeck.length === 0 ? (
+            <div>
+              {gameWinner}
+              <p>Press Restart to restart the game</p>
+            </div>
+          ) : (
+            <button onClick={this.dealCards}>Deal</button>
+          )}
+          <br />
+          <br />
+          {cardDeck.length === 0 ? <br /> : <p>Reset the game:</p>}
+
           <button onClick={this.restartGame}>Restart</button>
         </header>
-        
       </div>
     );
   }
