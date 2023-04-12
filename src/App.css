@@ -17,3 +17,11 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+ .deal{
+  font-size: larger;
+}  
+
+.reset{
+  font-size: large;
+}

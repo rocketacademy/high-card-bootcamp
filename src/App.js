@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import PlayingCards from "./playingcard";
+import Button from '@mui/material/Button'
 
 class App extends React.Component {
   constructor(props) {
@@ -155,13 +156,13 @@ class App extends React.Component {
               <p>Press Restart to restart the game</p>
             </div>
           ) : (
-            <button onClick={this.dealCards}>Deal</button>
+            <Button color='error' class='deal' onClick={this.dealCards}>Deal</Button>
           )}
           <br />
           <br />
           {cardDeck.length === 0 ? <br /> : <p>Reset the game:</p>}
 
-          <button onClick={this.restartGame}>Restart</button>
+          <Button class='reset' onClick={this.restartGame}>Restart</Button>
         </header>
       </div>
     );
