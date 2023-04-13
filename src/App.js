@@ -110,7 +110,7 @@ class App extends React.Component {
     const currCardElems = currCards.map(({ name, suit }, index) => (
       // Give each list element a unique key //{name} of {suit}
 
-      <div key={`${name}${suit}`}>
+      <div  key={`${name}${suit}`}>
         {
           <PlayingCards
             name={currCards[index].name}
@@ -119,7 +119,9 @@ class App extends React.Component {
         }
         <br />
         <br />
-        <Typography color='black' fontSize='16px' >Player {index + 1}</Typography>
+        <Typography color="black" fontSize="16px">
+          Player {index + 1}
+        </Typography>
       </div>
     ));
 
@@ -127,33 +129,78 @@ class App extends React.Component {
       if (currWinner) {
         return (
           <div>
-            <Box>
+            <Box sx={{
+                  width: 500,
+                  height: 130,
+                  padding: 1,
+                  border: 2,
+                  borderColor: "black",
+                  backgroundColor: "rgb(18, 18, 50)",
+                }}>
               <h5>{currWinner} has won this round</h5>
               <p>Player 1 has {scoreboard[0]} points.</p>
               <p>Player 2 has {scoreboard[1]} points.</p>
+              <Button
+                id="deal"
+                variant="contained"
+                color="primary"
+                onClick={this.dealCards}
+              >
+                Deal
+              </Button>
             </Box>
           </div>
         );
       } else {
         return (
-          <div>
+          <Box sx={{
+            width: 500,
+            height: 130,
+            padding: 1,
+            border: 2,
+            borderColor: "black",
+            backgroundColor: "rgb(18, 18, 50)",
+          }}>
             <p>Press 'Deal' to start the game.</p>
-          </div>
+            <Button
+                id="deal"
+                variant="contained"
+                color="primary"
+                onClick={this.dealCards}
+              >
+                Deal
+              </Button>
+          </Box>
         );
       }
     };
 
     const gameWinner =
       scoreboard[0] > scoreboard[1] ? (
-        <Box>
+        <Box sx={{width: 500,
+          height: 80,
+          padding: 1,
+          border: 2,
+          borderColor: "black",
+          backgroundColor: "red",}}>
           <h3>Player 1 has won this game</h3>
         </Box>
       ) : scoreboard[0] < scoreboard[1] ? (
-        <Box>
+        <Box sx={{width: 500,
+          height: 80,
+          padding: 1,
+          border: 2,
+          borderColor: "black",
+          backgroundColor: "red",}}>
           <h3>Player 2 has won this game</h3>
         </Box>
       ) : (
-        <Box>
+        <Box sx={{width: 500,
+          height: 80,
+          padding: 1,
+          border: 2,
+          borderColor: "black",
+          backgroundColor: "green",}}>
           <h3>Both players are tied</h3>
         </Box>
       );
@@ -163,34 +210,37 @@ class App extends React.Component {
         <header className="App-header">
           <h3>High Card 🚀</h3>
           {currWinner ? (
-            <div display="flex" flex-direction="row">
-            <Box
-              sx={{
-                width: 150,
-                height: 180,
-                padding: 5,
-                border: 2,
-                borderColor: "purple",
-                backgroundColor: "paleturquoise",
-                
-
-              }}
-            >
-              {currCardElems[0]}
-            </Box>
-            <Box
-              sx={{
-                width: 150,
-                height: 180,
-                padding: 5,
-                border: 2,
-                borderColor: "purple",
-                backgroundColor: "paleturquoise",
-                
-
-              }}
-            >
-            {currCardElems[1]}</Box>
+            <div className='ImageBlock'>
+              <Box 
+                sx={{
+                  width: 150,
+                  height: 180,
+                  padding: 5,
+                  border: 2,
+                  borderColor: "purple",
+                  backgroundColor: "paleturquoise",
+                  position:'absolute',
+                  top:150,
+                  left: 250,
+                }}
+              >
+                {currCardElems[0]}
+              </Box>
+              <Box
+                sx={{
+                  width: 150,
+                  height: 180,
+                  padding: 5,
+                  border: 2,
+                  borderColor: "purple",
+                  backgroundColor: 'palegreen',
+                  position:'absolute',
+                  top:150,
+                  right: 250,
+                }}
+              >
+                {currCardElems[1]}
+              </Box>
             </div>
           ) : (
             <div></div>
@@ -200,7 +250,14 @@ class App extends React.Component {
           {cardDeck.length === 0 ? (
             <div>
               {gameWinner}
-              <Box>
+              <Box sx={{
+                  width: 500,
+                  height: 130,
+                  padding: 1,
+                  border: 2,
+                  borderColor: "black",
+                  backgroundColor: "rgb(18, 18, 50)",
+                }}>
                 <p>Press Restart to restart the game</p>
                 <Button
                   id="reset"
@@ -214,16 +271,16 @@ class App extends React.Component {
             </div>
           ) : (
             <div>
-              <Button
-                id="deal"
-                variant="contained"
-                color="primary"
-                onClick={this.dealCards}
-              >
-                Deal
-              </Button>
+              
 
-              <Box>
+              <Box sx={{width: 250,
+                  height: 130,
+                  padding: 1,
+                  border: 2,
+                  borderColor: "black",
+                  backgroundColor: "rgb(18, 18, 50)",
+                  
+                }}>
                 <p>Reset the game:</p>
                 <Button
                   id="reset"
