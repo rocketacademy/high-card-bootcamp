@@ -110,7 +110,7 @@ class App extends React.Component {
     const currCardElems = currCards.map(({ name, suit }, index) => (
       // Give each list element a unique key //{name} of {suit}
 
-      <div  key={`${name}${suit}`}>
+      <div key={`${name}${suit}`}>
         {
           <PlayingCards
             name={currCards[index].name}
@@ -129,17 +129,18 @@ class App extends React.Component {
       if (currWinner) {
         return (
           <div>
-            <Box sx={{
-                  width: 500,
-                  height: 130,
-                  padding: 1,
-                  border: 2,
-                  borderColor: "black",
-                  backgroundColor: "rgb(18, 18, 50)",
-                }}>
+            <Box
+              sx={{
+                width: 420,
+                height: 280,
+                padding: 1,
+                backgroundColor: "goldenrod",
+              }}
+            >
               <h5>{currWinner} has won this round</h5>
               <p>Player 1 has {scoreboard[0]} points.</p>
               <p>Player 2 has {scoreboard[1]} points.</p>
+              {cardDeck.length !== 0 ?(
               <Button
                 id="deal"
                 variant="contained"
@@ -147,29 +148,29 @@ class App extends React.Component {
                 onClick={this.dealCards}
               >
                 Deal
-              </Button>
+              </Button>):(<br/>)}
             </Box>
           </div>
         );
       } else {
         return (
-          <Box sx={{
-            width: 500,
-            height: 130,
-            padding: 1,
-            border: 2,
-            borderColor: "black",
-            backgroundColor: "rgb(18, 18, 50)",
-          }}>
+          <Box
+            sx={{
+              width: 420,
+              height: 130,
+              padding: 1,
+              backgroundColor: "goldenrod",
+            }}
+          >
             <p>Press 'Deal' to start the game.</p>
             <Button
-                id="deal"
-                variant="contained"
-                color="primary"
-                onClick={this.dealCards}
-              >
-                Deal
-              </Button>
+              id="deal"
+              variant="contained"
+              color="primary"
+              onClick={this.dealCards}
+            >
+              Deal
+            </Button>
           </Box>
         );
       }
@@ -177,30 +178,45 @@ class App extends React.Component {
 
     const gameWinner =
       scoreboard[0] > scoreboard[1] ? (
-        <Box sx={{width: 500,
-          height: 80,
-          padding: 1,
-          border: 2,
-          borderColor: "black",
-          backgroundColor: "red",}}>
+        <Box
+          sx={{
+            width: 550,
+            height: 80,
+            padding: 1,
+            border: 2,
+            borderColor: "black",
+            margin: 2,
+            backgroundColor: "red",
+          }}
+        >
           <h3>Player 1 has won this game</h3>
         </Box>
       ) : scoreboard[0] < scoreboard[1] ? (
-        <Box sx={{width: 500,
-          height: 80,
-          padding: 1,
-          border: 2,
-          borderColor: "black",
-          backgroundColor: "red",}}>
+        <Box
+          sx={{
+            width: 550,
+            height: 80,
+            padding: 1,
+            border: 2,
+            borderColor: "black",
+            margin: 2,
+            backgroundColor: "red",
+          }}
+        >
           <h3>Player 2 has won this game</h3>
         </Box>
       ) : (
-        <Box sx={{width: 500,
-          height: 80,
-          padding: 1,
-          border: 2,
-          borderColor: "black",
-          backgroundColor: "green",}}>
+        <Box
+          sx={{
+            width: 550,
+            height: 80,
+            padding: 1,
+            border: 2,
+            borderColor: "black",
+            margin: 2,
+            backgroundColor: "green",
+          }}
+        >
           <h3>Both players are tied</h3>
         </Box>
       );
@@ -210,8 +226,8 @@ class App extends React.Component {
         <header className="App-header">
           <h3>High Card 🚀</h3>
           {currWinner ? (
-            <div className='ImageBlock'>
-              <Box 
+            <div className="ImageBlock">
+              <Box
                 sx={{
                   width: 150,
                   height: 180,
@@ -219,8 +235,8 @@ class App extends React.Component {
                   border: 2,
                   borderColor: "purple",
                   backgroundColor: "paleturquoise",
-                  position:'absolute',
-                  top:150,
+                  position: "absolute",
+                  top: 150,
                   left: 250,
                 }}
               >
@@ -233,9 +249,9 @@ class App extends React.Component {
                   padding: 5,
                   border: 2,
                   borderColor: "purple",
-                  backgroundColor: 'palegreen',
-                  position:'absolute',
-                  top:150,
+                  backgroundColor: "palegreen",
+                  position: "absolute",
+                  top: 150,
                   right: 250,
                 }}
               >
@@ -250,14 +266,16 @@ class App extends React.Component {
           {cardDeck.length === 0 ? (
             <div>
               {gameWinner}
-              <Box sx={{
+              <Box
+                sx={{
                   width: 500,
                   height: 130,
+                  
                   padding: 1,
-                  border: 2,
                   borderColor: "black",
                   backgroundColor: "rgb(18, 18, 50)",
-                }}>
+                }}
+              >
                 <p>Press Restart to restart the game</p>
                 <Button
                   id="reset"
@@ -271,16 +289,14 @@ class App extends React.Component {
             </div>
           ) : (
             <div>
-              
-
-              <Box sx={{width: 250,
-                  height: 130,
+              <Box
+                sx={{
+                  width: 420,
+                  height: 140,
                   padding: 1,
-                  border: 2,
-                  borderColor: "black",
                   backgroundColor: "rgb(18, 18, 50)",
-                  
-                }}>
+                }}
+              >
                 <p>Reset the game:</p>
                 <Button
                   id="reset"
