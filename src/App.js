@@ -2,7 +2,9 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import PlayingCards from "./playingcard";
-import Button from '@mui/material/Button'
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import { Typography } from "@mui/material";
 
 class App extends React.Component {
   constructor(props) {
@@ -41,8 +43,6 @@ class App extends React.Component {
     } else if (currWinner === "Player 2") {
       this.updateScore(2);
     }
-
-    
   };
 
   detSuiteRank = (card) => {
@@ -111,18 +111,27 @@ class App extends React.Component {
       // Give each list element a unique key //{name} of {suit}
 
       <div key={`${name}${suit}`}>
-        Player {index + 1} have: 
-        {<PlayingCards name={currCards[index].name} suit= {currCards[index].suit} /> }
+        {
+          <PlayingCards
+            name={currCards[index].name}
+            suit={currCards[index].suit}
+          />
+        }
+        <br />
+        <br />
+        <Typography color='black' fontSize='16px' >Player {index + 1}</Typography>
       </div>
     ));
 
-    const hideOutput = () => {
+    const changeOutput = () => {
       if (currWinner) {
         return (
           <div>
-            <h5>{currWinner} has won this round</h5>
-            <p>Player 1 has {scoreboard[0]} points.</p>
-            <p>Player 2 has {scoreboard[1]} points.</p>
+            <Box>
+              <h5>{currWinner} has won this round</h5>
+              <p>Player 1 has {scoreboard[0]} points.</p>
+              <p>Player 2 has {scoreboard[1]} points.</p>
+            </Box>
           </div>
         );
       } else {
@@ -136,40 +145,97 @@ class App extends React.Component {
 
     const gameWinner =
       scoreboard[0] > scoreboard[1] ? (
-        <h3>Player 1 has won this game</h3>
+        <Box>
+          <h3>Player 1 has won this game</h3>
+        </Box>
       ) : scoreboard[0] < scoreboard[1] ? (
-        <h3>Player 2 has won this game</h3>
+        <Box>
+          <h3>Player 2 has won this game</h3>
+        </Box>
       ) : (
-        <h3>Both players are tied</h3>
+        <Box>
+          <h3>Both players are tied</h3>
+        </Box>
       );
 
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
-          {currCardElems}
-          {hideOutput()}
+          {currWinner ? (
+            <div display="flex" flex-direction="row">
+            <Box
+              sx={{
+                width: 150,
+                height: 180,
+                padding: 5,
+                border: 2,
+                borderColor: "purple",
+                backgroundColor: "paleturquoise",
+                
+
+              }}
+            >
+              {currCardElems[0]}
+            </Box>
+            <Box
+              sx={{
+                width: 150,
+                height: 180,
+                padding: 5,
+                border: 2,
+                borderColor: "purple",
+                backgroundColor: "paleturquoise",
+                
+
+              }}
+            >
+            {currCardElems[1]}</Box>
+            </div>
+          ) : (
+            <div></div>
+          )}
+          {changeOutput()}
           <br />
           {cardDeck.length === 0 ? (
             <div>
               {gameWinner}
-              <br />
-              <p>Press Restart to restart the game</p>
-              <Button id='reset' variant="contained" color="error" onClick={this.restartGame}>Restart</Button>
+              <Box>
+                <p>Press Restart to restart the game</p>
+                <Button
+                  id="reset"
+                  variant="contained"
+                  color="error"
+                  onClick={this.restartGame}
+                >
+                  Restart
+                </Button>
+              </Box>
             </div>
-          ) : (<div>
-            <Button id='deal' variant="contained" color="primary" onClick={this.dealCards}>Deal</Button>
-            <br />
-            <p>Reset the game:</p>
-            <Button id='reset' variant="outlined" color="error" onClick={this.restartGame}>Restart</Button>
+          ) : (
+            <div>
+              <Button
+                id="deal"
+                variant="contained"
+                color="primary"
+                onClick={this.dealCards}
+              >
+                Deal
+              </Button>
+
+              <Box>
+                <p>Reset the game:</p>
+                <Button
+                  id="reset"
+                  variant="outlined"
+                  color="error"
+                  onClick={this.restartGame}
+                >
+                  Restart
+                </Button>
+              </Box>
             </div>
           )}
-          
-          
-          
-          
-
-          
         </header>
       </div>
     );
