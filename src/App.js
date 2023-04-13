@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
 
 class App extends React.Component {
   constructor(props) {
@@ -104,7 +106,7 @@ class App extends React.Component {
           <h3>High Card <span role="img" aria-label="Rocket">🚀</span></h3>
           {currCardElems}
           <br />
-          <button onClick={numGamesLeft === 0 ? this.resetGame : this.dealCards}>{dealButtonText}</button>
+          <Button onClick={numGamesLeft === 0 ? this.resetGame : this.dealCards} variant="success">{dealButtonText}</Button>
           <br />
           <p>{this.state.hasGameStarted && roundWinnerMessage}</p>
           <p>{this.state.hasGameStarted && player1GamesWonMessage}</p>
