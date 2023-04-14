@@ -63,8 +63,8 @@ class App extends React.Component {
         <img
           src={require(`./PNG-cards-1.3/${name}_of_${suit}.png`)}
           alt="card"
-          height="10%"
-          width="10%"
+          height="30%"
+          width="30%"
         />{" "}
       </div>
     ));
@@ -130,7 +130,7 @@ class App extends React.Component {
           {this.state.winnerOfRound !== null && (
             <Box
               sx={{
-                width: 300,
+                width: 400,
                 height: 40,
                 borderRadius: "10px",
                 backgroundColor: "goldenrod",
