@@ -112,7 +112,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h3>High Card <span role="img" aria-label="Rocket">🚀</span></h3>
+          <h3>HHHigh Card <span role="img" aria-label="Rocket">🚀</span></h3>
           {currCardElems}
           <br />
           <Button onClick={numGamesLeft === 0 ? this.resetGame : this.dealCards} variant="success">{dealButtonText}</Button>
