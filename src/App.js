@@ -64,8 +64,17 @@ class App extends React.Component {
   render() {
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
       // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
+      //<div key={`${name}${suit}`}>
+      //  {name} of {suit}
+      <div class="image" key={`${name}${suit}`}>
+        <img
+          src={require(`./PNG-cards-1.3/${name}_of_${suit}.png`)}
+          alt={`${name} of ${suit}`}
+          style={{
+            alignSelf: "center",
+            maxWidth: 125,
+          }}
+        />
       </div>
     ));
 
