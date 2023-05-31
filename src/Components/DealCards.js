@@ -1,5 +1,6 @@
 import React from "react";
 import { makeShuffledDeck } from "../utils.js";
+import Button from "@mui/material/Button";
 
 class DealCards extends React.Component {
   constructor(props) {
@@ -15,24 +16,25 @@ class DealCards extends React.Component {
       gameRoundWinner: null,
       currentRound: 0,
       numRoundsLeft: null,
+      isGameStart: false,
     };
   }
 
   dealCards = () => {
-    // Remove last 2 cards from cardDeck as game ends when cards run out.
+    // remove last 2 cards from cardDeck as game ends when cards run out.
     const newCurrCards = this.state.cardDeck.slice(-2);
-    //Assign the first card to the first player
+    // assign the first card to the first player
     const playerOneCard = newCurrCards[0];
     const playerTwoCard = newCurrCards[1];
-    //console to see the 2 cards
+    // console log the 2 cards that were dealt
     console.log(`Player One: ${playerOneCard.rank} of ${playerOneCard.suit}`);
     console.log(`Player Two: ${playerTwoCard.rank} of ${playerTwoCard.suit}`);
 
     let winnerOfRound = null;
 
-    //Compare players card to determine the winner of that round
+    // compare players card to determine the winner of that round
     if (playerOneCard.rank > playerTwoCard.rank) {
-      // Legend: 1 == player one & 2 == player two
+      // legend: 1 == player one & 2 == player two
       winnerOfRound = 1;
     } else if (playerOneCard.rank < playerTwoCard.rank) {
       winnerOfRound = 2;
@@ -76,29 +78,36 @@ class DealCards extends React.Component {
       }
     }
 
-    //setState is where we update/change the mode depending on the game
+    // setState is where we update/change the mode depending on the game
     this.setState({
-      //update the deck after removing the previous 2 dealt cards
+      // update the deck after removing the previous 2 dealt cards
       cardDeck: this.state.cardDeck.slice(0, -2),
-      //update currCards to display 2 cards for that game round (1 card for each player)
+      // update currCards to display 2 cards for that game round (1 card for each player)
       currCards: newCurrCards,
+      // determine the winner for each round and display it on browser
       gameRoundWinner:
         winnerOfRound === 1
           ? "Player 1 won this round"
           : "Player 2 won this round",
+      // number of times player 1 wins
       numPlayerOneWins:
         winnerOfRound === 1
           ? this.state.numPlayerOneWins + 1
           : this.state.numPlayerOneWins,
+      // number of times player 2 wins
       numPlayerTwoWins:
         winnerOfRound === 2
           ? this.state.numPlayerTwoWins + 1
           : this.state.numPlayerTwoWins,
+      // display the number of game rounds left
       numRoundsLeft: (this.state.cardDeck.length - 2) / 2,
+      // display the current game round
       currentRound: this.state.currentRound + 1,
+      isGameStart: true,
     });
   };
 
+  // game reset
   resetGame = () => {
     this.setState({
       cardDeck: makeShuffledDeck(),
@@ -108,6 +117,7 @@ class DealCards extends React.Component {
       gameRoundWinner: null,
       currentRound: null,
       numRoundsLeft: null,
+      isGameStart: false,
     });
   };
 
@@ -118,6 +128,8 @@ class DealCards extends React.Component {
         {name} of {suit}
       </div>
     ));
+
+    // display the number of rounds remaining in our browser
     const roundsLeft = (
       <div>
         <p>
@@ -126,15 +138,18 @@ class DealCards extends React.Component {
         </p>
       </div>
     );
+
+    // display the scoreboard in our browser
     const scoreboard = (
       <div>
-        <strong>Scoreboard:</strong>
+        <strong>------------ Scoreboard: ------------ </strong>
         <br />
         Player 1 has won {this.state.numPlayerOneWins} rounds <br />
         Player 2 has won {this.state.numPlayerTwoWins} rounds
       </div>
     );
 
+    // determine the final winner after 26 rounds of game
     let gameWinner = null;
     if (this.state.numPlayerOneWins > this.state.numPlayerTwoWins) {
       gameWinner = 1;
@@ -142,31 +157,33 @@ class DealCards extends React.Component {
       gameWinner = 2;
     }
 
-    const winnerMessage = `------- The winner is Player ${gameWinner}!!! -------`;
-
-    const gameResult = gameWinner
-      ? winnerMessage
-      : `------- It's a tie. Play again!!! -------`;
+    // display final result - which player wins or if it's a draw
+    const gameWinMessage = gameWinner
+      ? `------- The winner is Player ${gameWinner}!!! -------`
+      : `------- It's a draw. Play again!!! -------`;
 
     return (
       <div>
         {currCardElems}
         <br />
         {this.state.gameRoundWinner}
-        {/* {console.log(this.state.numPlayerOneWins)}
-        {console.log(this.state.numPlayerTwoWins)} */}
         <br />
         <br />
-        {scoreboard}
+        {this.state.isGameStart && scoreboard}
         <br />
-        {/* {gameResult} */}
-        {roundsLeft}
+        {this.state.numRoundsLeft === 0 && gameWinMessage}
+        <br />
+        {this.state.isGameStart && roundsLeft}
+        {/* enable "Reset" button once the game reached its final round */}
         {this.state.currentRound === 26 ? (
-          <button onClick={this.resetGame}>Reset Game</button>
+          <Button variant="outlined" onClick={this.resetGame}>
+            Reset Game
+          </Button>
         ) : (
-          <button onClick={this.dealCards}>Deal</button>
+          <Button variant="contained" onClick={this.dealCards}>
+            Deal
+          </Button>
         )}
-        {/* <button onClick={this.dealCards}>Deal</button> */}
       </div>
     );
   }
