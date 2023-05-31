@@ -1,6 +1,6 @@
 import React from "react";
 import { makeShuffledDeck } from "../utils.js";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 
 class DealCards extends React.Component {
   constructor(props) {
@@ -176,13 +176,9 @@ class DealCards extends React.Component {
         {this.state.isGameStart && roundsLeft}
         {/* enable "Reset" button once the game reached its final round */}
         {this.state.currentRound === 26 ? (
-          <Button variant="outlined" onClick={this.resetGame}>
-            Reset Game
-          </Button>
+          <button onClick={this.resetGame}>Reset Game</button>
         ) : (
-          <Button variant="contained" onClick={this.dealCards}>
-            Deal
-          </Button>
+          <button onClick={this.dealCards}>Deal</button>
         )}
       </div>
     );
