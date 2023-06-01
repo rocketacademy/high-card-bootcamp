@@ -1,5 +1,6 @@
-// How to hard code such that one click will skip to the end of the game for testing???
-// Overall game score is not updating SOMETIMES
+// ToDo:
+// FIXED:
+// Overall game score is not updating if player 1 current score differs by 1 from player 2 current score
 // 1 of the players' overall game score increases when it's a draw (no matter if the draw condition is specified in updateGameScores function or not)
 
 import React from "react";
@@ -25,6 +26,53 @@ class App extends React.Component {
     };
   }
 
+  updateGameScores = () => {
+    console.log("updateGameScores is running");
+
+    const { cardDeck, player1CurrentScore, player2CurrentScore } = this.state;
+    console.log(`player1 score:${player1CurrentScore}`);
+    console.log(`player2 score:${player2CurrentScore}`);
+
+    if (cardDeck.length === 0 && player1CurrentScore > player2CurrentScore) {
+      console.log("player1 +1");
+      this.setState((state) => ({
+        player1GameScore: state.player1GameScore + 1,
+      }));
+    } else if (
+      cardDeck.length === 0 &&
+      player1CurrentScore < player2CurrentScore
+    ) {
+      console.log("player2 +1");
+
+      this.setState((state) => ({
+        player2GameScore: state.player2GameScore + 1,
+      }));
+    }
+  };
+
+  // The overall game scores depend on the current scores and the current scores must have been updated only then the updateGameScores method should be invoked. So the updateGameScores method has to be passed as a callback function to the setState() method inside the updateCurrentScore method after the state has been updated
+  updateCurrentScores = () => {
+    const { currCards } = this.state;
+    if (currCards.length === 2 && currCards[0].rank > currCards[1].rank) {
+      this.setState(
+        (state) => ({
+          player1CurrentScore: state.player1CurrentScore + 1,
+        }),
+        () => this.updateGameScores()
+      );
+    } else if (
+      currCards.length === 2 &&
+      currCards[0].rank < currCards[1].rank
+    ) {
+      this.setState(
+        (state) => ({
+          player2CurrentScore: state.player2CurrentScore + 1,
+        }),
+        () => this.updateGameScores()
+      );
+    }
+  };
+
   /*
   The setState method is using the functional form, which means it accepts a function as an argument. The function is called with the PREVIOUS state as its parameter. Since it's a function and not a method of the component, we don't need to use this to access the component's state.
 
@@ -40,7 +88,6 @@ class App extends React.Component {
       }),
       () => {
         this.updateCurrentScores();
-        this.updateGameScores();
       }
     );
   };
@@ -73,36 +120,6 @@ class App extends React.Component {
       return "The current game is a draw!!!";
     }
   };
-
-  updateCurrentScores = () => {
-    const { currCards } = this.state;
-    if (currCards.length === 2 && currCards[0].rank > currCards[1].rank) {
-      this.setState((state) => ({
-        player1CurrentScore: state.player1CurrentScore + 1,
-      }));
-    } else if (
-      currCards.length === 2 &&
-      currCards[0].rank < currCards[1].rank
-    ) {
-      this.setState((state) => ({
-        player2CurrentScore: state.player2CurrentScore + 1,
-      }));
-    }
-  };
-
-  updateGameScores() {
-    const { cardDeck, player1CurrentScore, player2CurrentScore } = this.state;
-    const isGameOver = cardDeck.length === 0;
-    if (isGameOver && player1CurrentScore > player2CurrentScore) {
-      this.setState((state) => ({
-        player1GameScore: state.player1GameScore + 1,
-      }));
-    } else if (isGameOver && player1CurrentScore < player2CurrentScore) {
-      this.setState((state) => ({
-        player2GameScore: state.player2GameScore + 1,
-      }));
-    }
-  }
 
   declareUltimateWinner = () => {
     const { cardDeck, player1GameScore, player2GameScore } = this.state;
