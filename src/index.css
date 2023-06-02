@@ -11,18 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
+/* 
 button {
   transition-duration: 0.1s;
   background-color: #d55456;
   border-radius: 8px;
   border-bottom: 4px solid #913c3d;
   color: white;
-  padding: 15px 32px;
+  padding: 10px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 2px;
 }
 
@@ -32,10 +32,14 @@ button:hover {
   border-radius: 8px;
   border-bottom: 4px solid #c24648;
   color: white;
-  padding: 15px 32px;
+  padding: 10px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 2px;
+} */
+
+img .bg-light {
+  width: 10px;
 }
