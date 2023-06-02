@@ -52,7 +52,10 @@ class App extends React.Component {
     }
   };
 
-  // The overall game scores depend on the current scores and the current scores must have been updated only then the updateGameScores method should be invoked. So the updateGameScores method has to be passed as a callback function to the setState() method inside the updateCurrentScore method after the state has been updated
+  // The overall game scores depend on the current scores and the current scores must have been updated only then the updateGameScores method should be invoked. So the updateGameScores method has to be passed as a callback function to the setState() method inside the updateCurrentScore method after the state has been updated.
+
+  //If the ranks were equal, the current scores were not updated, and consequently, the updateGameScores function was not called. The updateGameScores function, on the other hand, was responsible for updating the game scores and checking if the card deck length reached 0. If updateGameScores was only called from updateCurrentScores when the ranks were different, it was not invoked when the ranks were equal.By adding the else block in updateCurrentScores to handle the case where the ranks are equal, we ensure that updateGameScores is called regardless of whether the ranks are equal or different. This allows the game scores and the card deck length to be updated correctly in all scenarios. In summary, the else block ensures that updateGameScores is always invoked after updating the current scores, regardless of the card ranks. This ensures the game scores are correctly updated and the card deck length is accurately checked for reaching 0.
+  
   updateCurrentScores = () => {
     const { currCards } = this.state;
     if (currCards.length === 2 && currCards[0].rank > currCards[1].rank) {
@@ -72,6 +75,8 @@ class App extends React.Component {
         }),
         () => this.updateGameScores()
       );
+    } else {
+      this.updateGameScores();
     }
   };
 
