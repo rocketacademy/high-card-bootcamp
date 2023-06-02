@@ -30,6 +30,8 @@ class App extends React.Component {
     console.log("updateGameScores is running");
 
     const { cardDeck, player1CurrentScore, player2CurrentScore } = this.state;
+    console.log("decklength" + cardDeck.length);
+
     console.log(`player1 score:${player1CurrentScore}`);
     console.log(`player2 score:${player2CurrentScore}`);
 
@@ -173,7 +175,7 @@ class App extends React.Component {
             <h4>{isGameOver && currentWinner}</h4>
             <h4>
               {(player1CurrentScore > 0 || player2CurrentScore > 0) &&
-                `Player 1's current score: ${player1CurrentScore}, Player 2's current score: ${player2CurrentScore}`}
+                `Player 1's current score: ${player1CurrentScore} | Player 2's current score: ${player2CurrentScore}`}
             </h4>
             <h4>
               {roundCount !== 0 &&
@@ -181,7 +183,7 @@ class App extends React.Component {
             </h4>
             <h4>
               {isGameOver &&
-                `Player 1's overall score: ${player1GameScore}, Player 2's overall score: ${player2GameScore}`}
+                `Player 1's overall score: ${player1GameScore} | Player 2's overall score: ${player2GameScore}`}
             </h4>
             <h4>{ultimateWinner}</h4>
           </Container>
