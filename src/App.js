@@ -15,15 +15,17 @@ class App extends React.Component {
   }
 
   dealCards = () => {
-    this.setState((state) => ({
-      // Remove last 2 cards from cardDeck
-      cardDeck: state.cardDeck.slice(0, -2),
-      // Deal last 2 cards to currCards
-      currCards: state.cardDeck.slice(-2),
-    }));
+    // this.state.cardDeck.pop() modifies this.state.cardDeck array
+    const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()];
+    this.setState({
+      currCards: newCurrCards,
+    });
   };
 
   render() {
+    // You can write JavaScript here, just don't try and set your state!
+
+    // You can access your current components state here, as indicated below
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
       // Give each list element a unique key
       <div key={`${name}${suit}`}>
