@@ -16,6 +16,7 @@ class App extends React.Component {
       roundScores: [0, 0],
       roundsLeft: 26,
       gameWinner: undefined,
+      gameOver: false,
     };
   }
 
@@ -27,25 +28,50 @@ class App extends React.Component {
     });
 
     const ranks = newCurrCards.map((card) => card.rank);
-    const roundScores = this.state.roundScores;
 
-    if (ranks[0] > ranks[1]) {
-      this.setState({
-        roundWinner: "Player 1 won this round.",
-        roundScores: [roundScores[0] + 1, roundScores[1]],
-        roundsLeft: this.state.roundsLeft - 1,
-      });
-    } else if (ranks[0] < ranks[1]) {
-      this.setState({
-        roundWinner: "Player 2 won this round.",
-        roundScores: [roundScores[0], roundScores[1] + 1],
-        roundsLeft: this.state.roundsLeft - 1,
-      });
+    this.setState(
+      (prevState) => {
+        if (ranks[0] > ranks[1]) {
+          return {
+            roundWinner: "Player 1 won this round.",
+            roundScores: [
+              prevState.roundScores[0] + 1,
+              prevState.roundScores[1],
+            ],
+            roundsLeft: prevState.roundsLeft - 1,
+          };
+        } else if (ranks[0] < ranks[1]) {
+          return {
+            roundWinner: "Player 2 won this round.",
+            roundScores: [
+              prevState.roundScores[0],
+              prevState.roundScores[1] + 1,
+            ],
+            roundsLeft: prevState.roundsLeft - 1,
+          };
+        } else {
+          return {
+            roundWinner: "This round is a tie.",
+            roundsLeft: prevState.roundsLeft - 1,
+          };
+        }
+      },
+      () => {
+        if (this.state.roundsLeft === 0) {
+          this.endGame();
+        }
+      }
+    );
+  };
+
+  endGame = () => {
+    const roundScores = this.state.roundScores;
+    if (roundScores[0] > roundScores[1]) {
+      this.setState({ gameWinner: "Player 1 won!" });
+    } else if (roundScores[0] < roundScores[1]) {
+      this.setState({ gameWinner: "Player 2 won!" });
     } else {
-      this.setState({
-        roundWinner: "This round is a tie!",
-        roundsLeft: this.state.roundsLeft - 1,
-      });
+      this.setState({ gameWinner: "it's a draw!" });
     }
   };
 
@@ -66,9 +92,20 @@ class App extends React.Component {
           <h3>High Card 🚀</h3>
           {currCardElems}
           <br />
+          {this.state.gameWinner && (
+            <>
+              <div>{"Game over, " + this.state.gameWinner}</div>
+              <br />
+            </>
+          )}
           <button onClick={this.dealCards}>Deal</button>
           <br />
-          {this.state.roundWinner}
+          <div>{this.state.roundWinner}</div>
+          <br />
+          <div>
+            Score: {this.state.roundScores[0]}-{this.state.roundScores[1]} with{" "}
+            {this.state.roundsLeft} rounds left
+          </div>
         </header>
       </div>
     );
