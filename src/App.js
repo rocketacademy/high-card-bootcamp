@@ -3,21 +3,23 @@ import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 
 class App extends React.Component {
+  initialState = {
+    // currCards holds the cards from the current round
+    currCards: [],
+
+    roundWinner: undefined,
+    roundScores: [0, 0],
+    roundsLeft: 26,
+    gameWinner: undefined,
+    gameOver: false,
+  };
+
   constructor(props) {
     // Always call super with props in constructor to initialise parent class
     super(props);
-    this.state = {
-      // Set default value of card deck to new shuffled deck
-      cardDeck: makeShuffledDeck(),
-      // currCards holds the cards from the current round
-      currCards: [],
-
-      roundWinner: undefined,
-      roundScores: [0, 0],
-      roundsLeft: 26,
-      gameWinner: undefined,
-      gameOver: false,
-    };
+    this.state = this.initialState;
+    // Set default value of card deck to new shuffled deck
+    this.state.cardDeck = makeShuffledDeck();
   }
 
   dealCards = () => {
@@ -75,6 +77,11 @@ class App extends React.Component {
     }
   };
 
+  newGame = () => {
+    this.setState(this.initialState);
+    this.setState({ cardDeck: makeShuffledDeck() });
+  };
+
   render() {
     // You can write JavaScript here, just don't try and set your state!
 
@@ -100,6 +107,9 @@ class App extends React.Component {
           )}
           {!this.state.gameWinner && (
             <button onClick={this.dealCards}>Deal</button>
+          )}
+          {this.state.gameWinner && (
+            <button onClick={this.newGame}>New Game</button>
           )}
           <br />
           <div>{this.state.roundWinner}</div>
