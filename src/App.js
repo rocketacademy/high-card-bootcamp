@@ -11,6 +11,11 @@ class App extends React.Component {
       cardDeck: makeShuffledDeck(),
       // currCards holds the cards from the current round
       currCards: [],
+
+      roundWinner: undefined,
+      roundScores: [0, 0],
+      roundsLeft: 26,
+      gameWinner: undefined,
     };
   }
 
@@ -20,6 +25,28 @@ class App extends React.Component {
     this.setState({
       currCards: newCurrCards,
     });
+
+    const ranks = newCurrCards.map((card) => card.rank);
+    const roundScores = this.state.roundScores;
+
+    if (ranks[0] > ranks[1]) {
+      this.setState({
+        roundWinner: "Player 1 won this round.",
+        roundScores: [roundScores[0] + 1, roundScores[1]],
+        roundsLeft: this.state.roundsLeft - 1,
+      });
+    } else if (ranks[0] < ranks[1]) {
+      this.setState({
+        roundWinner: "Player 2 won this round.",
+        roundScores: [roundScores[0], roundScores[1] + 1],
+        roundsLeft: this.state.roundsLeft - 1,
+      });
+    } else {
+      this.setState({
+        roundWinner: "This round is a tie!",
+        roundsLeft: this.state.roundsLeft - 1,
+      });
+    }
   };
 
   render() {
@@ -40,6 +67,8 @@ class App extends React.Component {
           {currCardElems}
           <br />
           <button onClick={this.dealCards}>Deal</button>
+          <br />
+          {this.state.roundWinner}
         </header>
       </div>
     );
