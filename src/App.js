@@ -98,7 +98,9 @@ class App extends React.Component {
               <br />
             </>
           )}
-          <button onClick={this.dealCards}>Deal</button>
+          {!this.state.gameWinner && (
+            <button onClick={this.dealCards}>Deal</button>
+          )}
           <br />
           <div>{this.state.roundWinner}</div>
           <br />
