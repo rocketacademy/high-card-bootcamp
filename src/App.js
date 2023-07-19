@@ -1,51 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { makeShuffledDeck } from './utils.js';
+import { makeShuffledDeck, shuffleCards } from './utils.js';
 
-class App extends React.Component {
-	constructor(props) {
-		// Always call super with props in constructor to initialise parent class
-		super(props);
-		this.state = {
-			// Set default value of card deck to new shuffled deck
-			cardDeck: makeShuffledDeck(),
-			// currCards holds the cards from the current round
-			currCards: [],
-		};
-	}
+const App = (props) => {
+	const [cardDeck, setCardDeck] = useState(makeShuffledDeck());
+	const [currCards, setCurrCards] = useState([]);
+	const [discardPile, setDiscardPile] = useState([]);
 
-	dealCards = () => {
-		// this.state.cardDeck.pop() modifies this.state.cardDeck array
-		const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()];
-		this.setState({
-			currCards: newCurrCards,
-		});
+	const dealCards = () => {
+		const newCurrCards = [cardDeck.pop(), cardDeck.pop()];
+		setCurrCards(newCurrCards);
+		setDiscardPile(discardPile.concat(newCurrCards));
+		console.log(` The cardPile length is: ${cardDeck.length}`);
+		console.log(` The discardPile length is: ${discardPile.length}`);
 	};
 
-	render() {
-		// You can write JavaScript here, just don't try and set your state!
+	useEffect(() => {
+		handleEmptyDeck();
+	}, [cardDeck]);
 
-		console.log(this.state.cardDeck);
-		console.log(this.state.currCards);
-		// You can access your current components state here, as indicated below
-		const currCardElems = this.state.currCards.map(({ name, suit }) => (
-			// Give each list element a unique key
-			<div key={`${name}${suit}`}>
-				{name} of {suit}
-			</div>
-		));
+	const handleEmptyDeck = () => {
+		if (cardDeck.length === 0 && discardPile.length === 52) {
+			setCardDeck([...discardPile]);
+			setDiscardPile([]);
+			console.log(` The discard Pile length is:${discardPile.length}`);
+			shuffleCards(cardDeck);
+			console.log(` The Card Pile length is:${cardDeck.length}`);
+		}
+	};
 
-		return (
+	const currCardElems = currCards.map(({ name, suit }) => (
+		// Give each list element a unique key
+		<div key={`${name}${suit}`}>
+			{name} of {suit}
+		</div>
+	));
+
+	return (
+		<>
 			<div className='App'>
 				<header className='App-header'>
-					<h3>High Card 🚀</h3>
+					<h3>
+						High Card{' '}
+						<span role='img' aria-labelledby='rocket emoji for rocket academy'>
+							🚀
+						</span>
+					</h3>
 					{currCardElems}
 					<br />
-					<button onClick={this.dealCards}>Deal</button>
+					{cardDeck.length > 0 ? (
+						<button onClick={dealCards}>Deal</button>
+					) : (
+						<button onClick={handleEmptyDeck}>Restart</button>
+					)}
 				</header>
 			</div>
-		);
-	}
-}
+		</>
+	);
+};
 
 export default App;

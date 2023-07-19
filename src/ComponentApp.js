@@ -15,7 +15,6 @@ const App = (props) => {
 	console.log(currCards);
 
 	const currCardElems = currCards.map(({ name, suit }) => (
-		// Give each list element a unique key
 		<div key={`${name}${suit}`}>
 			{name} of {suit}
 		</div>
@@ -27,10 +26,7 @@ const App = (props) => {
 				<header className='App-header'>
 					<h3>
 						High Card{' '}
-						<span
-							role='image'
-							aria-labelledby='rocket emoji for rocket academy'
-						>
+						<span role='img' aria-labelledby='rocket emoji for rocket academy'>
 							🚀
 						</span>
 					</h3>
