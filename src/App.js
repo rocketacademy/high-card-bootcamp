@@ -1,18 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { makeShuffledDeck, shuffleCards } from './utils.js';
 import Button from '@mui/material/Button';
 
-const App = (props) => {
+const App = () => {
 	const [cardDeck, setCardDeck] = useState(makeShuffledDeck());
 	const [currCards, setCurrCards] = useState([]);
 	const [discardPile, setDiscardPile] = useState([]);
 	const [scores, setPlayerScores] = useState({ player1: 0, player2: 0 });
+	const [rounds, setRounds] = useState(0);
+	const [winner, setWinner] = useState('');
 
 	const dealCards = () => {
 		const newCurrCards = [cardDeck.pop(), cardDeck.pop()];
 		setCurrCards(newCurrCards);
 		setDiscardPile(discardPile.concat(newCurrCards));
+		setRounds(rounds + 1);
+
+		setTimeout(() => {
+			const player1Elem = document.getElementById('player1');
+			const player2Elem = document.getElementById('player2');
+			if (player1Elem && player2Elem) {
+				const player1Content = player1Elem.textContent;
+				const player2Content = player2Elem.textContent;
+
+				const [card1, card2] = handleStrings(player1Content, player2Content);
+				awardScores(card1, card2);
+			}
+		}, 0);
 	};
 
 	const handleStrings = (card1, card2) => {
@@ -31,48 +46,37 @@ const App = (props) => {
 		}
 	};
 
-	const determineWinner = () => {
-		const player1Elem = document.getElementById('player1');
-		const player2Elem = document.getElementById('player2');
-		if (player1Elem && player2Elem) {
-			const player1Content = player1Elem.textContent;
-			const player2Content = player2Elem.textContent;
-
-			console.log(handleStrings(player1Content, player2Content));
-
-			// Update the scores state variable based on the comparison result
-			if (player1Content === player2Content) {
-				setPlayerScores((scores) => ({
-					...scores,
-					player1: scores.player1 + 1,
-					player2: scores.player2 + 1,
-				}));
-			} else {
-				setPlayerScores((scores) => ({
-					...scores,
-					player1: scores.player1,
-					player2: scores.player2 + 1,
-				}));
-			}
+	const awardScores = (score1, score2) => {
+		if (score1 > score2) {
+			setWinner('Player 1 won this round');
+			setPlayerScores((scores) => ({
+				...scores,
+				player1: scores.player1 + 1,
+			}));
+		} else if (score1 < score2) {
+			setWinner('Player 2 won this round');
+			setPlayerScores((scores) => ({
+				...scores,
+				player2: scores.player2 + 1,
+			}));
+		} else {
+			setWinner('Its a draw');
 		}
-		console.log(scores);
-	};
 
-	useEffect(() => {
-		determineWinner(scores);
-	}, [currCards]);
+		return winner;
+	};
 
 	const handleEmptyDeck = () => {
 		if (cardDeck.length === 0 && discardPile.length === 52) {
 			setCardDeck([...discardPile]);
 			setDiscardPile([]);
 			shuffleCards(cardDeck);
+			setRounds(0);
 		}
 	};
 
 	const currCardElems = currCards.map(({ name, suit }, index) => (
-		// Give each list element a unique key and ID
-		<div key={`${name}${suit}`}>
+		<div className='cardContainer' key={`${name}${suit}`}>
 			<span id={`player${index + 1}`}>{name}</span> of {suit}
 		</div>
 	));
@@ -87,15 +91,26 @@ const App = (props) => {
 							🚀
 						</span>
 					</h3>
+
+					<h4> round {rounds}</h4>
 					{currCardElems}
 					<br />
 					{cardDeck.length > 0 ? (
-						<Button onClick={dealCards} variant='contained'>
+						<Button className='btn' onClick={dealCards} variant='contained'>
 							Deal
 						</Button>
 					) : (
-						<button onClick={handleEmptyDeck}>Restart</button>
+						<Button onClick={handleEmptyDeck}>Restart</Button>
 					)}
+
+					{cardDeck.length === 52 ? (
+						<p className='readyState'>Get ready to play!</p>
+					) : (
+						<p>{`${winner}`}</p>
+					)}
+					<div>
+						Player 1 score: {scores.player1}, Player 2 score: {scores.player2}
+					</div>
 				</header>
 			</div>
 		</>
