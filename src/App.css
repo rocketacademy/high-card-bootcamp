@@ -10,10 +10,53 @@
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.PlayerContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.PlayerElem {
+  width: 300px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.CardElem {
+  background-color: whitesmoke;
+  color:#2b2f38;
+  font-weight: 600;
+  font-size: xx-large;
+  border: 2px solid rgb(37, 37, 37);
+  height: 110px;
+  width: 75px;
+  margin: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+button {
+  color: rgb(15, 11, 34);
+  background-color: rgb(223, 223, 223);
+  font-size: large;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 2px;
+  margin: 10px;
 }
