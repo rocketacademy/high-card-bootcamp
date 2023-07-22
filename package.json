@@ -7,6 +7,7 @@
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
 		"@mui/material": "^5.14.1",
+		"cardsJS": "^1.1.1",
 		"gh-pages": "^3.2.3",
 		"react": "^18.1.0",
 		"react-dom": "^18.1.0",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import { makeShuffledDeck, shuffleCards } from './utils.js';
 import Button from '@mui/material/Button';
@@ -10,6 +10,7 @@ const App = () => {
 	const [scores, setPlayerScores] = useState({ player1: 0, player2: 0 });
 	const [rounds, setRounds] = useState(0);
 	const [winner, setWinner] = useState('');
+
 	const [game, setGame] = useState({ player1: 0, player2: 0 });
 
 	const dealCards = () => {
@@ -32,7 +33,7 @@ const App = () => {
 	};
 
 	const handleStrings = (card1, card2) => {
-		const cardValues = { Ace: 14, Jack: 11, Queen: 12, King: 13 };
+		const cardValues = { A: 14, J: 11, Q: 12, K: 13 };
 
 		if (typeof card1 === 'number' && typeof card2 === 'number') {
 			return [card1, card2];
@@ -78,7 +79,11 @@ const App = () => {
 
 	const currCardElems = currCards.map(({ name, suit }, index) => (
 		<div className='cardContainer' key={`${name}${suit}`}>
-			<span id={`player${index + 1}`}>{name}</span> of {suit}
+			<img
+				className='card'
+				src={`/img/${name}${suit}.svg`}
+				alt={`${name} of ${suit}`}
+			/>
 		</div>
 	));
 
@@ -98,11 +103,13 @@ const App = () => {
 
 					<br />
 					{cardDeck.length > 0 ? (
-						<Button className='btn' onClick={dealCards} variant='contained'>
+						<Button variant='contained' className='btn' onClick={dealCards}>
 							Deal
 						</Button>
 					) : (
-						<Button onClick={handleEmptyDeck}>Restart</Button>
+						<Button variant='' onClick={handleEmptyDeck}>
+							Restart
+						</Button>
 					)}
 
 					{cardDeck.length === 52 ? (
