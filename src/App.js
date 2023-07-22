@@ -94,7 +94,8 @@ const App = () => {
 					</h3>
 
 					<h4> round {rounds}</h4>
-					{currCardElems}
+					<div className='playingCards'>{currCardElems}</div>
+
 					<br />
 					{cardDeck.length > 0 ? (
 						<Button className='btn' onClick={dealCards} variant='contained'>
