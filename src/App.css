@@ -56,3 +56,9 @@
 #player2 {
 	margin-right: 0.5rem;
 }
+
+.scores {
+	width: 100vw;
+	display: flex;
+	justify-content: space-around;
+}

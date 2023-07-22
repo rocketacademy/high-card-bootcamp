@@ -10,6 +10,7 @@ const App = () => {
 	const [scores, setPlayerScores] = useState({ player1: 0, player2: 0 });
 	const [rounds, setRounds] = useState(0);
 	const [winner, setWinner] = useState('');
+	const [game, setGame] = useState({ player1: 0, player2: 0 });
 
 	const dealCards = () => {
 		const newCurrCards = [cardDeck.pop(), cardDeck.pop()];
@@ -108,8 +109,9 @@ const App = () => {
 					) : (
 						<p>{`${winner}`}</p>
 					)}
-					<div>
-						Player 1 score: {scores.player1}, Player 2 score: {scores.player2}
+					<div className='scores'>
+						<p> Player 1 score: {scores.player1}</p>
+						<p>Player 2 score: {scores.player2}</p>
 					</div>
 				</header>
 			</div>
