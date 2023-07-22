@@ -62,7 +62,7 @@ const makeDeck = () => {
       newDeck.push(card);
     }
   }
-
+  console.log(newDeck);
   // Return the completed card deck
   return newDeck;
 };
