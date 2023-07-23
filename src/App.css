@@ -65,5 +65,10 @@
 }
 
 img.card {
-	width: 10rem;
+	width: 14rem;
+}
+
+#player1,
+#player2 {
+	display: none;
 }
