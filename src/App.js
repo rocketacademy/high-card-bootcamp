@@ -3,15 +3,23 @@ import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 
 class App extends React.Component {
+  initialState = {
+    // currCards holds the cards from the current round
+    currCards: [],
+
+    roundWinner: undefined,
+    roundScores: [0, 0],
+    roundsLeft: 26,
+    gameWinner: undefined,
+    gameOver: false,
+  };
+
   constructor(props) {
     // Always call super with props in constructor to initialise parent class
     super(props);
-    this.state = {
-      // Set default value of card deck to new shuffled deck
-      cardDeck: makeShuffledDeck(),
-      // currCards holds the cards from the current round
-      currCards: [],
-    };
+    this.state = this.initialState;
+    // Set default value of card deck to new shuffled deck
+    this.state.cardDeck = makeShuffledDeck();
   }
 
   dealCards = () => {
@@ -20,6 +28,58 @@ class App extends React.Component {
     this.setState({
       currCards: newCurrCards,
     });
+
+    const ranks = newCurrCards.map((card) => card.rank);
+
+    this.setState(
+      (prevState) => {
+        if (ranks[0] > ranks[1]) {
+          return {
+            roundWinner: "Player 1 won this round.",
+            roundScores: [
+              prevState.roundScores[0] + 1,
+              prevState.roundScores[1],
+            ],
+            roundsLeft: prevState.roundsLeft - 1,
+          };
+        } else if (ranks[0] < ranks[1]) {
+          return {
+            roundWinner: "Player 2 won this round.",
+            roundScores: [
+              prevState.roundScores[0],
+              prevState.roundScores[1] + 1,
+            ],
+            roundsLeft: prevState.roundsLeft - 1,
+          };
+        } else {
+          return {
+            roundWinner: "This round is a tie.",
+            roundsLeft: prevState.roundsLeft - 1,
+          };
+        }
+      },
+      () => {
+        if (this.state.roundsLeft === 0) {
+          this.endGame();
+        }
+      }
+    );
+  };
+
+  endGame = () => {
+    const roundScores = this.state.roundScores;
+    if (roundScores[0] > roundScores[1]) {
+      this.setState({ gameWinner: "Player 1 won!" });
+    } else if (roundScores[0] < roundScores[1]) {
+      this.setState({ gameWinner: "Player 2 won!" });
+    } else {
+      this.setState({ gameWinner: "it's a draw!" });
+    }
+  };
+
+  newGame = () => {
+    this.setState(this.initialState);
+    this.setState({ cardDeck: makeShuffledDeck() });
   };
 
   render() {
@@ -39,7 +99,25 @@ class App extends React.Component {
           <h3>High Card 🚀</h3>
           {currCardElems}
           <br />
-          <button onClick={this.dealCards}>Deal</button>
+          {this.state.gameWinner && (
+            <>
+              <div>{"Game over, " + this.state.gameWinner}</div>
+              <br />
+            </>
+          )}
+          {!this.state.gameWinner && (
+            <button onClick={this.dealCards}>Deal</button>
+          )}
+          {this.state.gameWinner && (
+            <button onClick={this.newGame}>New Game</button>
+          )}
+          <br />
+          <div>{this.state.roundWinner}</div>
+          <br />
+          <div>
+            Score: {this.state.roundScores[0]}-{this.state.roundScores[1]} with{" "}
+            {this.state.roundsLeft} rounds left
+          </div>
         </header>
       </div>
     );
