@@ -2,11 +2,11 @@
   "name": "high-card-bootcamp",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://rocketacademy.github.io/high-card-bootcamp",
+  "homepage":"http://llesterja.github.io/high-card-bootcamp",
   "dependencies": {
-    "gh-pages": "^3.2.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-icons": "^4.10.1",
     "react-scripts": "5.0.1"
   },
   "scripts": {
@@ -31,5 +31,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
   }
 }
