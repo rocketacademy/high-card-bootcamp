@@ -1,0 +1,23 @@
+import React from "react";
+import PropTypes from "prop-types";
+import "./PlayingCard.css"; // Create a CSS file for styling
+
+class PlayingCard extends React.Component {
+  render() {
+    const { rank, suit } = this.props;
+
+    return (
+      <div className={`playing-card ${suit}`}>
+        <div className="card-rank">{rank}</div>
+        <div className="card-suit">{suit}</div>
+      </div>
+    );
+  }
+}
+
+PlayingCard.propTypes = {
+  rank: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  suit: PropTypes.string.isRequired,
+};
+
+export default PlayingCard;
