@@ -15,7 +15,23 @@ import {
   Th,
   Td,
   Text,
+  extendTheme,
+  ChakraProvider,
+  useColorModeValue,
 } from "@chakra-ui/react";
+import { theme } from "@chakra-ui/pro-theme";
+
+import {
+  boxStyle,
+  headingCenterStyle,
+  tableStyle,
+  playerCardBoxStyle,
+  opponentCardBoxStyle,
+  buttonDealStyle,
+  buttonRestartStyle,
+  outcomeMessage,
+} from "./theme.js";
+
 import PlayingCard from "./PlayingCard.js";
 
 class App extends React.Component {
@@ -80,13 +96,13 @@ class App extends React.Component {
     let gameWinner = "";
 
     if (player1Score > player2Score) {
-      gameWinner = "Player 1 Wins the Game!";
+      gameWinner = "Player 1 Wins this Game. Play another round?";
       this.setState({ gameScores: [...gameScores, 1] });
     } else if (player1Score < player2Score) {
-      gameWinner = "Player 2 Wins the Game!";
+      gameWinner = "Player 2 Wins this Game. Play another round?";
       this.setState({ gameScores: [...gameScores, 2] });
     } else {
-      gameWinner = "The Game is a Tie!";
+      gameWinner = "The Game is a Tie. Play another round?";
       this.setState({ gameScores: [...gameScores, "Tie"] });
     }
 
@@ -114,11 +130,11 @@ class App extends React.Component {
 
     switch (lastWinner) {
       case 1:
-        return `${card1.name} of ${card1.suit} Wins! Player 1 Wins this round!`;
+        return `Player 1 wins this round with the ${card1.name} of ${card1.suit}. `;
       case 2:
-        return `${card2.name} of ${card2.suit} Wins! Player 2 Wins this round!`;
+        return `Player 2 wins this round with the ${card2.name} of ${card2.suit}. `;
       case "Tie":
-        return `Both ${card1.name} of ${card1.suit} and ${card2.name} of ${card2.suit} have the same rank! It's a Tie!`;
+        return `Both ${card1.name} of ${card1.suit} and ${card2.name} of ${card2.suit} have the same rank. It's a Tie. `;
       default:
         return null;
     }
@@ -150,22 +166,12 @@ class App extends React.Component {
     const numberOfCardsInDeck = cardDeck.length;
 
     return (
-      <Center minH="100vh" bg="gray.50">
-        <Box padding="4" width="80%">
-          <Flex justifyContent="center" alignItems="center" mb="2">
-            <Image
-              src="https://images.pexels.com/photos/1658747/pexels-photo-1658747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              alt="Playing Card"
-              w="30%"
-            />
-          </Flex>
-          <Heading size="md" textAlign="center" mb="4">
-            High Card 🚀
-          </Heading>
-          <Text mb="4">Cards left in deck: {numberOfCardsInDeck}</Text>
+      <Center w="100vw" h="100vh" bgGradient="linear(to-r, #A8DADC, #ffffff)">
+        <Box {...boxStyle}>
+          <Heading {...headingCenterStyle}>High Card Game</Heading>
 
           {/* Player scores table */}
-          <Table variant="simple" mb="4">
+          <Table {...tableStyle}>
             <Thead>
               <Tr>
                 <Th>Player</Th>
@@ -185,43 +191,35 @@ class App extends React.Component {
                 <Td>Ties</Td>
                 <Td>{overallScores.ties}</Td>
               </Tr>
+              <Tr>
+                <Td>Cards left in deck</Td>
+                <Td>{numberOfCardsInDeck}</Td>
+              </Tr>
             </Tbody>
           </Table>
 
           {/* Messages */}
-          {winnerMessage && (
-            <Heading size="lg" textAlign="center" mb="4">
-              {winnerMessage}
-            </Heading>
-          )}
-          {gameWinner && (
-            <Heading size="lg" textAlign="center" mb="4">
-              {gameWinner}
-            </Heading>
-          )}
+          <Flex justify="center" mb="8">
+            <Box {...outcomeMessage}>
+              {
+                <Heading size="sm" textAlign="center" mb="4">
+                  {winnerMessage}
+                  {gameWinner}
+                </Heading>
+              }
+            </Box>
+          </Flex>
 
           {/* Cards */}
           <Flex justify="space-between" mb="4">
-            <Box
-              border="1px solid"
-              borderColor="blue.300"
-              p="4"
-              flex="1"
-              mr="2"
-            >
+            <Box {...playerCardBoxStyle}>
               {/* Player 1's card */}
               <PlayingCard
                 suit={currCards[0]?.suit}
                 rank={currCards[0]?.name}
               />
             </Box>
-            <Box
-              border="1px solid"
-              borderColor="green.300"
-              p="4"
-              flex="1"
-              ml="2"
-            >
+            <Box {...opponentCardBoxStyle}>
               {/* Player 2's card */}
               <PlayingCard
                 suit={currCards[1]?.suit}
@@ -232,21 +230,10 @@ class App extends React.Component {
 
           {/* Buttons */}
           <Flex justify="center" spacing={4}>
-            <Button
-              onClick={this.dealCards}
-              colorScheme="blue"
-              size="md"
-              mr="2"
-              isDisabled={numberOfCardsInDeck === 0}
-            >
+            <Button {...buttonDealStyle} onClick={this.dealCards}>
               Deal
             </Button>
-            <Button
-              onClick={this.restartGame}
-              colorScheme="teal"
-              size="md"
-              ml="2"
-            >
+            <Button {...buttonRestartStyle} onClick={this.restartGame}>
               Restart Game
             </Button>
           </Flex>
