@@ -3,33 +3,33 @@ import { Box, Text, Image } from "@chakra-ui/react";
 
 const getSuitIcon = (suit) => {
   switch (suit) {
-    case "hearts":
+    case "Hearts":
       return (
-        <img
+        <Image
           src="https://cdn-icons-png.flaticon.com/128/833/833472.png"
           boxSize="24px"
           alt="Hearts"
         />
       );
-    case "diamonds":
+    case "Diamonds":
       return (
-        <img
+        <Image
           src="https://cdn-icons-png.flaticon.com/128/458/458518.png"
           boxSize="24px"
           alt="Diamonds"
         />
       );
-    case "spades":
+    case "Spades":
       return (
-        <img
+        <Image
           src="https://cdn-icons-png.flaticon.com/128/7408/7408604.png"
           boxSize="24px"
           alt="Spades"
         />
       );
-    case "clubs":
+    case "Clubs":
       return (
-        <img
+        <Image
           src="https://cdn-icons-png.flaticon.com/128/220/220757.png"
           boxSize="24px"
           alt="Clubs"
@@ -60,11 +60,9 @@ const PlayingCard = ({ suit, rank }) => {
         {rank}
       </Text>
       <Box position="absolute" top="10" left="10">
-        {suit}
         {getSuitIcon(suit)}
       </Box>
       <Box position="absolute" bottom="10" right="10">
-        {suit}
         {getSuitIcon(suit)}
       </Box>
     </Box>
