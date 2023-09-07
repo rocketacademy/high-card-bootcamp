@@ -28,30 +28,24 @@ class App extends React.Component {
 
   ///// MY FUNCTIONS
   // Returns Boolean based on drawn cards. true if Player wins, false if Computer wins.
-  checkScore = () => {
-    console.log("started");
-    if (this.state.currCards[0].rank > this.state.currCards[1].rank) {
-      console.log("returning hello");
-      return "you lost";
+  checkOutcome = () => {
+    if (this.state.gamePhase === "START") {
+      console.log("STARTED");
+      if (this.state.currCards[0].rank > this.state.currCards[1].rank) {
+        console.log("weird");
+        this.setState({
+          playerOneScore: this.state.playerOneScore + 1,
+        });
+        return <h1>"You Won!</h1>;
+      } else {
+        this.setState({
+          playerTwoScore: this.state.playerTwoScore + 1,
+        });
+        return <h1>"You Lost!</h1>;
+      }
     } else {
-      console.log("returning nooo");
-      return false;
-    }
-  };
-
-  // After getting the bool, setState to record individual scores.
-  // Possibly output the round outcome as a string as well.
-  outcome = (bool) => {
-    if (bool) {
-      this.setState({
-        playerOneScore: this.state.playerOneScore + 1,
-      });
-      return <h1>"You Won!</h1>;
-    } else {
-      this.setState({
-        playerTwoScore: this.state.playerTwoScore + 1,
-      });
-      return <h1>"You Lost!</h1>;
+      console.log("Weird");
+      return null;
     }
   };
 
@@ -79,13 +73,12 @@ class App extends React.Component {
           <button
             onClick={() => {
               this.dealCards();
-              this.outcome(this.checkScore());
             }}
           >
             Deal
           </button>{" "}
           {/* <button onClick={this.dealCards}>Deal</button>{" "} */}
-          {/* <h2>{this.checkScore ? "you won" : "you lost"}</h2> */}
+          <h1>{this.checkOutcome}</h1>
         </header>
       </div>
     );
