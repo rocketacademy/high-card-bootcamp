@@ -23,28 +23,28 @@ class App extends React.Component {
     const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()];
     this.setState({
       currCards: newCurrCards,
+      gamePhase: "WEIRD",
     });
   };
 
   ///// MY FUNCTIONS
   // Returns Boolean based on drawn cards. true if Player wins, false if Computer wins.
   checkOutcome = () => {
-    if (this.state.gamePhase === "START") {
-      console.log("STARTED");
+    if (this.state.gamePhase === "WEIRD") {
       if (this.state.currCards[0].rank > this.state.currCards[1].rank) {
-        console.log("weird");
         this.setState({
+          gamePhase: "END",
           playerOneScore: this.state.playerOneScore + 1,
         });
-        return <h1>"You Won!</h1>;
+        return "You Won!";
       } else {
         this.setState({
+          gamePhase: "END",
           playerTwoScore: this.state.playerTwoScore + 1,
         });
-        return <h1>"You Lost!</h1>;
+        return "You Lost!";
       }
     } else {
-      console.log("Weird");
       return null;
     }
   };
@@ -77,8 +77,14 @@ class App extends React.Component {
           >
             Deal
           </button>{" "}
+          <h1>
+            {this.state.currCards.length !== 0 && this.stategamePhase === "END"
+              ? this.checkOutcome()
+              : null}
+          </h1>
           {/* <button onClick={this.dealCards}>Deal</button>{" "} */}
-          <h1>{this.checkOutcome}</h1>
+          {/* <h1>{this.checkOutcome()}</h1> */}
+          {/* <h1>{resultMsg}</h1> */}
         </header>
       </div>
     );
