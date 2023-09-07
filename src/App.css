@@ -17,3 +17,82 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+table.bordered-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px; /* Add some margin to separate tables */
+  border-color: aqua;
+}
+
+.bordered-table th,
+.bordered-table td {
+  border: 1px solid white;
+  color: black;
+  text-align: left;
+  padding: 8px;
+}
+
+.bordered-table th {
+  background-color: white;
+  color: black;
+}
+/* Red background for Player 1 win */
+.row-player1-win {
+  background-color: red;
+  text-align: center;
+}
+
+/* Yellow background for Player 2 win */
+.row-player2-win {
+  background-color: rgb(196, 196, 4);
+}
+
+/* Green background for Tie game */
+.row-tie {
+  background-color: green;
+}
+.bordered-table th,
+.bordered-table td {
+  border: 1px solid white;
+  color: black;
+  text-align: center; /* Center the text horizontally */
+  padding: 8px;
+  width: 90%;
+  margin-top: 20px;
+}
+.playing-card {
+  width: 100px;
+  height: 150px;
+  background-color: white;
+  border: 2px solid #000;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  user-select: none;
+}
+
+.playing-card.hearts,
+.playing-card.diamonds {
+  color: red;
+}
+
+.playing-card.clubs,
+.playing-card.spades {
+  color: black;
+}
+
+.card-rank {
+  align-self: flex-start;
+  margin-top: 5px;
+}
+
+.card-suit {
+  align-self: flex-end;
+  margin-bottom: 5px;
+}
