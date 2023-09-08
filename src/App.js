@@ -19,6 +19,7 @@ class App extends React.Component {
       playerOneScore: 0,
       playerTwoScore: 0,
       outcomeMsg: "",
+      outputImg: "",
 
       matchesTied: 0,
       playerOneWins: 0,
@@ -27,7 +28,7 @@ class App extends React.Component {
   }
 
   dealCards = () => {
-    if (this.state.cardDeck.length !== 0) {
+    if (this.state.cardDeck.length > 4) {
       // this.state.cardDeck.pop() modifies this.state.cardDeck array
       const newCurrCards = [
         this.state.cardDeck.pop(),
@@ -38,10 +39,22 @@ class App extends React.Component {
         currCards: newCurrCards,
         gamePhase: "DRAWN",
       });
-    } else {
+    } else if (
+      this.state.cardDeck.length <= 4 &&
+      this.state.cardDeck.length > 0
+    ) {
+      console.log("hello");
+      console.log(this.state.gamePhase);
+      const newCurrCards = [
+        this.state.cardDeck.pop(),
+        this.state.cardDeck.pop(),
+      ];
+
       this.setState({
-        gamephase: "Press Reset To Play Again!",
+        currCards: newCurrCards,
+        gamePhase: "FINAL",
       });
+      console.log(this.state.gamePhase);
     }
   };
 
@@ -57,28 +70,38 @@ class App extends React.Component {
       playerOneScore: 0,
       playerTwoScore: 0,
       outcomeMsg: "Game Restarted",
+
+      outputImg: "",
     });
   };
 
   checkScore = () => {
-    if (this.state.gamePhase === "END" && this.state.cardDeck.length === 0) {
-      console.log("ended");
+    if (this.state.gamePhase === "FINAL" && this.state.cardDeck.length === 0) {
       if (this.state.playerOneScore > this.state.playerTwoScore) {
         this.setState({
           playerOneScore: this.state.playerOneScore + 1,
           playerOneWins: this.state.playerOneWins + 1,
-          outcomeMsg: "Player One Wins the Match!",
+          outcomeMsg: "Player One Wins the Match! Go Next?",
+
+          outputImg: "win",
+          gamePhase: "EXIT",
         });
       } else if (this.state.playerTwoScore > this.state.playerOneScore) {
         this.setState({
           playerTwoScore: this.state.playerTwoScore + 1,
           playerTwoWins: this.state.playerTwoWins + 1,
-          outcomeMsg: "Player Two Wins the Match!",
+          outcomeMsg: "Player Two Wins the Match! Go Next?",
+
+          outputImg: "lose",
+          gamePhase: "EXIT",
         });
       } else if (this.state.playerOneScore === this.state.playerTwoScore) {
         this.setState({
           matchesTied: this.state.matchesTied + 1,
           outcomeMsg: "It's a Tie..",
+
+          outputImg: "tie",
+          gamePhase: "EXIT",
         });
       }
     }
@@ -86,7 +109,7 @@ class App extends React.Component {
 
   // Returns Boolean based on drawn cards. true if Player wins, false if Computer wins.
   checkOutcome = () => {
-    if (this.state.gamePhase === "DRAWN" && this.state.cardDeck.length !== 0) {
+    if (this.state.gamePhase === "DRAWN" && this.state.cardDeck.length > 2) {
       if (this.state.currCards[0].rank > this.state.currCards[1].rank) {
         this.setState({
           gamePhase: "END",
@@ -102,15 +125,8 @@ class App extends React.Component {
         });
         // return "You Lost!";
       }
-    } else if (
-      this.state.gamePhase === "END" &&
-      this.state.cardDeck.length === 2
-    ) {
-      console.log("ended branch");
     }
   };
-
-  roundCheck = () => {};
 
   render() {
     // You can write JavaScript here, just don't try and set your state!
@@ -124,6 +140,30 @@ class App extends React.Component {
     //   color: "red",
     //   fontSize: 50,
     // };
+
+    const imageList = {
+      win: (
+        <img
+          src="https://media.tenor.com/2nerD3zqcC4AAAAC/lebron-james-dunk.gif"
+          height="400"
+          width="400"
+        />
+      ),
+      lose: (
+        <img
+          src="https://media.tenor.com/Om5vDKW2-WEAAAAC/grenade-explosion.gif "
+          height="400"
+          width="400"
+        />
+      ),
+      tie: (
+        <img
+          src="https://media.tenor.com/003djdkDDyYAAAAC/the-office-mexican-standoff.gif"
+          height="400"
+          width="400"
+        />
+      ),
+    };
 
     // You can access your current components state here, as indicated below
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
@@ -141,10 +181,12 @@ class App extends React.Component {
     ));
 
     const outputMessage = (
-      <h1 className="text-5xl font-bold tracking-tight text-slate-900">
+      <h1 className="text-4xl font-bold tracking-tight text-slate-900">
         {this.state.outcomeMsg}
       </h1>
     );
+
+    const outputImage = imageList[this.state.outputImg];
 
     return (
       <div className="App">
@@ -179,11 +221,14 @@ class App extends React.Component {
         </div>
         <header className="App-header">
           <div className="showcard">
-            {/* <Card card={this.state.currCards[0]} /> */}
             <h1>{currCardElems[0]}</h1>
           </div>
-          {this.checkOutcome()}
-          {outputMessage}
+          <div className="menu2">
+            {this.checkOutcome()}
+            {this.checkScore()}
+            {outputMessage}
+            {outputImage}
+          </div>
           <div className="showcard">
             <h1>{currCardElems[1]}</h1>
           </div>
