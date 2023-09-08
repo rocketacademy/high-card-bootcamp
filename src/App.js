@@ -1,6 +1,9 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+// import { Box } from "@chakra-ui/react";
+
+// import Card from "./Card.js";
 
 class App extends React.Component {
   constructor(props) {
@@ -11,36 +14,252 @@ class App extends React.Component {
       cardDeck: makeShuffledDeck(),
       // currCards holds the cards from the current round
       currCards: [],
+
+      gamePhase: "START",
+      playerOneScore: 0,
+      playerTwoScore: 0,
+      outcomeMsg: "",
+      outputImg: "",
+
+      matchesTied: 0,
+      playerOneWins: 0,
+      playerTwoWins: 0,
     };
   }
 
   dealCards = () => {
-    // this.state.cardDeck.pop() modifies this.state.cardDeck array
-    const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()];
+    if (this.state.cardDeck.length > 4) {
+      // this.state.cardDeck.pop() modifies this.state.cardDeck array
+      const newCurrCards = [
+        this.state.cardDeck.pop(),
+        this.state.cardDeck.pop(),
+      ];
+
+      this.setState({
+        currCards: newCurrCards,
+        gamePhase: "DRAWN",
+      });
+    } else if (
+      this.state.cardDeck.length <= 4 &&
+      this.state.cardDeck.length > 0
+    ) {
+      console.log("hello");
+      console.log(this.state.gamePhase);
+      const newCurrCards = [
+        this.state.cardDeck.pop(),
+        this.state.cardDeck.pop(),
+      ];
+
+      this.setState({
+        currCards: newCurrCards,
+        gamePhase: "FINAL",
+      });
+      console.log(this.state.gamePhase);
+    }
+  };
+
+  ///// MY FUNCTIONS
+  // Button functionality to restart that round.
+
+  restartGame = () => {
     this.setState({
-      currCards: newCurrCards,
+      cardDeck: makeShuffledDeck(),
+      currCards: [],
+
+      gamePhase: "START",
+      playerOneScore: 0,
+      playerTwoScore: 0,
+      outcomeMsg: "Game Restarted",
+
+      outputImg: "",
     });
+  };
+
+  checkScore = () => {
+    if (this.state.gamePhase === "FINAL" && this.state.cardDeck.length === 0) {
+      if (this.state.playerOneScore > this.state.playerTwoScore) {
+        this.setState({
+          playerOneScore: this.state.playerOneScore + 1,
+          playerOneWins: this.state.playerOneWins + 1,
+          outcomeMsg: "Player One Wins the Match! Go Next?",
+
+          outputImg: "win",
+          gamePhase: "EXIT",
+        });
+      } else if (this.state.playerTwoScore > this.state.playerOneScore) {
+        this.setState({
+          playerTwoScore: this.state.playerTwoScore + 1,
+          playerTwoWins: this.state.playerTwoWins + 1,
+          outcomeMsg: "Player Two Wins the Match! Go Next?",
+
+          outputImg: "lose",
+          gamePhase: "EXIT",
+        });
+      } else if (this.state.playerOneScore === this.state.playerTwoScore) {
+        this.setState({
+          matchesTied: this.state.matchesTied + 1,
+          outcomeMsg: "It's a Tie..",
+
+          outputImg: "tie",
+          gamePhase: "EXIT",
+        });
+      }
+    }
+  };
+
+  // Returns Boolean based on drawn cards. true if Player wins, false if Computer wins.
+  checkOutcome = () => {
+    if (this.state.gamePhase === "DRAWN" && this.state.cardDeck.length > 2) {
+      if (this.state.currCards[0].rank > this.state.currCards[1].rank) {
+        this.setState({
+          gamePhase: "END",
+          playerOneScore: this.state.playerOneScore + 1,
+          outcomeMsg: "Player Won!",
+        });
+        // return "You Won!";
+      } else {
+        this.setState({
+          gamePhase: "END",
+          playerTwoScore: this.state.playerTwoScore + 1,
+          outcomeMsg: "Computer Won!",
+        });
+        // return "You Lost!";
+      }
+    }
   };
 
   render() {
     // You can write JavaScript here, just don't try and set your state!
 
+    ///// Q1. Not sure what kind of functions I can write here, versus above, outside of the render function.
+    ///// Q2. When can we use const / let etc?
+    ///// Q3. Is there a difference in writing: functionname = (input) => { }  vs functionname(input){ } ? I am quite lost cause I thought it was const functionname(input){ }
+
+    // const redSuit = {
+    //   textAlign: "center",
+    //   color: "red",
+    //   fontSize: 50,
+    // };
+
+    const imageList = {
+      win: (
+        <img
+          src="https://media.tenor.com/2nerD3zqcC4AAAAC/lebron-james-dunk.gif"
+          height="400"
+          width="400"
+        />
+      ),
+      lose: (
+        <img
+          src="https://media.tenor.com/Om5vDKW2-WEAAAAC/grenade-explosion.gif "
+          height="400"
+          width="400"
+        />
+      ),
+      tie: (
+        <img
+          src="https://media.tenor.com/003djdkDDyYAAAAC/the-office-mexican-standoff.gif"
+          height="400"
+          width="400"
+        />
+      ),
+    };
+
     // You can access your current components state here, as indicated below
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
       // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
+      <div
+        className="indivCard text-4xl font-medium shadow-md"
+        key={`${name}${suit}`}
+      >
+        {suit}
+        <br />
+        {name}
+        <br />
+        {suit}
       </div>
     ));
 
+    const outputMessage = (
+      <h1 className="text-4xl font-bold tracking-tight text-slate-900">
+        {this.state.outcomeMsg}
+      </h1>
+    );
+
+    const outputImage = imageList[this.state.outputImg];
+
     return (
       <div className="App">
+        <div className="titlecard gap-10">
+          <h2 className="text-3xl font-bold dark:text-white block max-w-sm bg-white border border-gray-200 rounded-lg shadow p-5">
+            Player One
+            <br /> Round Score:
+            <br /> {this.state.playerOneScore}
+          </h2>
+          <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl  pt-5">
+            HIGH CARD 🚀
+          </h1>
+          <h2 className="text-3xl font-bold dark:text-white block max-w-sm bg-white border border-gray-200 rounded-lg shadow p-5">
+            Player Two <br />
+            Round Score: <br />
+            {this.state.playerTwoScore}
+          </h2>
+        </div>
+        <div className="menu">
+          <button
+            className=" text-2xl bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+            onClick={this.dealCards}
+          >
+            DEAL
+          </button>
+          <button
+            className=" text-2xl bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+            onClick={this.restartGame}
+          >
+            RESET
+          </button>
+        </div>
         <header className="App-header">
-          <h3>High Card 🚀</h3>
-          {currCardElems}
-          <br />
-          <button onClick={this.dealCards}>Deal</button>
+          <div className="showcard">
+            <h1>{currCardElems[0]}</h1>
+          </div>
+          <div className="menu2">
+            {this.checkOutcome()}
+            {this.checkScore()}
+            {outputMessage}
+            {outputImage}
+          </div>
+          <div className="showcard">
+            <h1>{currCardElems[1]}</h1>
+          </div>
+          {/* <button onClick={this.dealCards}>Deal</button>{" "} */}
+          {/* <button
+            onClick={() => {
+              this.dealCards();
+            }}
+          >
+            Deal
+          </button>{" "} */}
         </header>
+        {/* {this.checkOutcome()}
+        {outputMessage} */}
+        <div className="basecard text-xl font-bold p-10 gap-10">
+          <h2>
+            Cards Remaining:
+            <br />
+            {this.state.cardDeck.length}
+          </h2>
+          <h2 className="text-3xl">
+            Score Tally:
+            <br />
+            {this.state.playerOneWins} - {this.state.playerTwoWins}
+          </h2>
+          <h2>
+            Matches Tied:
+            <br />
+            {this.state.matchesTied}
+          </h2>
+        </div>
       </div>
     );
   }
