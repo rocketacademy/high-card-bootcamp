@@ -8,14 +8,18 @@
 }
 
 .App-header {
-  padding-top: 50px;
+  padding: 0px;
   margin-top: 50px;
   background-color: #282c34;
-  /* min-height: 80vh; */
+  min-height: 40vh;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  /* gap: 20px; */
+
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   font-size: calc(10px + 2vmin);
+
   color: white;
+  text-align: center;
 }

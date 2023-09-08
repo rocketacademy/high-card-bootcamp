@@ -36,7 +36,16 @@ button {
 
 .basecard {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: baseline;
-  padding: 50px;
+  padding-top: 20px;
+}
+
+.indivCard {
+  color: black;
+  width: 200px;
+  /* padding: 1rem 50px 1rem 50px; */
+  background-color: white;
+  border-radius: 10px;
+  /* text-align: center; */
 }

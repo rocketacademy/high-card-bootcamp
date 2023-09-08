@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 
+// import Card from "./Card.js";
+
 class App extends React.Component {
   constructor(props) {
     // Always call super with props in constructor to initialise parent class
@@ -80,15 +82,27 @@ class App extends React.Component {
     ///// Q2. When can we use const / let etc?
     ///// Q3. Is there a difference in writing: functionname = (input) => { }  vs functionname(input){ } ? I am quite lost cause I thought it was const functionname(input){ }
 
+    const redSuit = {
+      color: "red",
+    };
+
     // You can access your current components state here, as indicated below
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
       // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
+      <div class="indivCard" key={`${name}${suit}`}>
+        {{ suit } == "♥️" || { suit } == "♦️" ? (
+          <font style={redSuit}>{suit}</font>
+        ) : (
+          { suit }
+        )}
+        <br />
+        {name}
+        <br />
+        {suit}
       </div>
     ));
 
-    const outputMessage = <h2>{this.state.outcomeMsg}</h2>;
+    const outputMessage = <h1>{this.state.outcomeMsg}</h1>;
 
     return (
       <div className="App">
@@ -106,8 +120,13 @@ class App extends React.Component {
         </div>
         <button onClick={this.dealCards}>Deal</button>
         <header className="App-header">
-          <h1>{currCardElems}</h1>
-          <br />
+          <div class="showcard">
+            {/* <Card card={this.state.currCards[0]} /> */}
+            <h1>{currCardElems[0]}</h1>
+          </div>
+          <div class="showcard">
+            <h1>{currCardElems[1]}</h1>
+          </div>
           {/* <button onClick={this.dealCards}>Deal</button>{" "} */}
           {/* <button
             onClick={() => {
@@ -116,9 +135,9 @@ class App extends React.Component {
           >
             Deal
           </button>{" "} */}
-          {this.checkOutcome()}
-          {outputMessage}
         </header>
+        {this.checkOutcome()}
+        {outputMessage}
         <div class="basecard">
           <h2>
             Cards Remaining:
