@@ -29,7 +29,15 @@ const makeDeck = () => {
   for (let suitIndex = 0; suitIndex < suits.length; suitIndex += 1) {
     // Store the current suit in a variable
     const currentSuit = suits[suitIndex];
-
+    // if (currentSuit === "Spades") {
+    //   var suitRank = 4;
+    // } else if (currentSuit === "Hearts") {
+    //   suitRank = 3;
+    // } else if (currentSuit === "Diamonds") {
+    //   suitRank = 2;
+    // } else if (currentSuit === "Clubs") {
+    //   suitRank = 1;
+    // }
     // Loop from 1 to 13 to create all cards for a given suit
     // Notice rankCounter starts at 1 and not 0, and ends at 13 and not 12.
     // This is an example of a loop without an array.
@@ -55,11 +63,13 @@ const makeDeck = () => {
       const card = {
         name: cardName,
         suit: currentSuit,
+        // sRank: suitRank,
         rank: cardRank,
       };
 
       // Add the new card to the deck
       newDeck.push(card);
+      //console.log(newDeck);
     }
   }
 
