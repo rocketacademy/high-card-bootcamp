@@ -15,39 +15,63 @@ class App extends React.Component {
       gamePhase: "START",
       playerOneScore: 0,
       playerTwoScore: 0,
+      outcomeMsg: "",
+
+      matchesTied: 0,
+      matchesPlayed: 0,
+      playerOneWins: 0,
+      playerTwoWins: 0,
     };
   }
 
   dealCards = () => {
     // this.state.cardDeck.pop() modifies this.state.cardDeck array
     const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()];
+
     this.setState({
       currCards: newCurrCards,
-      gamePhase: "WEIRD",
+      gamePhase: "DRAWN",
     });
   };
 
   ///// MY FUNCTIONS
+  // Button functionality to restart that round.
+  restartGame = () => {
+    this.setState = {
+      cardDeck: makeShuffledDeck(),
+      currCards: [],
+
+      gamePhase: "START",
+      playerOneScore: 0,
+      playerTwoScore: 0,
+      outcomeMsg: "Game Restarted",
+    };
+  };
+
   // Returns Boolean based on drawn cards. true if Player wins, false if Computer wins.
   checkOutcome = () => {
-    if (this.state.gamePhase === "WEIRD") {
+    if (this.state.gamePhase === "DRAWN") {
       if (this.state.currCards[0].rank > this.state.currCards[1].rank) {
         this.setState({
           gamePhase: "END",
           playerOneScore: this.state.playerOneScore + 1,
+          outcomeMsg: "Player Won",
         });
-        return "You Won!";
+        // return "You Won!";
       } else {
         this.setState({
           gamePhase: "END",
           playerTwoScore: this.state.playerTwoScore + 1,
+          outcomeMsg: "Computer Won",
         });
-        return "You Lost!";
+        // return "You Lost!";
       }
     } else {
       return null;
     }
   };
+
+  roundCheck = () => {};
 
   render() {
     // You can write JavaScript here, just don't try and set your state!
@@ -64,28 +88,54 @@ class App extends React.Component {
       </div>
     ));
 
+    const outputMessage = <h2>{this.state.outcomeMsg}</h2>;
+
     return (
       <div className="App">
+        {" "}
+        <div class="titlecard">
+          <h2>
+            Player One Score:
+            <br /> {this.state.playerOneScore}
+          </h2>
+          <h1>High Card 🚀</h1>
+          <h2>
+            Player Two Score: <br />
+            {this.state.playerTwoScore}
+          </h2>
+        </div>
+        <button onClick={this.dealCards}>Deal</button>
         <header className="App-header">
-          <h3>High Card 🚀</h3>
-          {currCardElems}
+          <h1>{currCardElems}</h1>
           <br />
-          <button
+          {/* <button onClick={this.dealCards}>Deal</button>{" "} */}
+          {/* <button
             onClick={() => {
               this.dealCards();
             }}
           >
             Deal
-          </button>{" "}
-          <h1>
-            {this.state.currCards.length !== 0 && this.stategamePhase === "END"
-              ? this.checkOutcome()
-              : null}
-          </h1>
-          {/* <button onClick={this.dealCards}>Deal</button>{" "} */}
-          {/* <h1>{this.checkOutcome()}</h1> */}
-          {/* <h1>{resultMsg}</h1> */}
+          </button>{" "} */}
+          {this.checkOutcome()}
+          {outputMessage}
         </header>
+        <div class="basecard">
+          <h2>
+            Cards Remaining:
+            <br />
+            {this.state.cardDeck.length}
+          </h2>
+          <h2>
+            Matches Played:
+            <br />
+            {this.state.matchesPlayed}
+          </h2>
+          <h2>
+            Matches Tied:
+            <br />
+            {this.state.matchesTied}
+          </h2>
+        </div>
       </div>
     );
   }

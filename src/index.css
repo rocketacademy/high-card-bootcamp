@@ -11,3 +11,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+button {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+  font-size: 16px;
+  padding: 1rem 3rem 1rem 3rem;
+  text-transform: uppercase;
+  border-radius: 20px;
+  border-width: 0px;
+  box-shadow: 0.2em 0.2em hsl(0, 100%, 79%);
+}
+
+/* h1 {
+  padding: 50px;
+}
+ */
+
+.titlecard {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 50px;
+}
+
+.basecard {
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  padding: 50px;
+}
