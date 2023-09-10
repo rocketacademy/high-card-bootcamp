@@ -1,0 +1,13 @@
+.Scoreboard{
+    justify-content:center;
+    text-align:center;
+    border-style:solid;
+    border-color:white;
+    width:500px;
+  }
+  
+.roundScoreRow, .gameScoreRow{
+    width:400px;
+    border-color:white;
+    color:aqua;
+  }

@@ -3,24 +3,34 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./Scoreboard.css";
 
 export function Scoreboard(props) {
     const playerRow = Object.values(props).map((player) => 
-        <Col>{player.name}</Col>           
+        <Col className = 'playerRow'>{player.name}</Col>           
     )
-    const scoreRow = Object.values(props).map((player) => 
-        <Col>{player.score}</Col>
-    )   
+    const roundScoreRow = Object.values(props).map((player) => 
+        <Col className = 'roundScoreRow'>{player.roundScore}</Col>
+    )  
+    const gameScoreRow = Object.values(props).map((player) => 
+        <Col className = 'gameScoreRow'>{player.gameScore}</Col>
+    ) 
 
     return (
         <div>
-        <Container>
-            <Row>Scoreboard</Row>
+        <Container className = 'Scoreboard'>
+            <Row><Col>Scoreboard</Col></Row>
             <Row>
+                <Col></Col>
                 {playerRow}
             </Row>
             <Row>
-                {scoreRow}
+                <Col>Score:</Col>
+                {roundScoreRow}
+            </Row>
+            <Row>
+                <Col>Games won:</Col>
+                {gameScoreRow}
             </Row>
         </Container>
         </div>
