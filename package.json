@@ -2,7 +2,7 @@
   "name": "high-card-bootcamp",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://rocketacademy.github.io/high-card-bootcamp",
+  "homepage": "https://kh-pua.github.io/high-card-bootcamp",
   "dependencies": {
     "gh-pages": "^3.2.3",
     "react": "^18.1.0",
