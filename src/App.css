@@ -16,6 +16,8 @@ h3 {
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 20px 20px;
+  max-width: 18em;
+  padding: 0;
 }
 
 input {
@@ -27,8 +29,8 @@ input {
 
 button {
   border-radius: 10px;
-  width: 40vw;
-  height: 10vw;
+  width: 12em;
+  height: 4em;
   margin: 6px;
   background-color: var(--primary-red);
   color: var(--primary-white);
@@ -111,4 +113,7 @@ p.char {
   border-radius: 20px;
   margin: 10px;
   background-color: var(--primary-teal);
+}
+footer {
+  margin: 0.8em;
 }

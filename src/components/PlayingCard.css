@@ -9,7 +9,9 @@
   background-color: white;
   border-radius: 10%;
   width: 30vw;
+  max-width: 8em;
   height: 40vw;
+  max-height: 11em;
   display: flex;
   align-items: center;
   justify-content: center;

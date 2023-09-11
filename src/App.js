@@ -102,9 +102,6 @@ class App extends React.Component {
   render() {
     const [card1] = this.state.p1Card;
     const [card2] = this.state.p2Card;
-    console.log(this.state.p1Card); //[{ name: "4", suit: "Clubs", rank: 4 }];
-    console.log(card1); //{name: '4', suit: 'Clubs', rank: 4}
-    console.log(card1.rank); //4
 
     return (
       <div className="App">
@@ -137,10 +134,9 @@ class App extends React.Component {
               </Col>
             </Row>
           </Container>
-          <br />
           <button onClick={this.dealCards}>Deal!</button>
           <button onClick={this.restartGame}>Reset</button>
-          <p>Remaining Cards:{this.state.cardDeck.length}</p>
+          <footer>Remaining Cards:{this.state.cardDeck.length}</footer>
         </header>
       </div>
     );
