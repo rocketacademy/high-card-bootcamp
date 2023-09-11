@@ -1,0 +1,31 @@
+:root {
+  --primary-blue: #5fa9b4;
+  --primary-teal: #b4d6c5;
+  --primary-red: #a8515d;
+  --primary-white: #fcecca;
+}
+
+.playing-card {
+  background-color: white;
+  border-radius: 10%;
+  width: 30vw;
+  max-width: 8em;
+  height: 40vw;
+  max-height: 11em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0;
+  box-shadow: 0 0 7px 6px var(--primary-teal);
+}
+
+.card-rank {
+  font-size: 28px;
+  margin: 0;
+}
+
+.card-suit {
+  font-size: 28px;
+  margin: 10px;
+}
