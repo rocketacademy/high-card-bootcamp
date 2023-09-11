@@ -1,4 +1,5 @@
 import React from "react";
+import "./PlayingCard.css";
 
 export default class PlayingCard extends React.Component {
   render() {
@@ -11,16 +12,16 @@ export default class PlayingCard extends React.Component {
 
     return (
       <div className="playing-card">
-        <span className="card-rank">{this.props.rank}</span>
-        <span className="card-suit">{suitEmojis[this.props.suit]}</span>
+        <div className="wrapper">
+          <p className="card-suit">{suitEmojis[this.props.suit]}</p>
+        </div>
+        <div className="wrapper">
+          <p className="card-rank">{this.props.name}</p>
+        </div>
+        <div className="wrapper">
+          <p className="card-suit">{suitEmojis[this.props.suit]}</p>
+        </div>
       </div>
     );
   }
-}
-
-{
-  /* {this.state.card({
-          suit: this.props.suit,
-          rank: this.props.rank,
-        })} */
 }

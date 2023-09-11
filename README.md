@@ -1,3 +1,20 @@
+## Built Features
+
+- Compare cards by both rank and suit
+- Determine who has won each round & display message
+- Keep Score during the game
+- Keep Score of the number of games won
+- Display message after winner is declared
+- Reset game after winner is declared
+- Ability to reset the game
+- Display number of remaining cards in the deck
+- Playing Card class component to render image of cards
+
+## Outstanding Features
+
+- Display last card played in a smaller render
+- Highlight winning card when played
+
 # Rocket Academy Coding Bootcamp: High Card
 
 https://bc.rocketacademy.co/1-frontend/1.e-exercises/1.e.3-high-card

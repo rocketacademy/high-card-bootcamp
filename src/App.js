@@ -12,8 +12,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       cardDeck: makeShuffledDeck(),
-      p1Card: [],
-      p2Card: [],
+      p1Card: [{ name: "", suit: "", rank: 0 }],
+      p2Card: [{ name: "", suit: "", rank: 0 }],
       p1Score: 0,
       p2Score: 0,
       p1Result: 0,
@@ -54,17 +54,17 @@ class App extends React.Component {
     if (card1.rank > card2.rank) {
       this.setState({
         p1Score: this.state.p1Score + 1,
-        gameState: "Player 1 Scores!",
+        gameState: "🥷🏻 Scores!",
       });
     } else if (suitWeights[card1.suit] > suitWeights[card2.suit]) {
       this.setState({
         p1Score: this.state.p1Score + 1,
-        gameState: "Player 1 Scores!",
+        gameState: "🥷🏻 Scores!",
       });
     } else
       this.setState({
         p2Score: this.state.p2Score + 1,
-        gameState: "Player 2 Scores!",
+        gameState: "🤖 Scores!",
       });
   };
 
@@ -74,14 +74,14 @@ class App extends React.Component {
         p1Result: this.state.p1Result + 1,
         p1Score: 0,
         p2Score: 0,
-        gameState: "Player 1 Wins!",
+        gameState: "No more cards - 🥷🏻 Wins!",
       });
     } else {
       this.setState({
         p1Score: this.state.p1Score + 1,
         p1Score: 0,
         p2Score: 0,
-        gameState: "Player 2 Wins!",
+        gameState: "No more cards - 🤖 Wins!",
       });
     }
     this.setState({ cardDeck: makeShuffledDeck() });
@@ -100,21 +100,11 @@ class App extends React.Component {
   };
 
   render() {
-    // const p1CardElems = this.state.p1Card.map(({ name, suit }) => (
-    //   <div key={`${name}${suit}`}>
-    //     {name} of {suit}
-    //   </div>
-    // ));
-    // const p2CardElems = this.state.p2Card.map(({ name, suit }) => (
-    //   <div key={`${name}${suit}`}>
-    //     {name} of {suit}
-    //   </div>
-    // ));
-
     const [card1] = this.state.p1Card;
     const [card2] = this.state.p2Card;
-    console.log(card1);
-    console.log(card2);
+    console.log(this.state.p1Card); //[{ name: "4", suit: "Clubs", rank: 4 }];
+    console.log(card1); //{name: '4', suit: 'Clubs', rank: 4}
+    console.log(card1.rank); //4
 
     return (
       <div className="App">
@@ -135,11 +125,20 @@ class App extends React.Component {
               <Col className="table-elements">{this.state.p2Result}</Col>
             </Row>
           </Container>
-          {/* <PlayingCard suit={card1.suit} rank={card2.rank} />
-          <PlayingCard suit={card1.suit} rank={card2.rank} /> */}
+          <Container>
+            <Row className="card-row">
+              <Col className="card-element">
+                <PlayingCard suit={card1.suit} name={card1.name} />
+                <p className="char">🥷🏻</p>
+              </Col>
+              <Col className="card-element">
+                <PlayingCard suit={card2.suit} name={card2.name} />
+                <p className="char">🤖</p>
+              </Col>
+            </Row>
+          </Container>
           <br />
-          <button onClick={this.test}>test</button>
-          <button onClick={this.dealCards}>Deal</button>
+          <button onClick={this.dealCards}>Deal!</button>
           <button onClick={this.restartGame}>Reset</button>
           <p>Remaining Cards:{this.state.cardDeck.length}</p>
         </header>

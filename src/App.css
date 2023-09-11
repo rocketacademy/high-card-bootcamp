@@ -1,3 +1,7 @@
+* {
+  margin: 0;
+}
+
 :root {
   --primary-blue: #5fa9b4;
   --primary-teal: #b4d6c5;
@@ -25,6 +29,10 @@ button {
   border-radius: 10px;
   width: 40vw;
   height: 10vw;
+  margin: 6px;
+  background-color: var(--primary-red);
+  color: var(--primary-white);
+  font-weight: 800;
 }
 
 .App {
@@ -85,4 +93,22 @@ button {
   align-items: center;
   justify-content: center;
   color: var(--primary-white);
+}
+
+.card-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 15px;
+}
+
+.card-element {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+p.char {
+  border-radius: 20px;
+  margin: 10px;
+  background-color: var(--primary-teal);
 }
