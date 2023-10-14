@@ -49,6 +49,15 @@ class App extends React.Component {
       gameStarted: true,
       playerOneCurrWinner: newPlayerOneCurrWinner,
     });
+    if (newPlayerOneCurrWinner) {
+      this.setState({
+        playerOneScore: this.state.playerOneScore + 1,
+      });
+    } else {
+      this.setState({
+        playerTwoScore: this.state.playerTwoScore + 1,
+      });
+    }
   };
 
   render() {
@@ -78,8 +87,8 @@ class App extends React.Component {
         <h3>
           Winner is: {this.state.playerOneCurrWinner ? "Player 1" : "Player 2"}
         </h3>
-        <h4>Player 1's Score: {this.state.playerOneScore}</h4>
-        <h4>Player 2's Score: {this.state.playerTwoScore}</h4>
+        <div>Player 1's Score: {this.state.playerOneScore}</div>
+        <div>Player 2's Score: {this.state.playerTwoScore}</div>
         <h4>Card left in deck: {this.state.cardsLeft}</h4>
       </div>
     );
