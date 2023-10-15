@@ -13,6 +13,7 @@ class App extends React.Component {
       currCards: [],
       cardsLeft: 52,
       gameStarted: false,
+      gameEnded: false,
 
       playerOneCurrWinner: false,
       playerOneScore: 0,
@@ -58,6 +59,21 @@ class App extends React.Component {
         playerTwoScore: this.state.playerTwoScore + 1,
       });
     }
+    if (this.state.cardsLeft === 2) {
+      this.setState({ gameEnded: true });
+    }
+  };
+
+  calculateWinningStatement = (p1Points, p2Points) => {
+    if (p1Points === p2Points) {
+      return "This game is a draw!";
+    }
+    let winnerString = "Winner of the game is: Player ";
+    return winnerString + (p1Points > p2Points ? 1 : 2);
+  };
+
+  refreshPage = () => {
+    window.location.reload();
   };
 
   render() {
@@ -83,9 +99,9 @@ class App extends React.Component {
 
     const gameTable = (
       <div>
-        {currCardElems}
         <h3>
-          Winner is: {this.state.playerOneCurrWinner ? "Player 1" : "Player 2"}
+          Winner of this round is:{" "}
+          {this.state.playerOneCurrWinner ? "Player 1" : "Player 2"}
         </h3>
         <div>Player 1's Score: {this.state.playerOneScore}</div>
         <div>Player 2's Score: {this.state.playerTwoScore}</div>
@@ -93,14 +109,42 @@ class App extends React.Component {
       </div>
     );
 
+    const gameResults = (
+      <div>
+        <h3>
+          {this.calculateWinningStatement(
+            this.state.playerOneScore,
+            this.state.playerTwoScore
+          )}
+        </h3>
+        <div>Player 1's Score: {this.state.playerOneScore}</div>
+        <div>Player 2's Score: {this.state.playerTwoScore}</div>
+        <h4>Press the button below to play again</h4>
+      </div>
+    );
+
+    const gameDisplay = (
+      <div>
+        {currCardElems} {this.state.gameEnded ? gameResults : gameTable}
+      </div>
+    );
+
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
-          {this.state.gameStarted ? gameTable : instructions}
+          {this.state.gameStarted ? gameDisplay : instructions}
           <br />
-          <button onClick={this.dealCards}>
-            {this.state.gameStarted ? "Deal" : "Start Game"}
+          <button
+            onClick={
+              this.state.cardsLeft === 0 ? this.refreshPage : this.dealCards
+            }
+          >
+            {this.state.gameStarted
+              ? this.state.gameEnded
+                ? "Sart next round"
+                : "Deal"
+              : "Start Game"}
             {/* {console.log(playerOneIsHigher(this.state.currCards))} */}
           </button>
         </header>
