@@ -1,6 +1,12 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import CardDisplay from "./CardDisplay";
 
 class App extends React.Component {
   constructor(props) {
@@ -89,13 +95,30 @@ class App extends React.Component {
       </div>
     );
 
-    // You can access your current components state here, as indicated below
-    const currCardElems = this.state.currCards.map(({ name, suit }, index) => (
-      // Give each list element a unique key
-      <div key={`${name} ${suit}`}>
-        Player {index + 1}: {name} of {suit}
-      </div>
-    ));
+    const currCardElems = (
+      <Container className="mb-2">
+        <Row>
+          <Col>Player 1</Col>
+          <Col>Player 2</Col>
+        </Row>
+        <Row>
+          <Col>
+            <CardDisplay card={this.state.currCards[0]} />
+          </Col>
+          <Col>
+            <CardDisplay card={this.state.currCards[1]} />
+          </Col>
+        </Row>
+        <Row>
+          {this.state.currCards.map(({ name, suit }, index) => (
+            // Give each list element a unique key
+            <Col key={`${name} ${suit}`} className="col-6">
+              Player {index + 1}: {name} of {suit}
+            </Col>
+          ))}
+        </Row>
+      </Container>
+    );
 
     const gameTable = (
       <div>
@@ -124,7 +147,7 @@ class App extends React.Component {
     );
 
     const gameDisplay = (
-      <div>
+      <div className="col-11">
         {currCardElems} {this.state.gameEnded ? gameResults : gameTable}
       </div>
     );
@@ -135,7 +158,8 @@ class App extends React.Component {
           <h3>High Card 🚀</h3>
           {this.state.gameStarted ? gameDisplay : instructions}
           <br />
-          <button
+          <Button
+            className="btn btn-light"
             onClick={
               this.state.cardsLeft === 0 ? this.refreshPage : this.dealCards
             }
@@ -145,8 +169,7 @@ class App extends React.Component {
                 ? "Sart next round"
                 : "Deal"
               : "Start Game"}
-            {/* {console.log(playerOneIsHigher(this.state.currCards))} */}
-          </button>
+          </Button>
         </header>
       </div>
     );
