@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 
+import { Container, Row, Col } from "react-bootstrap";
+
 class App extends React.Component {
   constructor(props) {
     // Always call super with props in constructor to initialise parent class
@@ -95,6 +97,8 @@ class App extends React.Component {
       </div>
     ));
 
+    //////////////////
+    // FIX THE IMAGES!
     if (this.player1.name && this.player1.suit) {
       var player1ImageSrc = `./PNG-cards-1.3/${
         this.player1.name
@@ -102,44 +106,61 @@ class App extends React.Component {
     }
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h3>High Card 🚀</h3>
-          {currCardElems}
-          <div>
+      <Container fluid>
+        <div className="App">
+          <header className="App-header">
+            <h3>High Card 🚀</h3>
+            {currCardElems}
             <div>
-              <img
-                src={player1ImageSrc}
-                alt={`Player1 = ${this.player1.name} of ${this.player1.suit}`}
-              />
-              <img src="./7_of_spades.png" />
+              <div>
+                <img
+                  src={player1ImageSrc}
+                  alt={`Player1 = ${this.player1.name} of ${this.player1.suit}`}
+                />
+                <img src="./7_of_spades.png" alt="Blackjack card" />
+              </div>
             </div>
-          </div>
-          <br />
-          <button onClick={this.dealCards}>Deal</button>
-          <button onClick={this.whoWon}>Who is the winner</button>
-          {this.state.cardDeck.length < 2 ? (
-            <h1>
-              The overall winner is:{" "}
-              {this.state.player1Score > this.state.player2Score
-                ? "Player 1"
-                : "Player 2"}
-            </h1>
-          ) : (
-            <h1>
-              The player that won is:{" "}
-              {this.state.winner
-                ? this.state.winner.name + " of " + this.state.winner.suit
-                : "No winner yet"}
-            </h1>
-          )}
-          The number of cards left in the deck is: {this.state.cardDeck.length}
-          <br />
-          Player 1's Score: {this.state.player1Score}
-          <br />
-          Player 2's Score: {this.state.player2Score}
-        </header>
-      </div>
+            <br />
+            <button onClick={this.dealCards} className="button-spacing">
+              Deal
+            </button>
+            <button onClick={this.whoWon} className="button-spacing">
+              Who is the winner
+            </button>
+            {this.state.cardDeck.length < 2 ? (
+              <h1>
+                The overall winner is:{" "}
+                {this.state.player1Score > this.state.player2Score
+                  ? "Player 1"
+                  : "Player 2"}
+              </h1>
+            ) : (
+              <h1>
+                The player that won is:{" "}
+                {this.state.winner
+                  ? this.state.winner.name + " of " + this.state.winner.suit
+                  : "No winner yet"}
+              </h1>
+            )}
+            <Row className="border1">
+              <div className="scores">
+                <Row className="border1">
+                  The number of cards left in the deck is:{" "}
+                  <Col>{this.state.cardDeck.length}</Col>
+                </Row>
+                <Row className="border1">
+                  <Col>Player 1's Score :</Col>
+                  <Col>{this.state.player1Score}</Col>
+                </Row>
+                <Row className="border1">
+                  <Col>Player 2's Score :</Col>
+                  <Col>{this.state.player2Score}</Col>
+                </Row>
+              </div>
+            </Row>
+          </header>
+        </div>
+      </Container>
     );
   }
 }
