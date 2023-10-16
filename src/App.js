@@ -99,7 +99,6 @@ class App extends React.Component {
       var player1ImageSrc = `./PNG-cards-1.3/${
         this.player1.name
       }_of_${this.player1.suit.toLowerCase()}.png`;
-      var test = "./PNG-cards-1.3/7_of_spades.png";
     }
 
     return (
@@ -113,7 +112,7 @@ class App extends React.Component {
                 src={player1ImageSrc}
                 alt={`Player1 = ${this.player1.name} of ${this.player1.suit}`}
               />
-              <img src={test} />
+              <img src="./7_of_spades.png" />
             </div>
           </div>
           <br />
