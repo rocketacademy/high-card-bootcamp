@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import React from "react";
@@ -22,24 +23,44 @@ class App extends React.Component {
     // this.state.cardDeck.pop() modifies this.state.cardDeck array
     const newCurrCard1 = this.state.cardDeck.pop();
     const newCurrCard2 = this.state.cardDeck.pop();
-    this.setState({
-      player1: { currCard: newCurrCard1 },
-      player2: { currCard: newCurrCard2 },
-    });
+    this.state.player1.currCard = newCurrCard1;
+    this.state.player2.currCard = newCurrCard2;
   };
 
+  compareCards = () => {
+    if (this.state.player1.currCard.rank > this.state.player2.currCard.rank) {
+      this.state.player1.result = "win";
+      this.state.player1.score += 1;
+      this.state.player2.result = "loss";
+    } else {
+      this.state.player2.result = "win";
+      this.state.player2.score += 1;
+      this.state.player1.result = "loss";
+    }
+  };
+
+  changeResult = () => {
+    this.dealCards();
+    this.compareCards();
+    this.setState({
+      player1: this.state.player1,
+      player2: this.state.player2,
+    });
+  };
   render() {
     // You can write JavaScript here, just don't try and set your state!
 
     // You can access your current components state here, as indicated below
     const currCardElems = (
-      <div>
-        <Row fluid>
+      <Container>
+        <Row>
           <Col>Player 1</Col>
           <Col>
             {this.state.player1.currCard.name} of{" "}
             {this.state.player1.currCard.suit}
           </Col>
+          <Col>{this.state.player1.result}</Col>
+          <Col>Score:{this.state.player1.score}</Col>
         </Row>
         <Row fluid>
           <Col>Player 2</Col>
@@ -47,8 +68,10 @@ class App extends React.Component {
             {this.state.player2.currCard.name} of{" "}
             {this.state.player2.currCard.suit}
           </Col>
+          <Col>{this.state.player2.result}</Col>
+          <Col>Score:{this.state.player2.score}</Col>
         </Row>
-      </div>
+      </Container>
     );
 
     return (
@@ -57,11 +80,10 @@ class App extends React.Component {
           <h3>High Card 🚀</h3>
           {"name" in this.state.player1.currCard ? currCardElems : ""}
           <br />
-          <button onClick={this.dealCards}>Deal</button>
+          <button onClick={this.changeResult}>Deal</button>
         </header>
       </div>
     );
   }
 }
-
 export default App;
