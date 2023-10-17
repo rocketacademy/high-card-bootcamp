@@ -26,31 +26,27 @@ class App extends React.Component {
         currCards: newCurrCards,
         currComputerCards: newComputerCurrCards,
       },
-      () => this.determineWinner(),
-      () => this.updateScore()
+      () => this.determineWinner()
     );
   };
 
   determineWinner = () => {
     const playerRank = this.state.currCards[0].rank;
     const computerRank = this.state.currComputerCards[0].rank;
+    let playerScore = this.state.score[0];
+    let computerScore = this.state.score[1];
     if (playerRank > computerRank) {
-      this.setState({ winner: "Player" });
+      this.setState({
+        winner: "Player",
+        score: [(playerScore += 1), computerScore],
+      });
     } else if (playerRank === computerRank) {
       this.setState({ winner: "Draw" });
     } else {
-      this.setState({ winner: "Computer" });
-    }
-  };
-
-  updateScore = () => {
-    let playerScore = this.state.score[0];
-    let computerScore = this.state.score[1];
-    const currWinner = this.state.winner;
-    if (currWinner === "Player") {
-      this.setState({ score: [(playerScore += 1), computerScore] });
-    } else if (currWinner === "Computer") {
-      this.setState({ score: [playerScore, (computerScore += 1)] });
+      this.setState({
+        winner: "Computer",
+        score: [playerScore, (computerScore += 1)],
+      });
     }
   };
 
