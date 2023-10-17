@@ -17,3 +17,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.player-table {
+  border: 2px solid #c4c4c4;
+}

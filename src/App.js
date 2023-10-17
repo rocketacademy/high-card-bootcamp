@@ -14,6 +14,7 @@ class App extends React.Component {
       // Set default value of card deck to new shuffled deck
       cardDeck: makeShuffledDeck(),
       // currCards holds the cards from the current round
+      round: 0,
       player1: { score: 0, result: "", currCard: {} },
       player2: { score: 0, result: "", currCard: {} },
       restart: "",
@@ -50,6 +51,7 @@ class App extends React.Component {
     this.dealCards();
     this.compareCards();
     this.setState({
+      round: this.state.round + 1,
       player1: this.state.player1,
       player2: this.state.player2,
     });
@@ -61,10 +63,10 @@ class App extends React.Component {
   exeRestart = () => {
     this.setState({
       cardDeck: makeShuffledDeck(),
+      round: 0,
       player1: { score: 0, result: "", currCard: {} },
       player2: { score: 0, result: "", currCard: {} },
       restart: "",
-      dealButton: <button onClick={this.changeResult}>Deal</button>,
     });
   };
 
@@ -87,28 +89,27 @@ class App extends React.Component {
   };
 
   render() {
-    // You can write JavaScript here, just don't try and set your state!
-
+    // You can write JavaScript here, just don't try and set your state
     // You can access your current components state here, as indicated below
     const currCardElems = (
-      <Container>
-        <Row>
-          <Col>Player 1</Col>
-          <Col>
+      <Container className="player-table">
+        <Row className="player-table">
+          <Col className="player-table">Player 1</Col>
+          <Col className="player-table">
             {this.state.player1.currCard.name} of{" "}
             {this.state.player1.currCard.suit}
           </Col>
-          <Col>{this.state.player1.result}</Col>
-          <Col>Score:{this.state.player1.score}</Col>
+          <Col className="player-table">{this.state.player1.result}</Col>
+          <Col className="player-table">Score:{this.state.player1.score}</Col>
         </Row>
-        <Row fluid>
-          <Col>Player 2</Col>
-          <Col>
+        <Row className="player-table">
+          <Col className="player-table">Player 2</Col>
+          <Col className="player-table">
             {this.state.player2.currCard.name} of{" "}
             {this.state.player2.currCard.suit}
           </Col>
-          <Col>{this.state.player2.result}</Col>
-          <Col>Score:{this.state.player2.score}</Col>
+          <Col className="player-table">{this.state.player2.result}</Col>
+          <Col className="player-table">Score:{this.state.player2.score}</Col>
         </Row>
       </Container>
     );
@@ -117,6 +118,7 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
+          <p>{this.state.round === 0 ? "" : "Round:" + this.state.round}</p>
           {"name" in this.state.player1.currCard ? currCardElems : ""}
           <br />
           {this.state.dealButton}
