@@ -17,6 +17,7 @@ class App extends React.Component {
       player1: { score: 0, result: "", currCard: {} },
       player2: { score: 0, result: "", currCard: {} },
       restart: "",
+      dealButton: <button onClick={this.changeResult}>Deal</button>,
     };
   }
 
@@ -29,7 +30,12 @@ class App extends React.Component {
   };
 
   compareCards = () => {
-    if (this.state.player1.currCard.rank > this.state.player2.currCard.rank) {
+    if (this.state.player1.currCard.rank === this.state.player2.currCard.rank) {
+      this.state.player1.result = "draw";
+      this.state.player2.result = "draw";
+    } else if (
+      this.state.player1.currCard.rank > this.state.player2.currCard.rank
+    ) {
       this.state.player1.result = "win";
       this.state.player1.score += 1;
       this.state.player2.result = "loss";
@@ -58,22 +64,26 @@ class App extends React.Component {
       player1: { score: 0, result: "", currCard: {} },
       player2: { score: 0, result: "", currCard: {} },
       restart: "",
+      dealButton: <button onClick={this.changeResult}>Deal</button>,
     });
   };
 
   genRestartButton = () => {
+    let winner = "Player 1";
+    if (this.state.player2.score > this.state.player1.score) {
+      winner = "Player 2";
+    } else if (this.state.player1.score === this.state.player2.score) {
+      winner = "Both player";
+    }
     const restartElem = (
       <div>
-        <p>
-          Player {this.state.player1.score > this.state.player2.score ? 1 : 2}{" "}
-          is the final winner! Do you want to play again?
-        </p>
+        <p>{winner} is the final winner! Do you want to play again?</p>
         <button onClick={this.exeRestart}>Restart</button>
         <button onClick={window.close}>Quit</button>
       </div>
     );
 
-    this.setState({ restart: restartElem });
+    this.setState({ restart: restartElem, dealButton: "" });
   };
 
   render() {
@@ -109,7 +119,7 @@ class App extends React.Component {
           <h3>High Card 🚀</h3>
           {"name" in this.state.player1.currCard ? currCardElems : ""}
           <br />
-          <button onClick={this.changeResult}>Deal</button>
+          {this.state.dealButton}
           {this.state.restart}
         </header>
       </div>
