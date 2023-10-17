@@ -11,14 +11,20 @@ class App extends React.Component {
       cardDeck: makeShuffledDeck(),
       // currCards holds the cards from the current round
       currCards: [],
+      currComputerCards: [],
     };
   }
 
   dealCards = () => {
     // this.state.cardDeck.pop() modifies this.state.cardDeck array
     const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()];
+    const newComputerCurrCards = [
+      this.state.cardDeck.pop(),
+      this.state.cardDeck.pop(),
+    ];
     this.setState({
       currCards: newCurrCards,
+      currComputerCards: newComputerCurrCards,
     });
   };
 
@@ -32,12 +38,22 @@ class App extends React.Component {
         {name} of {suit}
       </div>
     ));
+    const currComputerCardElems = this.state.currComputerCards.map(
+      ({ name, suit }) => (
+        // Give each list element a unique key
+        <div key={`${name}${suit}`}>
+          {name} of {suit}
+        </div>
+      )
+    );
 
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
-          {currCardElems}
+          Player Hand: {currCardElems}
+          <br />
+          Computer Hand: {currComputerCardElems}
           <br />
           <button onClick={this.dealCards}>Deal</button>
         </header>
