@@ -67,6 +67,7 @@ class App extends React.Component {
       player1: { score: 0, result: "", currCard: {} },
       player2: { score: 0, result: "", currCard: {} },
       restart: "",
+      dealButton: <button onClick={this.changeResult}>Deal</button>,
     });
   };
 
@@ -91,35 +92,40 @@ class App extends React.Component {
   render() {
     // You can write JavaScript here, just don't try and set your state
     // You can access your current components state here, as indicated below
-    const currCardElems = (
-      <Container className="player-table">
-        <Row className="player-table">
-          <Col className="player-table">Player 1</Col>
-          <Col className="player-table">
-            {this.state.player1.currCard.name} of{" "}
-            {this.state.player1.currCard.suit}
-          </Col>
-          <Col className="player-table">{this.state.player1.result}</Col>
-          <Col className="player-table">Score:{this.state.player1.score}</Col>
-        </Row>
-        <Row className="player-table">
-          <Col className="player-table">Player 2</Col>
-          <Col className="player-table">
-            {this.state.player2.currCard.name} of{" "}
-            {this.state.player2.currCard.suit}
-          </Col>
-          <Col className="player-table">{this.state.player2.result}</Col>
-          <Col className="player-table">Score:{this.state.player2.score}</Col>
-        </Row>
-      </Container>
-    );
+    const currCardElems =
+      "name" in this.state.player1.currCard ? (
+        <Container className="player-table">
+          <Row className="player-table">
+            <Col className="player-table">Player 1</Col>
+            <Col className="player-table">
+              <img
+                src={require(`./img/${this.state.player1.currCard.name}_of_${this.state.player1.currCard.suit}.png`)}
+              />
+            </Col>
+            <Col className="player-table">{this.state.player1.result}</Col>
+            <Col className="player-table">Score:{this.state.player1.score}</Col>
+          </Row>
+          <Row className="player-table">
+            <Col className="player-table">Player 2</Col>
+            <Col className="player-table">
+              <img
+                src={require(`./img/${this.state.player2.currCard.name}_of_${this.state.player2.currCard.suit}.png`)}
+              />
+            </Col>
+            <Col className="player-table">{this.state.player2.result}</Col>
+            <Col className="player-table">Score:{this.state.player2.score}</Col>
+          </Row>
+        </Container>
+      ) : (
+        ""
+      );
 
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
           <p>{this.state.round === 0 ? "" : "Round:" + this.state.round}</p>
-          {"name" in this.state.player1.currCard ? currCardElems : ""}
+          {currCardElems}
           <br />
           {this.state.dealButton}
           {this.state.restart}
