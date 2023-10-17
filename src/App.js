@@ -13,6 +13,7 @@ class App extends React.Component {
       currCards: [],
       currComputerCards: [],
       winner: "",
+      score: [0, 0],
     };
   }
 
@@ -25,7 +26,8 @@ class App extends React.Component {
         currCards: newCurrCards,
         currComputerCards: newComputerCurrCards,
       },
-      () => this.determineWinner()
+      () => this.determineWinner(),
+      () => this.updateScore()
     );
   };
 
@@ -38,6 +40,17 @@ class App extends React.Component {
       this.setState({ winner: "Draw" });
     } else {
       this.setState({ winner: "Computer" });
+    }
+  };
+
+  updateScore = () => {
+    let playerScore = this.state.score[0];
+    let computerScore = this.state.score[1];
+    const currWinner = this.state.winner;
+    if (currWinner === "Player") {
+      this.setState({ score: [(playerScore += 1), computerScore] });
+    } else if (currWinner === "Computer") {
+      this.setState({ score: [playerScore, (computerScore += 1)] });
     }
   };
 
@@ -60,6 +73,7 @@ class App extends React.Component {
       )
     );
     const currWinner = this.state.winner;
+    const currScore = `Player score: ${this.state.score[0]}, Computer Score: ${this.state.score[1]}`;
 
     return (
       <div className="App">
@@ -70,6 +84,8 @@ class App extends React.Component {
           Computer Hand: {currComputerCardElems}
           <br />
           {currWinner}
+          <br />
+          {currScore}
           <button onClick={this.dealCards}>Deal</button>
         </header>
       </div>
