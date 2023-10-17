@@ -16,6 +16,7 @@ class App extends React.Component {
       // currCards holds the cards from the current round
       player1: { score: 0, result: "", currCard: {} },
       player2: { score: 0, result: "", currCard: {} },
+      restart: "",
     };
   }
 
@@ -46,7 +47,35 @@ class App extends React.Component {
       player1: this.state.player1,
       player2: this.state.player2,
     });
+    if (this.state.cardDeck.length === 0) {
+      this.genRestartButton();
+    }
   };
+
+  exeRestart = () => {
+    this.setState({
+      cardDeck: makeShuffledDeck(),
+      player1: { score: 0, result: "", currCard: {} },
+      player2: { score: 0, result: "", currCard: {} },
+      restart: "",
+    });
+  };
+
+  genRestartButton = () => {
+    const restartElem = (
+      <div>
+        <p>
+          Player {this.state.player1.score > this.state.player2.score ? 1 : 2}{" "}
+          is the final winner! Do you want to play again?
+        </p>
+        <button onClick={this.exeRestart}>Restart</button>
+        <button onClick={window.close}>Quit</button>
+      </div>
+    );
+
+    this.setState({ restart: restartElem });
+  };
+
   render() {
     // You can write JavaScript here, just don't try and set your state!
 
@@ -81,6 +110,7 @@ class App extends React.Component {
           {"name" in this.state.player1.currCard ? currCardElems : ""}
           <br />
           <button onClick={this.changeResult}>Deal</button>
+          {this.state.restart}
         </header>
       </div>
     );
