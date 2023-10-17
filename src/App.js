@@ -12,6 +12,7 @@ class App extends React.Component {
       // currCards holds the cards from the current round
       currCards: [],
       currComputerCards: [],
+      winner: "",
     };
   }
 
@@ -19,10 +20,25 @@ class App extends React.Component {
     // this.state.cardDeck.pop() modifies this.state.cardDeck array
     const newCurrCards = [this.state.cardDeck.pop()];
     const newComputerCurrCards = [this.state.cardDeck.pop()];
-    this.setState({
-      currCards: newCurrCards,
-      currComputerCards: newComputerCurrCards,
-    });
+    this.setState(
+      {
+        currCards: newCurrCards,
+        currComputerCards: newComputerCurrCards,
+      },
+      () => this.determineWinner()
+    );
+  };
+
+  determineWinner = () => {
+    const playerRank = this.state.currCards[0].rank;
+    const computerRank = this.state.currComputerCards[0].rank;
+    if (playerRank > computerRank) {
+      this.setState({ winner: "Player" });
+    } else if (playerRank === computerRank) {
+      this.setState({ winner: "Draw" });
+    } else {
+      this.setState({ winner: "Computer" });
+    }
   };
 
   render() {
@@ -43,6 +59,7 @@ class App extends React.Component {
         </div>
       )
     );
+    const currWinner = this.state.winner;
 
     return (
       <div className="App">
@@ -52,6 +69,7 @@ class App extends React.Component {
           <br />
           Computer Hand: {currComputerCardElems}
           <br />
+          {currWinner}
           <button onClick={this.dealCards}>Deal</button>
         </header>
       </div>
