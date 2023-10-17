@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import PlayerCard from "./PlayerCard.js";
 
 class App extends React.Component {
   constructor(props) {
@@ -98,8 +99,9 @@ class App extends React.Component {
           <Row className="player-table">
             <Col className="player-table">Player 1</Col>
             <Col className="player-table">
-              <img
-                src={require(`./img/${this.state.player1.currCard.name}_of_${this.state.player1.currCard.suit}.png`)}
+              <PlayerCard
+                name={this.state.player1.currCard.name}
+                suit={this.state.player1.currCard.suit}
               />
             </Col>
             <Col className="player-table">{this.state.player1.result}</Col>
@@ -108,8 +110,9 @@ class App extends React.Component {
           <Row className="player-table">
             <Col className="player-table">Player 2</Col>
             <Col className="player-table">
-              <img
-                src={require(`./img/${this.state.player2.currCard.name}_of_${this.state.player2.currCard.suit}.png`)}
+              <PlayerCard
+                name={this.state.player2.currCard.name}
+                suit={this.state.player2.currCard.suit}
               />
             </Col>
             <Col className="player-table">{this.state.player2.result}</Col>
