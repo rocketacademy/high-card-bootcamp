@@ -16,8 +16,8 @@ class App extends React.Component {
       cardDeck: makeShuffledDeck(),
       // currCards holds the cards from the current round
       round: 0,
-      player1: { score: 0, result: "", currCard: {} },
-      player2: { score: 0, result: "", currCard: {} },
+      player1: { winGame: 0, score: 0, result: "", currCard: {} },
+      player2: { winGame: 0, score: 0, result: "", currCard: {} },
       restart: "",
       dealButton: <button onClick={this.changeResult}>Deal</button>,
     };
@@ -62,22 +62,37 @@ class App extends React.Component {
   };
 
   exeRestart = () => {
+    console.log(this.state.player1.winGame);
     this.setState({
       cardDeck: makeShuffledDeck(),
       round: 0,
-      player1: { score: 0, result: "", currCard: {} },
-      player2: { score: 0, result: "", currCard: {} },
+      player1: {
+        winGame: this.state.player1.winGame,
+        score: 0,
+        result: "",
+        currCard: {},
+      },
+      player2: {
+        winGame: this.state.player2.winGame,
+        score: 0,
+        result: "",
+        currCard: {},
+      },
       restart: "",
       dealButton: <button onClick={this.changeResult}>Deal</button>,
     });
   };
 
   genRestartButton = () => {
-    let winner = "Player 1";
-    if (this.state.player2.score > this.state.player1.score) {
+    let winner = "Both player";
+    if (this.state.player1.score > this.state.player2.score) {
+      winner = "Player 1";
+      this.state.player1.winGame += 1;
+      this.setState({ player1: this.state.player1 });
+    } else if (this.state.player1.score < this.state.player2.score) {
       winner = "Player 2";
-    } else if (this.state.player1.score === this.state.player2.score) {
-      winner = "Both player";
+      this.state.player2.winGame += 1;
+      this.setState({ player2: this.state.player2 });
     }
     const restartElem = (
       <div>
@@ -123,10 +138,30 @@ class App extends React.Component {
         ""
       );
 
+    const totalWinElem =
+      (this.state.player1.winGame === 0 && this.state.player2.winGame) === 0 ? (
+        ""
+      ) : (
+        <Container className="leaderboard">
+          <Row className="player-table">
+            <center>LeaderBoard</center>
+          </Row>
+          <Row className="player-table">
+            <Col>Player 1</Col>
+            <Col>{this.state.player1.winGame}</Col>
+          </Row>
+          <Row className="player-table">
+            <Col>Player 2</Col>
+            <Col>{this.state.player2.winGame}</Col>
+          </Row>
+        </Container>
+      );
+
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
+          {totalWinElem}
           <p>{this.state.round === 0 ? "" : "Round:" + this.state.round}</p>
           {currCardElems}
           <br />
