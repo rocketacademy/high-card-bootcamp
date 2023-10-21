@@ -103,7 +103,11 @@ class App extends React.Component {
           {currScore}
           <br />
           {overallWinner}
-          <button onClick={this.dealCards}>Deal</button>
+          {overallWinner ? (
+            <button onClick={this.dealCards}>Restart</button>
+          ) : (
+            <button onClick={this.dealCards}>Deal</button>
+          )}
         </header>
       </div>
     );
