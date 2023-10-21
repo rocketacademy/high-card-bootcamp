@@ -29,13 +29,22 @@ class App extends React.Component {
   };
   //function to determine the winner of the round
   determineThisRoundWinner = (currCards) => {
-    const newCurrRoundWinner =
-      currCards[0].rank === currCards[1].rank
-        ? "It's a tie!"
-        : currCards[0].rank > currCards[1].rank
-        ? "Player 1 wins!"
-        : "Player 2 wins!";
-    this.setState({ currRoundWinner: newCurrRoundWinner });
+    let newCurrRoundWinner = null;
+    if (currCards[0].rank > currCards[1].rank) newCurrRoundWinner = 1;
+    if (currCards[1].rank > currCards[0].rank) newCurrRoundWinner = 2;
+    this.setState({
+      currRoundWinner: newCurrRoundWinner,
+      hasGameStarted: true,
+    });
+    this.keepScore(newCurrRoundWinner);
+  };
+  //function to keep track of the score
+  keepScore = (currRoundWinner) => {
+    if (currRoundWinner == 1)
+      this.setState({ playerOneNumOfWins: this.state.playerOneNumOfWins + 1 });
+
+    if (currRoundWinner == 2)
+      this.setState({ playerTwoNumOfWins: this.state.playerTwoNumOfWins + 1 });
   };
 
   render() {
@@ -45,17 +54,26 @@ class App extends React.Component {
     const currCardElems = this.state.currCards.map(({ name, suit }, i) => (
       // Give each list element a unique key
       <div key={`${name}${suit}`}>
-        Player {i + 1} got {name} of {suit}
+        <p>
+          Player {i + 1} got {name} of {suit}
+        </p>
       </div>
     ));
+    const currRoundWinnerOutput = this.state.currRoundWinner
+      ? `Player ${this.state.currRoundWinner} won this round.`
+      : `It's a tie!`;
+    const playerOneNumOfWinsOutput = `Player 1 has ${this.state.playerOneNumOfWins} wins.`;
+    const playerTwoNumOfWinsOutput = `Player 2 has ${this.state.playerTwoNumOfWins} wins.`;
 
     return (
       <div className="App">
         <header className="App-header">
           <h3>High Card 🚀</h3>
           {currCardElems}
+          <p>{this.state.hasGameStarted && currRoundWinnerOutput}</p>
+          <p>{this.state.hasGameStarted && playerOneNumOfWinsOutput}</p>
+          <p>{this.state.hasGameStarted && playerTwoNumOfWinsOutput}</p>
 
-          {this.state.currRoundWinner}
           <br />
           <button onClick={this.dealCards}>Deal</button>
         </header>
