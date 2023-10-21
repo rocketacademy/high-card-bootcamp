@@ -1,10 +1,8 @@
 import React from "react";
 
-import { Alert } from "react-bootstrap";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "./logo.png";
 
 class App extends React.Component {
   constructor(props) {
@@ -20,6 +18,9 @@ class App extends React.Component {
       player2Score: 0,
       roundWinner: null,
       gameStart: true,
+      overallPlayer1Score: 0,
+      overallPlayer2Score: 0,
+      overallWinner: null,
     };
   }
 
@@ -87,6 +88,8 @@ class App extends React.Component {
     this.setState((prevState) => ({
       player1Score: prevState.player1Score + tempCounter[0],
       player2Score: prevState.player2Score + tempCounter[1],
+      overallPlayer1Score: prevState.overallPlayer1Score + tempCounter[0],
+      overallPlayer2Score: prevState.overallPlayer2Score + tempCounter[1],
     }));
 
     this.setState(() => {
@@ -110,14 +113,11 @@ class App extends React.Component {
   };
 
   render() {
-    // You can write JavaScript here, just don't try and set your state!
-    // You can access your current components state here, as indicated below
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
-      // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
-      </div>
-    ));
+    // const currCardElems = this.state.currCards.map(({ name, suit }) => (
+    //   <div key={`${name}${suit}`}>
+    //     {name} of {suit}
+    //   </div>
+    // ));
 
     const imageCard = this.state.currCards.map(({ name, suit }) => (
       <img
@@ -139,7 +139,7 @@ class App extends React.Component {
           <h3>High Card 🚀</h3>
 
           {/* {currCardElems} */}
-          {/* showing players card */}
+
           {imageCard[0]}
           <p>Player 1</p>
           {imageCard[1]}
@@ -169,6 +169,12 @@ class App extends React.Component {
           <p>There are {numRoundsLeft} rounds left</p>
 
           <h1>{numRoundsLeft === 0 && gameWinnerMessage}</h1>
+
+          <p>
+            Overall across games Player 1 🏆{this.state.overallPlayer1Score} --
+            Player 2 🏆
+            {this.state.overallPlayer2Score}
+          </p>
         </header>
       </div>
     );
