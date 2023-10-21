@@ -20,15 +20,19 @@ class App extends React.Component {
 
   dealCards = () => {
     // this.state.cardDeck.pop() modifies this.state.cardDeck array
-    const newCurrCards = [this.state.cardDeck.pop()];
-    const newComputerCurrCards = [this.state.cardDeck.pop()];
-    this.setState(
-      {
-        currCards: newCurrCards,
-        currComputerCards: newComputerCurrCards,
-      },
-      () => this.determineWinner()
-    );
+    if (this.state.cardDeck.length === 0) {
+      this.setState(() => this.determineOverallWinner());
+    } else {
+      const newCurrCards = [this.state.cardDeck.pop()];
+      const newComputerCurrCards = [this.state.cardDeck.pop()];
+      this.setState(
+        {
+          currCards: newCurrCards,
+          currComputerCards: newComputerCurrCards,
+        },
+        () => this.determineWinner()
+      );
+    }
   };
 
   determineWinner = () => {
@@ -84,6 +88,7 @@ class App extends React.Component {
     );
     const currWinner = this.state.roundWinner;
     const currScore = `Player score: ${this.state.score[0]}, Computer Score: ${this.state.score[1]}`;
+    const overallWinner = this.state.overallWinner;
 
     return (
       <div className="App">
@@ -96,6 +101,8 @@ class App extends React.Component {
           {currWinner}
           <br />
           {currScore}
+          <br />
+          {overallWinner}
           <button onClick={this.dealCards}>Deal</button>
         </header>
       </div>
