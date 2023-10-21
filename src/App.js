@@ -162,7 +162,11 @@ class App extends React.Component {
         <header className="App-header">
           <h3>High Card 🚀</h3>
           {totalWinElem}
-          <p>{this.state.round === 0 ? "" : "Round:" + this.state.round}</p>
+          <p>
+            {this.state.round === 0
+              ? ""
+              : "Round Left: " + (26 - this.state.round)}
+          </p>
           {currCardElems}
           <br />
           {this.state.dealButton}
