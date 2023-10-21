@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
+import playingCard from "./cardimages";
 
 class App extends React.Component {
   constructor(props) {
