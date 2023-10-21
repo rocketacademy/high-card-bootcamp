@@ -14,6 +14,7 @@ class App extends React.Component {
       currComputerCards: [],
       roundWinner: "",
       score: [0, 0],
+      overallWinner: "",
     };
   }
 
@@ -47,6 +48,19 @@ class App extends React.Component {
         roundWinner: "Computer",
         score: [playerScore, (computerScore += 1)],
       });
+    }
+  };
+
+  determineOverallWinner = () => {
+    const playerFinalScore = this.state.score[0];
+    const computerFinalScore = this.state.score[1];
+
+    if (playerFinalScore > computerFinalScore) {
+      this.setState({ overallWinner: "Player wins" });
+    } else if (playerFinalScore === computerFinalScore) {
+      this.setState({ overallWinner: "It's a draw" });
+    } else {
+      this.setState({ overallWinner: "Computer wins" });
     }
   };
 
