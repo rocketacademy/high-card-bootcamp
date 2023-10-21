@@ -2,17 +2,20 @@
   "name": "high-card-bootcamp",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://rocketacademy.github.io/high-card-bootcamp",
+  "homepage": "https://ianlauyin.github.io/high-card",
   "dependencies": {
+    "bootstrap": "^5.3.2",
     "gh-pages": "^3.2.3",
+    "install": "^0.13.0",
     "react": "^18.1.0",
+    "react-bootstrap": "^2.9.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1"
   },
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "WATCHPACK_POLLING=true react-scripts start",
     "build": "react-scripts build"
   },
   "eslintConfig": {
