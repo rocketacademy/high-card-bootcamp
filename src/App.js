@@ -68,6 +68,17 @@ class App extends React.Component {
     }
   };
 
+  restartGame = () => {
+    this.setState({
+      cardDeck: makeShuffledDeck(),
+      currCards: [],
+      currComputerCards: [],
+      roundWinner: "",
+      score: [0, 0],
+      overallWinner: "",
+    });
+  };
+
   render() {
     // You can write JavaScript here, just don't try and set your state!
 
@@ -103,8 +114,9 @@ class App extends React.Component {
           {currScore}
           <br />
           {overallWinner}
+          <br />
           {overallWinner ? (
-            <button onClick={this.dealCards}>Restart</button>
+            <button onClick={this.restartGame}>Restart</button>
           ) : (
             <button onClick={this.dealCards}>Deal</button>
           )}
