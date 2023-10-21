@@ -19,7 +19,6 @@ class App extends React.Component {
       currCards: [],
       cardsLeft: 52,
       gameStarted: false,
-      gameEnded: false,
 
       playerOneCurrWinner: false,
       playerOneScore: 0,
@@ -65,12 +64,15 @@ class App extends React.Component {
         playerTwoScore: this.state.playerTwoScore + 1,
       });
     }
-    if (this.state.cardsLeft === 2) {
-      this.setState({ gameEnded: true });
-    }
   };
 
   calculateWinningStatement = (p1Points, p2Points) => {
+    if (this.state.cardsLeft > 0) {
+      const currWinner = this.state.playerOneCurrWinner
+        ? "Player 1"
+        : "Player 2";
+      return "Winner of this round is: " + currWinner;
+    }
     if (p1Points === p2Points) {
       return "This game is a draw!";
     }
@@ -91,7 +93,7 @@ class App extends React.Component {
         <br />
         3. Suit value is ordered like this from highest to lowest
         <br />
-        (largest Spades > Hearts > Clubs > Diamonds smallest)
+        {"largest Spades > Hearts > Clubs > Diamonds smallest"}
       </div>
     );
 
@@ -123,18 +125,6 @@ class App extends React.Component {
     const gameTable = (
       <div>
         <h3>
-          Winner of this round is:{" "}
-          {this.state.playerOneCurrWinner ? "Player 1" : "Player 2"}
-        </h3>
-        <div>Player 1's Score: {this.state.playerOneScore}</div>
-        <div>Player 2's Score: {this.state.playerTwoScore}</div>
-        <h4>Card left in deck: {this.state.cardsLeft}</h4>
-      </div>
-    );
-
-    const gameResults = (
-      <div>
-        <h3>
           {this.calculateWinningStatement(
             this.state.playerOneScore,
             this.state.playerTwoScore
@@ -142,15 +132,22 @@ class App extends React.Component {
         </h3>
         <div>Player 1's Score: {this.state.playerOneScore}</div>
         <div>Player 2's Score: {this.state.playerTwoScore}</div>
-        <h4>Press the button below to play again</h4>
+        <h4>
+          {this.state.cardsLeft > 0
+            ? `Card left in deck: ${this.state.cardsLeft}`
+            : "Press the button below to play again"}
+        </h4>
       </div>
     );
 
     const gameDisplay = (
       <div className="col-11">
-        {currCardElems} {this.state.gameEnded ? gameResults : gameTable}
+        {currCardElems} {gameTable}
       </div>
     );
+
+    const dealButtonText =
+      this.state.cardsLeft === 0 ? "Start next round" : "Deal";
 
     return (
       <div className="App">
@@ -164,11 +161,7 @@ class App extends React.Component {
               this.state.cardsLeft === 0 ? this.refreshPage : this.dealCards
             }
           >
-            {this.state.gameStarted
-              ? this.state.gameEnded
-                ? "Sart next round"
-                : "Deal"
-              : "Start Game"}
+            {this.state.gameStarted ? dealButtonText : "Start Game"}
           </Button>
         </header>
       </div>
