@@ -15,23 +15,24 @@ class App extends React.Component {
       roundWinner: "",
       score: [0, 0],
       overallWinner: "",
+      roundsLeft: 26,
     };
   }
 
   dealCards = () => {
     // this.state.cardDeck.pop() modifies this.state.cardDeck array
+    const newCurrCards = [this.state.cardDeck.pop()];
+    const newComputerCurrCards = [this.state.cardDeck.pop()];
+    this.setState(
+      {
+        currCards: newCurrCards,
+        currComputerCards: newComputerCurrCards,
+        roundsLeft: this.state.roundsLeft - 1,
+      },
+      () => this.determineWinner()
+    );
     if (this.state.cardDeck.length === 0) {
       this.setState(() => this.determineOverallWinner());
-    } else {
-      const newCurrCards = [this.state.cardDeck.pop()];
-      const newComputerCurrCards = [this.state.cardDeck.pop()];
-      this.setState(
-        {
-          currCards: newCurrCards,
-          currComputerCards: newComputerCurrCards,
-        },
-        () => this.determineWinner()
-      );
     }
   };
 
@@ -76,6 +77,7 @@ class App extends React.Component {
       roundWinner: "",
       score: [0, 0],
       overallWinner: "",
+      roundsLeft: 26,
     });
   };
 
@@ -112,6 +114,8 @@ class App extends React.Component {
           {currWinner}
           <br />
           {currScore}
+          <br />
+          Rounds Left: {this.state.roundsLeft}
           <br />
           {overallWinner}
           <br />
