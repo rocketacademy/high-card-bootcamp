@@ -12,7 +12,7 @@ class App extends React.Component {
       // currCards holds the cards from the current round
       currCards: [],
       currComputerCards: [],
-      winner: "",
+      roundWinner: "",
       score: [0, 0],
     };
   }
@@ -37,14 +37,14 @@ class App extends React.Component {
     let computerScore = this.state.score[1];
     if (playerRank > computerRank) {
       this.setState({
-        winner: "Player",
+        roundWinner: "Player",
         score: [(playerScore += 1), computerScore],
       });
     } else if (playerRank === computerRank) {
-      this.setState({ winner: "Draw" });
+      this.setState({ roundWinner: "Draw" });
     } else {
       this.setState({
-        winner: "Computer",
+        roundWinner: "Computer",
         score: [playerScore, (computerScore += 1)],
       });
     }
@@ -68,7 +68,7 @@ class App extends React.Component {
         </div>
       )
     );
-    const currWinner = this.state.winner;
+    const currWinner = this.state.roundWinner;
     const currScore = `Player score: ${this.state.score[0]}, Computer Score: ${this.state.score[1]}`;
 
     return (
