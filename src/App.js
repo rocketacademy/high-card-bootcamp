@@ -110,19 +110,21 @@ class App extends React.Component {
         <header className="App-header">
           <h3>Welcome to High Card game!🚀</h3>
           <h5>{gameDirections}</h5>
-          {currCardElems}
-          <p>{this.state.hasGameStarted && currRoundWinnerOutput}</p>
-          <p>{this.state.hasGameStarted && playerOneNumOfWinsOutput}</p>
-          <p>{this.state.hasGameStarted && playerTwoNumOfWinsOutput}</p>
-          <p>{numOfRoundsLeftOutput}</p>
-          <p>{this.state.isItLastRound && gameWinnerOutput}</p>
-
           <br />
           <button
             onClick={this.state.isItLastRound ? this.resetGame : this.dealCards}
           >
             Deal
           </button>
+          <br />
+          {currCardElems}
+          <br />
+          {this.state.hasGameStarted && currRoundWinnerOutput} <br /> <br />
+          {this.state.hasGameStarted && playerOneNumOfWinsOutput} <br /> <br />
+          {this.state.hasGameStarted && playerTwoNumOfWinsOutput}
+          <br /> <br />
+          {numOfRoundsLeftOutput} <br /> <br />
+          {this.state.isItLastRound && gameWinnerOutput}
         </header>
       </div>
     );
