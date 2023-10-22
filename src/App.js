@@ -38,7 +38,6 @@ class App extends React.Component {
       currRoundWinner: newCurrRoundWinner,
       roundNumber: this.state.roundNumber + 1,
     });
-    console.log(this.state.hasGameStarted);
 
     this.keepScore(newCurrRoundWinner);
   };
@@ -50,7 +49,6 @@ class App extends React.Component {
 
     if (currRoundWinner === 2) {
       this.setState({ playerTwoNumOfWins: this.state.playerTwoNumOfWins + 1 });
-      console.log(this.state.playerTwoNumOfWins);
     }
   };
   //function to keep track of rounds and determine the las round
@@ -58,10 +56,19 @@ class App extends React.Component {
     let numOfRoundsLeft = this.state.cardDeck.length / 2;
     if (numOfRoundsLeft === 0) {
       this.setState({ isItLastRound: true });
-      console.log(this.state.isItLastRound);
     }
   };
-
+  resetGame = () => {
+    this.setState({
+      cardDeck: makeShuffledDeck(),
+      currCards: [],
+      hasGameStarted: false,
+      currRoundWinner: null,
+      playerOneNumOfWins: 0,
+      playerTwoNumOfWins: 0,
+      isItLastRound: false,
+    });
+  };
   render() {
     // You can write JavaScript here, just don't try and set your state!
 
@@ -94,7 +101,6 @@ class App extends React.Component {
     if (this.state.playerTwoNumOfWins > this.state.playerOneNumOfWins) {
       gameWinner = 2;
     }
-    console.log(gameWinner);
     const gameWinnerOutput = gameWinner
       ? `Player ${gameWinner} won the game!`
       : `It's a tie!`;
@@ -103,7 +109,7 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <h3>Welcome to High Card game!🚀</h3>
-          <h3>{gameDirections}</h3>
+          <h5>{gameDirections}</h5>
           {currCardElems}
           <p>{this.state.hasGameStarted && currRoundWinnerOutput}</p>
           <p>{this.state.hasGameStarted && playerOneNumOfWinsOutput}</p>
@@ -112,7 +118,11 @@ class App extends React.Component {
           <p>{this.state.isItLastRound && gameWinnerOutput}</p>
 
           <br />
-          <button onClick={this.dealCards}>Deal</button>
+          <button
+            onClick={this.state.isItLastRound ? this.resetGame : this.dealCards}
+          >
+            Deal
+          </button>
         </header>
       </div>
     );
