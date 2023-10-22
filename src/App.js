@@ -82,8 +82,8 @@ class App extends React.Component {
       </div>
     ));
     const gameDirections = this.state.hasGameStarted
-      ? `Click "deal" to continue the game.`
-      : `Click "deal to start the game.`;
+      ? `Click "deal" to continue playing.`
+      : `Click "deal" to start the game.`;
     const currRoundWinnerOutput = this.state.currRoundWinner
       ? `Player ${this.state.currRoundWinner} won this round.`
       : `It's a tie!`;
@@ -112,6 +112,7 @@ class App extends React.Component {
           <h5>{gameDirections}</h5>
           <br />
           <button
+            style={{ width: "100px", height: "50px" }}
             onClick={this.state.isItLastRound ? this.resetGame : this.dealCards}
           >
             Deal
