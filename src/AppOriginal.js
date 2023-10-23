@@ -3,7 +3,6 @@ import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
 
 import { Container, Row, Col } from "react-bootstrap";
-
 //
 
 // REFER TO IMPORT PNG IN REACT IN CHATGPT TO SOLVE IMAGES ISSUE
@@ -20,7 +19,6 @@ class App extends React.Component {
       winner: null, // Add a winner state variable
       player1Score: 0,
       player2Score: 0,
-      draw: "",
     };
 
     // Define newCurrCards as a class property so it can be accessed outside dealCards()
@@ -28,17 +26,6 @@ class App extends React.Component {
     this.player1 = {};
     this.player2 = {};
   }
-
-  resetGame = () => {
-    this.setState({
-      cardDeck: makeShuffledDeck(),
-      currCards: [],
-      winner: null,
-      player1Score: 0,
-      player2Score: 0,
-      draw: "",
-    });
-  };
 
   dealCards = () => {
     if (this.state.cardDeck.length < 2) {
@@ -67,6 +54,10 @@ class App extends React.Component {
     // Extract cards and determine winner
     // extracts the two cards and saves the 2 objects into the class properties, player1 and player2
     [this.player1, this.player2] = this.newCurrCards;
+    console.log(
+      this.player1.suit.toLowerCase(),
+      this.player2.suit.toLowerCase()
+    );
 
     ////////////
     // Comparing card ranks
@@ -80,11 +71,9 @@ class App extends React.Component {
         /** Breakdown of incrementing player1Score
          1. this.setState is a method provided by React to update state of a component. 
               When setState is called, React re-renders the component with the updated state and reflects it in rendered UI
-         2. (prevState) => {...}: setState() usually takes a function as an argument, which will be called with the previous state (which is represented by prevState) as an argument.
-
+         2. (prevState) => {...}: setState takes a function as an argument, which is the previous state, prevState.
               This ensures we are working with the most up-to-date state
-
-         3. player1Score: prevState.player1Score + 1 -> we then increment the player1Score property by 1 based on the previous state's value. This ensures only that part of the state is updated while the rest of the state is unchanged
+         3. player1Score: prevState.player1Score + 1 -> we then increment the player1Score property by 1 based on the previous      state's value. This ensures only that part of the state is updated while the rest of the state is unchanged
          */
       }));
     } else if (this.player1.rank < this.player2.rank) {
@@ -93,10 +82,6 @@ class App extends React.Component {
       this.setState((prevState) => ({
         player2Score: prevState.player2Score + 1,
       }));
-    } else {
-      this.setState({
-        draw: "It's a draw!",
-      });
     }
 
     /////////////
@@ -115,7 +100,13 @@ class App extends React.Component {
       </div>
     ));
 
-    console.log(this.state.winner);
+    //////////////////
+    // FIX THE IMAGES!
+    // if (this.player1.name && this.player1.suit) {
+    //   var player1ImageSrc = `./PNG-cards-1.3/${
+    //     this.player1.name
+    //   }_of_${this.player1.suit.toLowerCase()}.png`;
+    // }
 
     return (
       <Container fluid>
@@ -136,24 +127,9 @@ class App extends React.Component {
             <button onClick={this.dealCards} className="button-spacing">
               Deal
             </button>
-            {this.state.cardDeck.length < 2 ? (
-              <div>
-                {/* <h1>
-                  The overall winner is:{" "}
-                  {this.state.player1Score > this.state.player2Score
-                    ? "Player 1"
-                    : "Player 2"}
-                </h1> */}
-                <button onClick={this.resetGame} className="button-spacing">
-                  Reset
-                </button>
-              </div>
-            ) : (
-              <button onClick={this.whoWon} className="button-spacing">
-                Who is the Winner
-              </button>
-            )}
-
+            <button onClick={this.whoWon} className="button-spacing">
+              Who is the winner
+            </button>
             {this.state.cardDeck.length < 2 ? (
               <h1>
                 The overall winner is:{" "}
@@ -165,30 +141,26 @@ class App extends React.Component {
               <h1>
                 The player that won is:{" "}
                 {this.state.winner
-                  ? this.state.winner === this.player1
-                    ? "Player 1"
-                    : "Player 2"
-                  : "Click on the next button to find out!"}
+                  ? this.state.winner.name + " of " + this.state.winner.suit
+                  : "No winner yet"}
               </h1>
             )}
-            <div className="spacing-please">
-              <Row className="border1">
-                <div className="scores">
-                  <Row className="border1">
-                    The number of cards left in the deck is:{" "}
-                    <Col>{this.state.cardDeck.length}</Col>
-                  </Row>
-                  <Row className="border1">
-                    <Col>Player 1's Score :</Col>
-                    <Col>{this.state.player1Score}</Col>
-                  </Row>
-                  <Row className="border1">
-                    <Col>Player 2's Score :</Col>
-                    <Col>{this.state.player2Score}</Col>
-                  </Row>
-                </div>
-              </Row>
-            </div>
+            <Row className="border1">
+              <div className="scores">
+                <Row className="border1">
+                  The number of cards left in the deck is:{" "}
+                  <Col>{this.state.cardDeck.length}</Col>
+                </Row>
+                <Row className="border1">
+                  <Col>Player 1's Score :</Col>
+                  <Col>{this.state.player1Score}</Col>
+                </Row>
+                <Row className="border1">
+                  <Col>Player 2's Score :</Col>
+                  <Col>{this.state.player2Score}</Col>
+                </Row>
+              </div>
+            </Row>
           </header>
         </div>
       </Container>
