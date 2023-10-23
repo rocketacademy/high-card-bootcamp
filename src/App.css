@@ -17,3 +17,15 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.button-spacing {
+  margin: 30px;
+}
+
+h1 {
+  margin: 30px;
+}
+
+.spacing-please {
+  margin: 30px;
+}
