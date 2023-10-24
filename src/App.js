@@ -81,9 +81,9 @@ class App extends React.Component {
         </p>
       </div>
     ));
-    const gameDirections = this.state.hasGameStarted
-      ? `Click "deal" to continue playing.`
-      : `Click "deal" to start the game.`;
+    const gameDirections = this.state.isItLastRound
+      ? `Click "Reset the game" to start a new game.`
+      : `Click "Deal" to draw cards.`;
     const currRoundWinnerOutput = this.state.currRoundWinner
       ? `Player ${this.state.currRoundWinner} won this round.`
       : `It's a tie!`;
@@ -115,7 +115,7 @@ class App extends React.Component {
             style={{ width: "100px", height: "50px" }}
             onClick={this.state.isItLastRound ? this.resetGame : this.dealCards}
           >
-            Deal
+            {this.state.isItLastRound ? "Reset the game" : "Deal"}
           </button>
           <br />
           {currCardElems}
