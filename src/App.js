@@ -89,9 +89,7 @@ class App extends React.Component {
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
       // Give each list element a unique key
       <>
-        <div key={`${name}${suit}`}>
-          {name} of {suit}
-        </div>
+        <div key={`${name}${suit}`}>{/*{name} of {suit}*/}</div>
         <div>
           <PlayingCard value={name} suit={suit} />
         </div>
@@ -100,10 +98,12 @@ class App extends React.Component {
     const currComputerCardElems = this.state.currComputerCards.map(
       ({ name, suit }) => (
         // Give each list element a unique key
-        <div key={`${name}${suit}`}>
-          {name} of {suit}
-          <PlayingCard value={name} suit={suit} />
-        </div>
+        <>
+          <div key={`${name}${suit}`}>{/* {name} of {suit}*/}</div>
+          <div>
+            <PlayingCard value={name} suit={suit} />
+          </div>
+        </>
       )
     );
     const currWinner = this.state.roundWinner;
