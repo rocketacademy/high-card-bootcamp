@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { makeShuffledDeck } from "./utils.js";
-import playingCard from "./cardimages";
+import PlayingCard from "./cardimages";
 
 class App extends React.Component {
   constructor(props) {
@@ -88,22 +88,27 @@ class App extends React.Component {
     // You can access your current components state here, as indicated below
     const currCardElems = this.state.currCards.map(({ name, suit }) => (
       // Give each list element a unique key
-      <div key={`${name}${suit}`}>
-        {name} of {suit}
-      </div>
+      <>
+        <div key={`${name}${suit}`}>
+          {name} of {suit}
+        </div>
+        <div>
+          <PlayingCard value={name} suit={suit} />
+        </div>
+      </>
     ));
     const currComputerCardElems = this.state.currComputerCards.map(
       ({ name, suit }) => (
         // Give each list element a unique key
         <div key={`${name}${suit}`}>
           {name} of {suit}
+          <PlayingCard value={name} suit={suit} />
         </div>
       )
     );
     const currWinner = this.state.roundWinner;
     const currScore = `Player score: ${this.state.score[0]}, Computer Score: ${this.state.score[1]}`;
     const overallWinner = this.state.overallWinner;
-
     return (
       <div className="App">
         <header className="App-header">

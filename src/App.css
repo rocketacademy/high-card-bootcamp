@@ -17,3 +17,10 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.playing-card {
+  width: 100px;
+  height: 150px;
+  border: 1px solid black;
+  background-color: white;
+  object-fit: contain;
+}
