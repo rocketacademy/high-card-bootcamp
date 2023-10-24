@@ -11,35 +11,121 @@ class App extends React.Component {
       cardDeck: makeShuffledDeck(),
       // currCards holds the cards from the current round
       currCards: [],
+      hasGameStarted: false,
+      currRoundWinner: null,
+      playerOneNumOfWins: 0,
+      playerTwoNumOfWins: 0,
+      isItLastRound: false,
     };
   }
 
   dealCards = () => {
     // this.state.cardDeck.pop() modifies this.state.cardDeck array
-    const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()];
+    const newCurrCards = [this.state.cardDeck.pop(), this.state.cardDeck.pop()]; // each player gets one card
     this.setState({
       currCards: newCurrCards,
     });
+    this.determineThisRoundWinner(newCurrCards);
+    this.determineLastRound();
   };
+  //function to determine the winner of the round
+  determineThisRoundWinner = (currCards) => {
+    let newCurrRoundWinner = null;
+    if (currCards[0].rank > currCards[1].rank) newCurrRoundWinner = 1;
+    if (currCards[1].rank > currCards[0].rank) newCurrRoundWinner = 2;
+    this.setState({
+      hasGameStarted: true,
+      currRoundWinner: newCurrRoundWinner,
+      roundNumber: this.state.roundNumber + 1,
+    });
 
+    this.keepScore(newCurrRoundWinner);
+  };
+  //function to keep track of the score
+  keepScore = (currRoundWinner) => {
+    if (currRoundWinner === 1) {
+      this.setState({ playerOneNumOfWins: this.state.playerOneNumOfWins + 1 });
+    }
+
+    if (currRoundWinner === 2) {
+      this.setState({ playerTwoNumOfWins: this.state.playerTwoNumOfWins + 1 });
+    }
+  };
+  //function to keep track of rounds and determine the las round
+  determineLastRound = () => {
+    let numOfRoundsLeft = this.state.cardDeck.length / 2;
+    if (numOfRoundsLeft === 0) {
+      this.setState({ isItLastRound: true });
+    }
+  };
+  resetGame = () => {
+    this.setState({
+      cardDeck: makeShuffledDeck(),
+      currCards: [],
+      hasGameStarted: false,
+      currRoundWinner: null,
+      playerOneNumOfWins: 0,
+      playerTwoNumOfWins: 0,
+      isItLastRound: false,
+    });
+  };
   render() {
     // You can write JavaScript here, just don't try and set your state!
 
     // You can access your current components state here, as indicated below
-    const currCardElems = this.state.currCards.map(({ name, suit }) => (
+    const currCardElems = this.state.currCards.map(({ name, suit }, i) => (
       // Give each list element a unique key
       <div key={`${name}${suit}`}>
-        {name} of {suit}
+        <p>
+          Player {i + 1} got {name} of {suit}
+        </p>
       </div>
     ));
+    const gameDirections = this.state.isItLastRound
+      ? `Click "Reset the game" to start a new game.`
+      : `Click "Deal" to draw cards.`;
+    const currRoundWinnerOutput = this.state.currRoundWinner
+      ? `Player ${this.state.currRoundWinner} won this round.`
+      : `It's a tie!`;
+    const playerOneNumOfWinsOutput = `Player 1 has ${this.state.playerOneNumOfWins} wins.`;
+    const playerTwoNumOfWinsOutput = `Player 2 has ${this.state.playerTwoNumOfWins} wins.`;
+
+    const numOfRoundsLeftOutput = `Number of rounds left: ${
+      this.state.cardDeck.length / 2
+    }`;
+    //logic to determine the game winner
+    let gameWinner = null;
+    if (this.state.playerOneNumOfWins > this.state.playerTwoNumOfWins) {
+      gameWinner = 1;
+    }
+    if (this.state.playerTwoNumOfWins > this.state.playerOneNumOfWins) {
+      gameWinner = 2;
+    }
+    const gameWinnerOutput = gameWinner
+      ? `Player ${gameWinner} won the game!`
+      : `It's a tie!`;
 
     return (
       <div className="App">
         <header className="App-header">
-          <h3>High Card 🚀</h3>
+          <h3>Welcome to High Card game!🚀</h3>
+          <h5>{gameDirections}</h5>
+          <br />
+          <button
+            style={{ width: "100px", height: "50px" }}
+            onClick={this.state.isItLastRound ? this.resetGame : this.dealCards}
+          >
+            {this.state.isItLastRound ? "Reset the game" : "Deal"}
+          </button>
+          <br />
           {currCardElems}
           <br />
-          <button onClick={this.dealCards}>Deal</button>
+          {this.state.hasGameStarted && currRoundWinnerOutput} <br /> <br />
+          {this.state.hasGameStarted && playerOneNumOfWinsOutput} <br /> <br />
+          {this.state.hasGameStarted && playerTwoNumOfWinsOutput}
+          <br /> <br />
+          {numOfRoundsLeftOutput} <br /> <br />
+          {this.state.isItLastRound && gameWinnerOutput}
         </header>
       </div>
     );
