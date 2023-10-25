@@ -96,26 +96,26 @@ class App extends React.Component {
     }));
 
     //trigger a function to check who is the overall winner
-    this.setState(() => {
-      this.checkWinner();
-    });
+    // this.setState(() => {
+    //   this.checkWinner();
+    // });
   };
 
-  checkWinner = () => {
-    //to check who is the overall winner based on who has the highest score
-    let tempWinner = -1;
-    if (this.state.player1Score > this.state.player2Score) {
-      tempWinner = 0;
-    } else if (this.state.player2Score > this.state.player1Score) {
-      tempWinner = 1;
-    } else if (this.state.player1Score === this.state.player2Score) {
-      tempWinner = 99;
-    }
+  // checkWinner = () => {
+  //   //to check who is the overall winner based on who has the highest score
+  //   let tempWinner = -1;
+  //   if (this.state.player1Score > this.state.player2Score) {
+  //     tempWinner = 0;
+  //   } else if (this.state.player2Score > this.state.player1Score) {
+  //     tempWinner = 1;
+  //   } else if (this.state.player1Score === this.state.player2Score) {
+  //     tempWinner = 99;
+  //   }
 
-    this.setState({
-      roundWinner: tempWinner,
-    });
-  };
+  //   this.setState({
+  //     roundWinner: tempWinner,
+  //   });
+  // };
 
   render() {
     //showing the card image
@@ -128,11 +128,6 @@ class App extends React.Component {
     ));
 
     const numRoundsLeft = this.state.cardDeck.length / 2;
-    //overall winner in 26 rounds
-    const gameWinnerMessage =
-      this.state.roundWinner === 99
-        ? "Tie"
-        : `🏆Player ${this.state.roundWinner + 1} WON!🏆`;
 
     //winner in each round
     const winnerMessage =
@@ -141,6 +136,14 @@ class App extends React.Component {
         : this.state.indexWinner === 99
         ? `Tie`
         : `Player ${this.state.indexWinner + 1} won!`;
+
+    //overall winner in 26 rounds
+    const gameWinnerMessage =
+      this.state.player1Score === this.state.player2Score
+        ? "Tie"
+        : this.state.player1Score > this.state.player2Score
+        ? `🏆Player 1 WON!🏆`
+        : `🏆Player 2 WON!🏆`;
 
     return (
       <div className="container">
@@ -167,7 +170,8 @@ class App extends React.Component {
             <p>Overall 🏆{this.state.overallPlayer2Score}</p>
           </div>
         </div>
-
+        {console.log("Player 1 Score:", this.state.player1Score)};
+        {console.log("Player 2 Score:", this.state.player2Score)};
         <div className="row">
           <div className="col-12 text-center">
             {numRoundsLeft > 0 ? (
