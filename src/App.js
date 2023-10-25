@@ -6,6 +6,9 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import Button from "@mui/material/Button";
+import CasinoRoundedIcon from "@mui/icons-material/CasinoRounded";
+import RocketLaunchRoundedIcon from "@mui/icons-material/RocketLaunchRounded";
 
 class App extends React.Component {
   constructor(props) {
@@ -111,29 +114,42 @@ class App extends React.Component {
       )
     );
     const currWinner = this.state.roundWinner;
-    const currScore = `Player score: ${this.state.score[0]}, Computer Score: ${this.state.score[1]}`;
     const overallWinner = this.state.overallWinner;
     return (
       <div className="App">
         <header className="App-header">
-          <h3>High Card 🚀</h3>
-          Player Hand: {currCardElems}
-          <br />
-          Computer Hand: {currComputerCardElems}
-          <br />
-          {currWinner}
-          <br />
-          {currScore}
-          <br />
-          Rounds Left: {this.state.roundsLeft}
-          <br />
-          {overallWinner}
-          <br />
-          {overallWinner ? (
-            <button onClick={this.restartGame}>Restart</button>
-          ) : (
-            <button onClick={this.dealCards}>Deal</button>
+          <h3>
+            <CasinoRoundedIcon /> High Card <RocketLaunchRoundedIcon />
+          </h3>
+          {this.state.roundsLeft !== 26 && (
+            <div className="card-hand">
+              <p>Player Hand {currCardElems}</p>
+              <p>Computer Hand {currComputerCardElems}</p>
+            </div>
           )}
+          {this.state.roundsLeft !== 26 && (
+            <div className="winning-hand">
+              <p>Winner: {currWinner}</p>
+              <p>
+                Player score: {this.state.score[0]}
+                <br />
+                Computer score: {this.state.score[1]}
+              </p>
+              <p>Rounds Left: {this.state.roundsLeft}</p>
+              <p>{overallWinner}</p>
+            </div>
+          )}
+          <div>
+            {overallWinner ? (
+              <Button variant="contained" onClick={this.restartGame}>
+                Restart
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={this.dealCards}>
+                Deal
+              </Button>
+            )}
+          </div>
         </header>
       </div>
     );
