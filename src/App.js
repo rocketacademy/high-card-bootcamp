@@ -18,6 +18,7 @@ class App extends React.Component {
     };
   }
 
+  // Function to reset game to initial state
   resetGame = () => {
     this.setState({
       cardDeck: makeShuffledDeck(),
@@ -32,12 +33,8 @@ class App extends React.Component {
   dealCards = () => {
     // Deal last 2 cards to currCards
     const newCurrCards = this.state.cardDeck.slice(-2);
-    let newRoundWinner = null;
-    if (newCurrCards[0].rank > newCurrCards[1].rank) {
-      newRoundWinner = 1;
-    } else if (newCurrCards[1].rank > newCurrCards[0].rank) {
-      newRoundWinner = 2;
-    }
+    // Determine round winner based on card rank
+    const newRoundWinner = newCurrCards[0].rank > newCurrCards[1].rank ? 1 : 2;
 
     this.setState((state) => ({
       // Remove last 2 cards from cardDeck
@@ -87,12 +84,20 @@ class App extends React.Component {
       gameWinner = 2;
     }
 
-    const gameWinnerMessage = gameWinner
-      ? `Player ${gameWinner} won this game!`
-      : "It's a draw!";
+    let gameWinnerMessage;
+    if (gameWinner) {
+      gameWinnerMessage = `Player ${gameWinner} won this game!`;
+    } else {
+      gameWinnerMessage = "It's a draw!";
+    }
 
     // Deal button text changes at end of game to start again
-    const dealButtonText = numRoundsLeft === 0 ? "Reset Game" : "Deal";
+    let dealButtonText;
+    if (numRoundsLeft === 0) {
+      dealButtonText = "Reset Game";
+    } else {
+      dealButtonText = "Deal";
+    }
 
     return (
       <div className="App">
@@ -109,10 +114,10 @@ class App extends React.Component {
           <br />
           <br />
           {/* Render round winner message if the game has started */}
-          <p>{this.state.hasGameStarted && roundWinnerMessage}</p>
-          <p>{this.state.hasGameStarted && player1RoundsWonMessage}</p>
-          <p>{this.state.hasGameStarted && player2RoundsWonMessage}</p>
-          <p>{this.state.hasGameStarted && numRoundsLeftMessage}</p>
+          {this.state.hasGameStarted && <p>{roundWinnerMessage}</p>}
+          {this.state.hasGameStarted && <p>{player1RoundsWonMessage}</p>}
+          {this.state.hasGameStarted && <p>{player2RoundsWonMessage}</p>}
+          {this.state.hasGameStarted && <p>{numRoundsLeftMessage}</p>}
           {/* Render winner message if the game is over */}
           <p>{numRoundsLeft === 0 && gameWinnerMessage}</p>
         </header>
