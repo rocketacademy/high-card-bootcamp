@@ -46,6 +46,7 @@ class App extends React.Component {
       hasGameStarted: true,
       roundWinner: newRoundWinner,
       // Use prev state from setState argument instead of this.state to calculate what next state should be
+      // nested ternary operator to nest two if statements
       player1NumRoundsWon:
         newRoundWinner === 1
           ? state.player1NumRoundsWon + 1
@@ -68,8 +69,11 @@ class App extends React.Component {
     const roundWinnerMessage = this.state.roundWinner
       ? `Player ${this.state.roundWinner} won this round.`
       : `This rounds is a tie!`;
+    //Placeholder text when player 1 wins a round
     const player1RoundsWonMessage = `Player 1 has won ${this.state.player1NumRoundsWon} rounds this game.`;
+    //Placeholder text when player 2 wins a round
     const player2RoundsWonMessage = `Player 2 has won ${this.state.player2NumRoundsWon} rounds this game.`;
+    // numRoundsLeft is the number of rounds left in the game - divide by two because two cards are drawn each round
     const numRoundsLeft = this.state.cardDeck.length / 2;
     const numRoundsLeftMessage = `There are ${numRoundsLeft} rounds left in this game!`;
 
@@ -82,6 +86,7 @@ class App extends React.Component {
     ) {
       gameWinner = 2;
     }
+
     const gameWinnerMessage = gameWinner
       ? `Player ${gameWinner} won this game!`
       : "It's a draw!";
@@ -95,13 +100,15 @@ class App extends React.Component {
           <h3>High Card 🚀</h3>
           {currCardElems}
           <br />
-          {/* Button changes functionality depending on game state */}
+          {/* Button changes functionality depending on game state. When number of rounds = 0, button prompts game reset, else deal cards. */}
           <button
             onClick={numRoundsLeft === 0 ? this.resetGame : this.dealCards}
           >
             {dealButtonText}
           </button>
           <br />
+          <br />
+          {/* Render round winner message if the game has started */}
           <p>{this.state.hasGameStarted && roundWinnerMessage}</p>
           <p>{this.state.hasGameStarted && player1RoundsWonMessage}</p>
           <p>{this.state.hasGameStarted && player2RoundsWonMessage}</p>
